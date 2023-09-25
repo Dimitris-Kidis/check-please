@@ -29,7 +29,7 @@ namespace Command.Car.CreateCar
                 Model = request.Model
             };
 
-            _carRepository.Add(newCarNew); // la
+            _carRepository.Add(newCarNew);
             _carRepository.Save();
 
             var resultId = newCarNew.Id;
