@@ -1,0 +1,101 @@
+<div class="container">
+    <div class="button-container new-car-button" (click)="toggleNewCarForm()">
+        <fa-icon class="back-icon" [icon]="faPlus"></fa-icon>
+        <span class="go-back-btn"> Новая машина</span>
+    </div>
+    <div [@slideInOut]="newCarSlider" class="new-form">
+        <input type="text"
+        #carSignInput
+        [(ngModel)]="carSignString"
+        class="search-input"
+        placeholder="Номер машины" >
+
+        <input type="text"
+        #vinCodeInput
+        [(ngModel)]="vinCodeString"
+        class="search-input"
+        placeholder="VIN-код">
+
+        <input type="number"
+        #mileageInput
+        [(ngModel)]="mileageString"
+        class="search-input"
+        placeholder="Пробег">
+
+        <input type="text"
+        #brandInput
+        [(ngModel)]="brandString"
+        class="search-input"
+        placeholder="Марка">
+
+        <input type="text"
+        #modelInput
+        [(ngModel)]="modelString"
+        class="search-input"
+        placeholder="Модель">
+
+        
+        <input type="number"
+        #yearInput
+        [(ngModel)]="yearString"
+        class="search-input"
+        placeholder="Год">
+
+        <input type="text"
+        #volumeInput
+        [(ngModel)]="volumeString"
+        class="search-input"
+        placeholder="Объем двигателя">
+        <button class="add-button" (click)="createNewCar()">
+            <ng-container *ngIf="isLoaded$ | async; else loading">
+                Добавить
+            </ng-container>
+            <ng-template #loading>
+                <div class="loader">
+                    <app-loading loaderSize="large"></app-loading>
+                </div>
+            </ng-template>
+        </button>
+    </div>
+
+    <div class="button-container find-existing" (click)="toggleExistingCarForm()">
+        <fa-icon class="back-icon" [icon]="faSearch"></fa-icon>
+        <span class="go-back-btn"> Существующая машина</span>
+    </div>
+    <div [@slideInOut]="existingCarSlider" class="new-form">
+        <input
+        type="text"
+        #searchBox
+        autofocus
+        (input)="search(searchBox.value)"
+        class="search-input"
+        [(ngModel)]="searchString"
+        placeholder="Поиск по номеру машины..."
+        (clickOutside)="closeWindow()"
+        >
+    </div>
+
+    <div class="current-car" *ngIf="newCarSlider === 'out'">
+        <fa-icon class="car-icon" [icon]="faCar"></fa-icon>
+        <div class="car-info">
+            <span class="car-name">{{ carSign ? carSign : '—'}}</span>
+            <span class="car-phone">{{ vinCode ? vinCode : '—' }}</span>
+            <span class="car-phone">{{ brand ? brand : '—' }}</span>
+            <span class="car-phone">{{ model ? model : '—' }}</span>
+            <span class="car-phone">{{ mileage ? mileage : '—' }}</span>
+            <span class="car-phone">{{ volume ? volume : '—' }}</span>
+            <span class="car-phone">{{ year ? year : '—' }}</span>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <div class="button-container back-button" [routerLink]="['/menu']" (click)="closeWindow('manual')">
+            <fa-icon class="back-icon" [icon]="faArrowLeft"></fa-icon>
+            <span class="go-back-btn"> Меню </span>
+        </div>
+        <div class="button-container go-button disabled" #nextButton (click)="checkForm($event)">
+            <span class="go-back-btn"> Далее </span>
+            <fa-icon class="go-icon" [icon]="faArrowRight"></fa-icon>
+        </div>
+    </div>
+</div>

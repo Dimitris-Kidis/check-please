@@ -1,0 +1,33 @@
+
+<div class="container">
+    <h1 class="heading">
+        Меню
+    </h1>
+    <div class="menu-container">
+        <div class="menu-item wrench" [routerLink]="['/repair']">
+            <fa-icon class="icon" [icon]="faWrench"></fa-icon>
+            <span class="item-title">
+                Новый ремонт
+            </span>
+        </div>
+        <div class="menu-item search" [routerLink]="['/search']">
+            <fa-icon class="icon" [icon]="faSearch"></fa-icon>
+            <span class="item-title">
+                История машины
+            </span>
+        </div>
+        <div class="menu-item database" (click)="startDownload()">
+            <ng-container *ngIf="isLoaded$ | async; else loading">
+                <fa-icon class="icon" [icon]="faDatabase"></fa-icon>
+                <span class="item-title">
+                    Скачать базу данных
+                </span>
+            </ng-container>
+            <ng-template #loading>
+                <div class="loader">
+                    <app-loading loaderSize="large"></app-loading>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

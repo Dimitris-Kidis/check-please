@@ -1,0 +1,8 @@
+<form class="login-container" [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" >
+    <h1 class="login-container__header">Вход</h1>
+    <span #invalidLogin class="error"></span>
+    <input class="login-container__input" type="email" formControlName="email" placeholder="Почтовый ящик">
+    <input class="login-container__input" type="password" formControlName="password" placeholder="Пароль">
+    <button class="login-container__button">Войти</button>
+</form>
+

@@ -1,0 +1,12 @@
+.opblock-summary-description {
+    text-align: right;
+    padding-right: 8px;
+}
+
+.swagger-ui .response-col_status {
+    font-weight: bold;
+}
+
+.swagger-ui table tbody tr td {
+    vertical-align: middle;
+}
