@@ -8,7 +8,7 @@
         type="text"
         class="solid-input"
         [(ngModel)]="mileage"
-        placeholder="Новый пробег"
+        placeholder="Новый пробег *"
     >
     <input
         type="text"
@@ -20,12 +20,18 @@
         <div formArrayName="details" class="details-container">
             <div *ngFor="let detail of details.controls; let i = index" [formGroupName]="i" class="one-detail">
                 <input class="detail-input" type="text"  formControlName="detailName" placeholder="Название">
-                <input class="detail-input" type="number" formControlName="pricePerOne" placeholder="Цена за 1 шт.">
-                <input class="detail-input" type="number" formControlName="quantity" placeholder="Количество">
-                <input class="detail-input" type="number" placeholder="Стоимость запчастей">
-                <input class="detail-input" type="number" formControlName="repairPrice" placeholder="Работа">
-                <input class="detail-input" type="number" placeholder="Работа + цена запчасти">
-                <div class="breaker"></div>
+
+
+
+                <input class="detail-input" type="number" formControlName="pricePerOne" placeholder="Цена за 1 шт." (input)="calculateTotal(i)">
+                <input class="detail-input" type="number" formControlName="quantity" placeholder="Количество" (input)="calculateTotal(i)">
+                <input class="detail-input readonly"  type="number" placeholder="Стоимость запчастей" readonly [value]="getSubtotal(i)">
+                <input class="detail-input" type="number" formControlName="repairPrice" placeholder="Работа" (input)="calculateTotal(i)">
+                <input class="detail-input readonly" type="number" placeholder="Всего" readonly [value]="getTotal(i)">
+
+
+
+                
             </div>
         </div>
         <button class="add-button" (click)="addDetail()"><fa-icon class="add-icon" [icon]="faPlus"></fa-icon></button>

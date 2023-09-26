@@ -18,9 +18,9 @@ namespace Command.Car.CreateCar
                 .WithMessage("Car Sign must be between 3 and 8 symbols long.");
 
             RuleFor(car => car.VinCode)
-                .MinimumLength(17)
-                .MaximumLength(17)
-                .WithMessage("Vin Code can only be 17 symbols long.");
+                .MinimumLength(10)
+                .MaximumLength(20)
+                .WithMessage("Vin Code must be between 10 and 20 symbols long.");
 
             RuleFor(car => car.Mileage)
                 .InclusiveBetween(10000, 1000000)

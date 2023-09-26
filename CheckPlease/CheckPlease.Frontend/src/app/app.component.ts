@@ -13,7 +13,7 @@ export class AppComponent implements OnInit{
   constructor(private readonly carService: CarsService) {
     library.add(faPlus)
   }
-//pap hey js d
+
   ngOnInit(): void {
   }
 }

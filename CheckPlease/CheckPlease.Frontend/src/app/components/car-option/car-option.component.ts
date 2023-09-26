@@ -1,7 +1,7 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { OverlayRef, Overlay, OverlayPositionBuilder, FlexibleConnectedPositionStrategy, BlockScrollStrategy } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { faArrowLeft, faArrowRight, faCar, faPlus, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CreateNewClient } from 'src/app/commands/client-commands';
@@ -53,12 +53,13 @@ export class CarOptionComponent implements OnInit{
   public volumeString: string = '';
   public modelString: string = '';
   public brandString: string = '';
-  public mileageString: number = 0;
-  public yearString: number = 0;
+  public mileageString: number;
+  public yearString: number;
 
   @ViewChild('searchBox') searchBox: ElementRef;
   @ViewChild('nextButton') nextButton: ElementRef;
   @Output() saveCarId = new EventEmitter<number>();
+  @Output() newCarMileage = new EventEmitter<number>();
 
   @ViewChild('carSignInput') carSignInput: ElementRef;
   @ViewChild('vinCodeInput') vinCodeInput: ElementRef;
@@ -92,6 +93,16 @@ export class CarOptionComponent implements OnInit{
 
   public passCarId(): void {
     this.saveCarId.emit(this.currentCarId);
+  }
+
+  public passNewCarMileage(): void {
+    this.newCarMileage.emit(this.mileage);
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  enterPress(event: KeyboardEvent) {
+    this.checkForm(event);
+    event.preventDefault();
   }
 
   public toggleNewCarForm(): void {
@@ -226,14 +237,14 @@ export class CarOptionComponent implements OnInit{
     this.isLoadingDone$.next(false);
     const newCar: CreateNewCar = {
       carSign: this.carSignString,
-      ...(this.vinCode === '' ? {} : {vinCode: `${this.vinCodeString}`}),
-      ...(this.volume === '' ? {} : {volume: `${this.volumeString}`}),
-      ...(this.brand === '' ? {} : {brand: `${this.brandString}`}),
-      ...(this.model === '' ? {} : {model: `${this.modelString}`}),
-      ...(this.mileage === 0 ? {} : {mileage: this.mileageString}),
-      ...(this.year === 0 ? {} : {year: this.mileageString}),
+      ...(this.vinCodeString === '' || !this.vinCodeString ? {} : {vinCode: `${this.vinCodeString}`}),
+      ...(this.volumeString === '' || !this.volumeString ? {} : {volume: `${this.volumeString}`}),
+      ...(this.brandString === '' || !this.brandString ? {} : {brand: `${this.brandString}`}),
+      ...(this.modelString === '' || !this.modelString ? {} : {model: `${this.modelString}`}),
+      ...(this.mileageString === 0 || !this.mileageString ? {} : {mileage: this.mileageString}),
+      ...(this.yearString === 0 || !this.yearString ? {} : {year: this.yearString}),
     };
-
+    console.log(newCar)
     this.carsService.createNewCar(newCar).subscribe(
       (newCarId: number) => {
         this.currentCarId = +newCarId;
@@ -247,6 +258,7 @@ export class CarOptionComponent implements OnInit{
         this.nextButton.nativeElement.classList.remove('disabled');
         this.newCarSlider = 'out';
         this.isLoadingDone$.next(true);
+        this.passNewCarMileage();
         this.cdr.detectChanges();
       }
     );

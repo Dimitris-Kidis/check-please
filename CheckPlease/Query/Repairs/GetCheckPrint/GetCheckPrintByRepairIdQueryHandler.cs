@@ -52,7 +52,7 @@ namespace Query.Repairs.GetCheckPrint
                 <div class='header'>
                     <div class='header-element'>Номер машины: {{ CarSign }} | Vin-code: {{ VinCode }}</div>
                     <div class='header-element'>Машина: {{ Brand }} {{ Model }} ({{ Year }}, {{ Volume }})</div>
-                    <div class='header-element'>Пробег в день ремонта: {{ Mileage }}</div>
+                    <div class='header-element'>Пробег в день ремонта: {{ Mileage }} км</div>
                 </div>
                 <hr>";
 
@@ -101,7 +101,8 @@ namespace Query.Repairs.GetCheckPrint
                     RepairDate = check.CreatedAt
                 }).FirstOrDefault();
 
-            var hasProblems = _repairsRepository.FindBy(repair => repair.Id == request.RepairId).FirstOrDefault().Problems == null ? false : true;
+            var problems = _repairsRepository.FindBy(repair => repair.Id == request.RepairId).FirstOrDefault().Problems;
+            var hasProblems = (problems == null || problems == "") ? false : true;
 
             if (hasProblems)
             {

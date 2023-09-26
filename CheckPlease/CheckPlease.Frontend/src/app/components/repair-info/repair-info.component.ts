@@ -1,7 +1,7 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { OverlayRef, Overlay, OverlayPositionBuilder, FlexibleConnectedPositionStrategy, BlockScrollStrategy } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { faArrowLeft, faArrowRight, faDownload, faPlus, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
 import { CreateNewClient } from 'src/app/commands/client-commands';
@@ -39,12 +39,15 @@ export class RepairInfoComponent implements OnInit, AfterViewInit{
   private isLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   @Output() passRepairData = new EventEmitter<CreateRepairCommand>();
 
+  @Input() newMileage: number;
   
   @ViewChild('mileageInput') mileageInput: ElementRef;
 
   faArrowLeft = faArrowLeft;
   faDownload = faDownload;
   faPlus = faPlus;
+
+  
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -60,8 +63,10 @@ export class RepairInfoComponent implements OnInit, AfterViewInit{
     });
   }
 
+
+
   ngAfterViewInit(): void {
-    this.mileageInput.nativeElement.focus();
+    this.newMileage ? this.mileage = this.newMileage : this.mileageInput.nativeElement.focus();
   }
 
   public passRepairInfo(): void {
@@ -117,9 +122,42 @@ export class RepairInfoComponent implements OnInit, AfterViewInit{
       detailName: '',
       pricePerOne: '',
       quantity: '',
-      repairPrice: ''
+      repairPrice: '',
+      subtotal: '',
+      total: ''
     });
   }
 
+  public detailsPrice: number;
+
+  public updateTotals(index: number) {
+    console.log(index)
+  }
+
+  get detailsArray(): FormArray {
+    return this.myForm.get('details') as FormArray;
+  }
+
+  calculateTotal(index: number) {
+    const detail = this.detailsArray.at(index);
+
+    const pricePerOne = detail.get('pricePerOne')?.value;
+    const quantity = detail.get('quantity')?.value;
+    const repairPrice = detail.get('repairPrice')?.value;
+
+    const subtotal = pricePerOne * quantity;
+    const total = subtotal + repairPrice;
+
+    detail.get('subtotal')?.setValue(subtotal);
+    detail.get('total')?.setValue(total);
+  }
+
+  getSubtotal(index: number) {
+    return this.detailsArray.at(index).get('subtotal')?.value;
+  }
+
+  getTotal(index: number) {
+    return this.detailsArray.at(index).get('total')?.value;
+  }
 }
 

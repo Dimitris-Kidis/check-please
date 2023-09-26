@@ -4,7 +4,7 @@
         <span class="go-back-btn"> Новый клиент</span>
     </div>
     <div [@slideInOut]="newClientSlider" class="new-form">
-        <input type="number"
+        <input type="text"
         #phoneInput
         [(ngModel)]="phoneString"
         class="search-input"
@@ -40,6 +40,7 @@
         type="text"
         #searchBox
         autofocus
+        autocomplete="off"
         (input)="search(searchBox.value)"
         class="search-input"
         [(ngModel)]="searchString"

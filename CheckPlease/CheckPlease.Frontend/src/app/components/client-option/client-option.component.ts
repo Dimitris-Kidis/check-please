@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BlockScrollStrategy, CloseScrollStrategy, FlexibleConnectedPositionStrategy, Overlay, OverlayPositionBuilder, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { faArrowLeft, faArrowRight, faList, faPerson, faPlus, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
@@ -70,6 +70,12 @@ export class ClientOptionComponent implements OnInit{
 
   ngOnInit(): void {
     this.goSearch();
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  enterPress(event: KeyboardEvent) {
+    this.checkForm(event);
+    event.preventDefault();
   }
 
   public passClientId(): void {

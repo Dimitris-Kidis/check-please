@@ -1,5 +1,5 @@
 <div class="container">
     <app-client-option *ngIf="state === 'client'" (saveClientId)="getClientId($event)"></app-client-option>
-    <app-car-option *ngIf="state === 'car'" (saveCarId)="getCarId($event)"></app-car-option>
-    <app-repair-info *ngIf="state === 'repair'" (passRepairData)="getRepairData($event)"></app-repair-info>
+    <app-car-option *ngIf="state === 'car'" (saveCarId)="getCarId($event)" (newCarMileage)="getNewCarMileage($event)"></app-car-option>
+    <app-repair-info *ngIf="state === 'repair'" (passRepairData)="getRepairData($event)" [newMileage]="newMileage"></app-repair-info>
 </div>

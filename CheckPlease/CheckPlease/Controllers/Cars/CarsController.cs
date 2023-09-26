@@ -46,7 +46,7 @@ namespace CheckPlease.Controllers.Cars
         }
 
         /// <summary>
-        /// Get all cars la la
+        /// Get all cars
         /// </summary>
         [HttpGet("all-cars")]
         public async Task<IActionResult> GetAllCars()

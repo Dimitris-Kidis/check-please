@@ -8,7 +8,7 @@
         #carSignInput
         [(ngModel)]="carSignString"
         class="search-input"
-        placeholder="Номер машины" >
+        placeholder="Номер машины *" >
 
         <input type="text"
         #vinCodeInput
@@ -67,6 +67,7 @@
         type="text"
         #searchBox
         autofocus
+        autocomplete="off"
         (input)="search(searchBox.value)"
         class="search-input"
         [(ngModel)]="searchString"

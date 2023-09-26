@@ -17,6 +17,7 @@ export class RepairComponent implements OnInit {
   public clientId: number = 0
   public carId: number = 0;
   public isPreviewConfirmed: boolean = false;
+  public newMileage: number;
 
   @ViewChild(RepairInfoComponent) repairInfoComponent: RepairInfoComponent;
 
@@ -37,6 +38,10 @@ export class RepairComponent implements OnInit {
   
   public getCarId(carId: number): void {
     this.carId = carId;
+  }
+
+  public getNewCarMileage(newMileage: number): void {
+    this.newMileage = newMileage;
   }
 
   public getRepairData(data: CreateRepairCommand): void {
