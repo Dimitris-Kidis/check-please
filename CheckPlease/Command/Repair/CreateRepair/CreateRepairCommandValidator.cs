@@ -43,10 +43,7 @@ namespace Command.Repair.CreateRepair
                 .GreaterThan(0).WithMessage("Количество должно быть больше нуля.");
 
             RuleFor(detail => detail.RepairPrice)
-                //.Must(value => value != null)
-                //.WithMessage("Цена не может быть пустой.")
                 .GreaterThanOrEqualTo(0).WithMessage("Цена работы должна быть больше или равна нулю.");
-                //.NotEmpty().WithMessage("Цена работы не должна быть пустой");
         }
     }
 }
