@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/CheckPlease/CheckPlease/Infrastructure/Rotativa/Windows/wkhtmltopdf.exe
+/CheckPlease/CheckPlease/Infrastructure/Rotativa/Windows/wkhtmltox.dll
