@@ -12,28 +12,25 @@ namespace Command.Car.CreateCar
         public CreateCarCommandValidator()
         {
             RuleFor(car => car.CarSign)
-                .NotEmpty()
-                .MinimumLength(3)
-                .MaximumLength(8)
-                .WithMessage("Car Sign must be between 3 and 8 symbols long.");
+                .NotEmpty().WithMessage("Поле с номером машины обязательно.")
+                .MinimumLength(3).WithMessage("Минимальная длина номеров - три символа.")
+                .MaximumLength(8).WithMessage("Максимальная длина номеров - восемь символа.");
 
             RuleFor(car => car.VinCode)
-                .MinimumLength(10)
-                .MaximumLength(20)
-                .WithMessage("Vin Code must be between 10 and 20 symbols long.");
+                .NotEmpty().WithMessage("Поле вин-кода не может быть пустым.")
+                .Length(17).WithMessage((value) => $"Вин-код должен быть ровно 17 символов в длину. Вы ввели {value.VinCode.Length}");
 
             RuleFor(car => car.Mileage)
-                .InclusiveBetween(10000, 1000000)
-                .WithMessage("Mileage must be between 10.000 and 1.000.000.");
+                .NotEmpty().WithMessage("Поле пробега обязательно.")
+                .InclusiveBetween(10000, 1000000).WithMessage("Диапазон пробега может быть от 10.000 до 1.000.000 км.");
 
             RuleFor(car => car.Year)
                 .InclusiveBetween(1950, 2040)
-                .WithMessage("Year must be between 1950 and 2040.");
+                .WithMessage("Год машины может быть в диапазоне от 1950 до 2040.");
 
             RuleFor(car => car.Volume)
-                .MinimumLength(3)
-                .MaximumLength(3)
-                .WithMessage("Engine volume must be between 3 characters long."); ;
+                .MinimumLength(2).WithMessage("Минимальная длина объема двигателя - 2 символа.")
+                .MaximumLength(6).WithMessage("Максимальная длина объема двигателя - 6 символов.");
         }
     }
 }

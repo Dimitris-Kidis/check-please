@@ -1,6 +1,6 @@
 export class CreateNewCar {
     carSign: string;
-    vinCode?: string;
+    vinCode: string;
     mileage?: number;
     year?: number;
     model?: string;
@@ -9,7 +9,7 @@ export class CreateNewCar {
     
     constructor(
         carSign: string,
-        vinCode?: string,
+        vinCode: string,
         mileage?: number,
         year?: number,
         model?: string,

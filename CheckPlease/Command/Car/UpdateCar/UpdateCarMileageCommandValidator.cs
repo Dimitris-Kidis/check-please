@@ -13,8 +13,8 @@ namespace Command.Car.UpdateCar
         public UpdateCarMileageCommandValidator()
         {
             RuleFor(car => car.Mileage)
-                .InclusiveBetween(10000, 1000000)
-                .WithMessage("Mileage must be between 10.000 and 1.000.000.");
+                .NotEmpty().WithMessage("Поле пробега обязательно.")
+                .InclusiveBetween(10000, 1000000).WithMessage("Диапазон пробега может быть от 10.000 до 1.000.000 км.");
         }
     }
 }

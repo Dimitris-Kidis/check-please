@@ -8,7 +8,7 @@ export interface CreateRepairCommand {
 
 export interface CreateDetailCommand {
     detailName: string,
-    pricePerOne?: number,
+    pricePerOne: number,
     quantity: number,
     repairPrice: number
 }

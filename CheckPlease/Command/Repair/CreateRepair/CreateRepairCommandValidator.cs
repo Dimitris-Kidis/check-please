@@ -20,7 +20,8 @@ namespace Command.Repair.CreateRepair
                 .NotEmpty()
                 .WithMessage("Client id is obligatory!");
 
-            RuleForEach(repair => repair.Details).SetValidator(new DetailValidator());
+            RuleForEach(repair => repair.Details)
+                .SetValidator(new DetailValidator()).NotEmpty().WithMessage("Детали нужно указать обязательно.");
         }
     }
 
@@ -29,9 +30,23 @@ namespace Command.Repair.CreateRepair
         public DetailValidator()
         {
             RuleFor(detail => detail.DetailName)
-                .MinimumLength(3)
-                .MaximumLength(30)
-                .WithMessage("Detail name must be between 3 and 30 symbols long.");
+                .NotEmpty().WithMessage("Название детали обязательно.")
+                .MinimumLength(3).WithMessage("Название детали должно содержать минимум 3 символа.")
+                .MaximumLength(20).WithMessage("Название детали может содержать максимум 20 символов.");
+
+            RuleFor(detail => detail.PricePerOne)
+                .NotEmpty().WithMessage("Укажите стоимость запчасти/услуги за одну шт.")
+                .GreaterThan(0).WithMessage("Цена запчасти должна быть больше нуля.");
+
+            RuleFor(detail => detail.Quantity)
+                .NotEmpty().WithMessage("Укажите количество запчастей/услуг.")
+                .GreaterThan(0).WithMessage("Количество должно быть больше нуля.");
+
+            RuleFor(detail => detail.RepairPrice)
+                //.Must(value => value != null)
+                //.WithMessage("Цена не может быть пустой.")
+                .GreaterThanOrEqualTo(0).WithMessage("Цена работы должна быть больше или равна нулю.");
+                //.NotEmpty().WithMessage("Цена работы не должна быть пустой");
         }
     }
 }

@@ -17,6 +17,12 @@ import { CarsService } from 'src/services/cars.service';
 import { UpdateMileageCommand } from 'src/app/commands/car-commands';
 import { CreateDetailCommand, CreateRepairCommand } from 'src/app/commands/repair-commands';
 
+
+enum DetailInputs {
+  pricePerOne = "pricePerOne",
+  quantity = "quantity",
+  repairPrice = "repairPrice"
+}
 @Component({
   selector: 'app-repair-info',
   templateUrl: './repair-info.component.html',
@@ -71,10 +77,45 @@ export class RepairInfoComponent implements OnInit, AfterViewInit{
 
   public passRepairInfo(): void {
     this.isLoadingDone$.next(false);
+    
     let details: CreateDetailCommand[] = this.myForm.value.details;
-    console.log(details);
+
+
+    console.log('DET',details);
+    details.forEach(detail => {
+      // for (const input in DetailInputs) {
+        if (!detail['pricePerOne']) {
+          detail['pricePerOne'] = 0;
+        }
+        if (!detail['quantity']) {
+          detail['quantity'] = 0;
+        }
+        if (!detail['repairPrice']) {
+          detail['repairPrice'] = 0;
+        }
+      // }
+    })
+    // if (!details[length].pricePerOne || !details[length].quantity || !details[length].repairPrice) {
+    //   const length = details.length - 1;
+    //   details[length].pricePerOne = 
+    //     !this.myForm.value.details[length].pricePerOne ||
+    //     this.myForm.value.details[length].pricePerOne === undefined ?
+    //     0 :
+    //     this.myForm.value.details[length].pricePerOne;
+    //   details[length].quantity = 
+    //     !this.myForm.value.details[length].quantity ||
+    //     this.myForm.value.details[length].quantity === undefined ?
+    //     0 :
+    //     this.myForm.value.details[length].quantity;
+    //   details[length].repairPrice = 
+    //     !this.myForm.value.details[length].repairPrice ||
+    //     this.myForm.value.details[length].repairPrice === undefined ?
+    //     0 :
+    //     this.myForm.value.details[length].repairPrice;
+    // }
+    console.log('repair-info '+ this.mileage);
     const repairData: CreateRepairCommand = {
-      mileage: this.mileage,
+      mileage: !this.mileage || this.mileage === undefined ? 0 : this.mileage,
       problems: this.problems,
       details: details,
       carId: 0,

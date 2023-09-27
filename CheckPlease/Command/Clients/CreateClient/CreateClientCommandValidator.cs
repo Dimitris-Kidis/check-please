@@ -12,38 +12,15 @@ namespace Command.Clients.CreateClient
     {
         public CreateClientCommandValidator()
         {
-            var genderConditions = new List<string>() { "M", "F" };
-
             RuleFor(client => client.FullName)
-                .MinimumLength(2)
-                .MaximumLength(20)
-                .WithMessage("Name must be between 2 and 20 symbols long.");
+                .NotEmpty().WithMessage("Поле имени не может быть пустым.")
+                .MinimumLength(2).WithMessage("Имя должно быть минимум 2 символа.")
+                .MaximumLength(25).WithMessage("Имя должно быть максимум 25 в длину.");
 
             RuleFor(client => client.PhoneNumber)
-                .NotEmpty()
-                .MinimumLength(5)
-                .MaximumLength(15)
-                .WithMessage("Phone number must be between 5 and 15 symbols long.");
-
-            RuleFor(client => client.Email)
-                .MinimumLength(5)
-                .MaximumLength(20)
-                .WithMessage("Email must be between 5 and 20 symbols long.");
-
-            RuleFor(client => client.JobTitle)
-                .MinimumLength(3)
-                .MaximumLength(20)
-                .WithMessage("Job title must be between 3 and 20 symbols long.");
-
-            RuleFor(client => client.Age)
-                .InclusiveBetween(18, 100)
-                .WithMessage("Age must be between 18 and 100.");
-
-            RuleFor(client => client.Gender)
-                .Must(conditions =>
-                    genderConditions.Contains(conditions))
-                .WithMessage("Please only use: " + String.Join(", ", genderConditions))
-                .When(client => !string.IsNullOrEmpty(client.Gender));
+                .NotEmpty().WithMessage("Поле номера телефона не может быть пустым.")
+                .MinimumLength(5).WithMessage("Номер телефона начинается от пяти символов.")
+                .MaximumLength(15).WithMessage("Номер телефона не может быть длиннее пятнадцати символов");
         }
     }
 }

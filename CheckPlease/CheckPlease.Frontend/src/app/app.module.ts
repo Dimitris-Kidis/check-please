@@ -25,7 +25,8 @@ import { RepairComponent } from './components/repair/repair.component';
 import { ClientOptionComponent } from './components/client-option/client-option.component';
 import { CarOptionComponent } from './components/car-option/car-option.component';
 import { RepairInfoComponent } from './components/repair-info/repair-info.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { ToastrModule, provideToastr } from 'ngx-toastr';
 
 library.add(faPlus)
 
@@ -56,14 +57,18 @@ library.add(faPlus)
     FontAwesomeModule,
     FormsModule,
     OverlayModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   exports: [
     SimpleTruncatePipe,
     MileagePipe,
     DateConvertPipe
   ],
-  providers: [],
+  providers: [
+    provideAnimations(), // required animations providers
+    provideToastr(),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

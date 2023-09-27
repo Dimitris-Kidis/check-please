@@ -3,7 +3,7 @@ import { OverlayRef, Overlay, OverlayPositionBuilder, FlexibleConnectedPositionS
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { faArrowLeft, faArrowRight, faCar, faPlus, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { CreateNewClient } from 'src/app/commands/client-commands';
 import { ClientSearchResult, ClientHistory, RepairHistory, CarHistory } from 'src/models/search';
 import { ClientsService } from 'src/services/clients.service';
@@ -12,6 +12,8 @@ import { SharedService } from 'src/services/shared-dropdown.service';
 import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
 import { CarsService } from 'src/services/cars.service';
 import { CreateNewCar } from 'src/app/commands/car-commands';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-car-option',
@@ -82,7 +84,8 @@ export class CarOptionComponent implements OnInit{
     private searchService: SearchService,
     private sharedService: SharedService,
     private readonly cdr: ChangeDetectorRef,
-    private carsService: CarsService
+    private carsService: CarsService,
+    private toastrService: ToastrService,
   ) {
 
   }
@@ -237,15 +240,22 @@ export class CarOptionComponent implements OnInit{
     this.isLoadingDone$.next(false);
     const newCar: CreateNewCar = {
       carSign: this.carSignString,
-      ...(this.vinCodeString === '' || !this.vinCodeString ? {} : {vinCode: `${this.vinCodeString}`}),
+      vinCode: this.vinCodeString,
+      mileage: this.mileageString,
       ...(this.volumeString === '' || !this.volumeString ? {} : {volume: `${this.volumeString}`}),
       ...(this.brandString === '' || !this.brandString ? {} : {brand: `${this.brandString}`}),
       ...(this.modelString === '' || !this.modelString ? {} : {model: `${this.modelString}`}),
-      ...(this.mileageString === 0 || !this.mileageString ? {} : {mileage: this.mileageString}),
       ...(this.yearString === 0 || !this.yearString ? {} : {year: this.yearString}),
     };
     console.log(newCar)
-    this.carsService.createNewCar(newCar).subscribe(
+    this.carsService.createNewCar(newCar)
+    .pipe(
+      catchError((err: HttpErrorResponse) => throwError(() => {
+        this.isLoadingDone$.next(true);
+        this.sharedService.displayErrors(err)
+      }))
+    )
+    .subscribe(
       (newCarId: number) => {
         this.currentCarId = +newCarId;
         this.carSign = this.carSignString;
@@ -259,6 +269,7 @@ export class CarOptionComponent implements OnInit{
         this.newCarSlider = 'out';
         this.isLoadingDone$.next(true);
         this.passNewCarMileage();
+        this.toastrService.success('Машина успешно добавлена в базу данных!')
         this.cdr.detectChanges();
       }
     );

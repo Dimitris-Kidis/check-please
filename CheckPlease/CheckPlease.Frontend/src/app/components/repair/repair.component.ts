@@ -6,6 +6,10 @@ import { CarsService } from 'src/services/cars.service';
 import { FilesService } from 'src/services/files.service';
 import { RepairService } from 'src/services/repair.service';
 import { RepairInfoComponent } from '../repair-info/repair-info.component';
+import { catchError, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SharedService } from 'src/services/shared-dropdown.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-repair',
@@ -24,7 +28,10 @@ export class RepairComponent implements OnInit {
   constructor(
     private filesService: FilesService,
     private carService: CarsService,
-    private repairService: RepairService
+    private repairService: RepairService,
+    private sharedService: SharedService,
+    private toastrService: ToastrService,
+
   ) {
 
   }
@@ -45,6 +52,7 @@ export class RepairComponent implements OnInit {
   }
 
   public getRepairData(data: CreateRepairCommand): void {
+    console.log('MILE ' + +data.mileage)
     const newMileage: UpdateMileageCommand = {
       carId: this.carId,
       mileage: +data.mileage
@@ -57,17 +65,47 @@ export class RepairComponent implements OnInit {
     data.carId = this.carId;
     data.clientId = this.clientId;
     data.mileage = +data.mileage;
-    this.repairService.createRepair(data).subscribe(
+    
+    console.log('data', data)
+
+    // const newCar: CreateNewCar = {
+    //   carSign: this.carSignString,
+    //   ...(this.vinCodeString === '' || !this.vinCodeString ? {} : {vinCode: `${this.vinCodeString}`}),
+    //   ...(this.volumeString === '' || !this.volumeString ? {} : {volume: `${this.volumeString}`}),
+    //   ...(this.brandString === '' || !this.brandString ? {} : {brand: `${this.brandString}`}),
+    //   ...(this.modelString === '' || !this.modelString ? {} : {model: `${this.modelString}`}),
+    //   ...(this.mileageString === 0 || !this.mileageString ? {} : {mileage: this.mileageString}),
+    //   ...(this.yearString === 0 || !this.yearString ? {} : {year: this.yearString}),
+    // };
+    this.repairService.createRepair(data)
+    .pipe(
+      catchError((err: HttpErrorResponse) => throwError(() => {
+        this.sharedService.displayErrors(err)
+        this.repairInfoComponent.stopLoading();
+      }))
+    )
+    .subscribe(
       (repairId: number) => this.downloadPdf(repairId)
     );
   }
 
   private updateMileage(command: UpdateMileageCommand): void {
-    this.carService.updateMileage(command).subscribe();
+    this.carService.updateMileage(command)
+    .pipe(
+      catchError((err: HttpErrorResponse) => throwError(() => {
+        this.sharedService.displayErrors(err)
+        this.repairInfoComponent.stopLoading();
+      }))
+    )
+    .subscribe(() => {
+      this.repairInfoComponent.stopLoading();
+      this.toastrService.success('Пробег успешно обновлен!');
+    })
   }
 
   public downloadPdf(id: number): void {
-    this.filesService.getPdfFile(id).subscribe(
+    this.filesService.getPdfFile(id)
+    .subscribe(
       (file: Blob) => {
         const a: HTMLAnchorElement = document.createElement('a');
         const data: Blob = new Blob([file], { type: 'application/pdf' });

@@ -3,13 +3,15 @@ import { BlockScrollStrategy, CloseScrollStrategy, FlexibleConnectedPositionStra
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { faArrowLeft, faArrowRight, faList, faPerson, faPlus, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of, throwError } from 'rxjs';
 import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
 import { SearchService } from 'src/services/search.service';
 import { SharedService } from 'src/services/shared-dropdown.service';
 import { CarSearchResult, ClientHistory, ClientSearchResult, RepairHistory } from 'src/models/search';
 import { ClientsService } from 'src/services/clients.service';
 import { CreateNewClient } from 'src/app/commands/client-commands';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-client-option',
@@ -63,7 +65,8 @@ export class ClientOptionComponent implements OnInit{
     private searchService: SearchService,
     private sharedService: SharedService,
     private readonly cdr: ChangeDetectorRef,
-    private clientsService: ClientsService
+    private clientsService: ClientsService,
+    private toastrService: ToastrService,
   ) {
 
   }
@@ -209,7 +212,14 @@ export class ClientOptionComponent implements OnInit{
       ...(this.jobString === '' ? {} : {jobTitle: this.jobString})
     };
 
-    this.clientsService.createNewClient(newClient).subscribe(
+    this.clientsService.createNewClient(newClient)
+    .pipe(
+      catchError((err: HttpErrorResponse) => throwError(() => {
+        this.isLoadingDone$.next(true);
+        this.sharedService.displayErrors(err)
+      }))
+    )
+    .subscribe(
       (newClientId: number) => {
         this.currentClientId = +newClientId;
         this.phoneNumber = this.phoneString;
@@ -217,6 +227,7 @@ export class ClientOptionComponent implements OnInit{
         this.nextButton.nativeElement.classList.remove('disabled');
         this.isLoadingDone$.next(true);
         this.newClientSlider = 'out';
+        this.toastrService.success('Клиент успешно добавлен в базу данных!')
         this.cdr.detectChanges();
       }
     );

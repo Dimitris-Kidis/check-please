@@ -1,11 +1,17 @@
 import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
-import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged, shareReplay, switchMap, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged, filter, shareReplay, switchMap, takeUntil, tap } from 'rxjs';
 import { CarSearchResult, ClientSearchResult, SearchResult } from 'src/models/search';
 import { SearchService } from 'src/services/search.service';
 import { SharedService } from 'src/services/shared-dropdown.service';
 import { DestroyBaseComponent } from '../destroy-base/destroy-base.component';
 import { SearchType } from 'src/app/enums/search-type';
+import { ToastrService } from 'ngx-toastr';
 
+
+enum NotFound {
+  Client = "Клиент с таким номером не найден",
+  Car = "Машины с таким номером не нет",
+}
 @Component({
   selector: 'app-search-dropdown',
   templateUrl: './search-dropdown.component.html',
@@ -16,10 +22,12 @@ export class SearchDropdownComponent extends DestroyBaseComponent implements OnI
   public isWindowOpen: boolean = false;
   public results$: Observable<SearchResult[]>;
 
+
   constructor (
     @Inject('SEARCH_TERM') public search: { term: BehaviorSubject<string>; isOpen: boolean, type: string },
     private sharedService: SharedService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private toastrService: ToastrService,
   ) {
     super();
   }
@@ -39,7 +47,13 @@ export class SearchDropdownComponent extends DestroyBaseComponent implements OnI
             this.searchService.searchCar(term) :
             this.searchService.searchClient(term)
             ),
-      tap(() => this.isDropdownLoadingDone$.next(true)),
+      tap((results: SearchResult[]) => {
+        this.isDropdownLoadingDone$.next(true);
+        if (results.length === 0)
+          this.search.type === SearchType.Car ?
+            this.toastrService.info(NotFound.Car) : 
+            this.toastrService.info(NotFound.Client);
+      }),
       shareReplay(1)
     );
   }
