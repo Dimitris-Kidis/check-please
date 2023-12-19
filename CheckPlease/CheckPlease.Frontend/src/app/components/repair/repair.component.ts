@@ -7,7 +7,7 @@ import { FilesService } from 'src/services/files.service';
 import { RepairService } from 'src/services/repair.service';
 import { RepairInfoComponent } from '../repair-info/repair-info.component';
 import { catchError, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { SharedService } from 'src/services/shared-dropdown.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,6 +22,7 @@ export class RepairComponent implements OnInit {
   public carId: number = 0;
   public isPreviewConfirmed: boolean = false;
   public newMileage: number;
+  public mileage: UpdateMileageCommand;
 
   @ViewChild(RepairInfoComponent) repairInfoComponent: RepairInfoComponent;
 
@@ -52,7 +53,6 @@ export class RepairComponent implements OnInit {
   }
 
   public getRepairData(data: CreateRepairCommand): void {
-    console.log('MILE ' + +data.mileage)
     const newMileage: UpdateMileageCommand = {
       carId: this.carId,
       mileage: +data.mileage
@@ -66,7 +66,6 @@ export class RepairComponent implements OnInit {
     data.clientId = this.clientId;
     data.mileage = +data.mileage;
     
-    console.log('data', data)
 
     // const newCar: CreateNewCar = {
     //   carSign: this.carSignString,
@@ -103,16 +102,19 @@ export class RepairComponent implements OnInit {
     })
   }
 
+
+
+
   public downloadPdf(id: number): void {
     this.filesService.getPdfFile(id)
     .subscribe(
-      (file: Blob) => {
+      (response: HttpResponse<Blob>) => {
+        const fileName = response.headers.get('content-disposition')!.split(';')[1].split('=')[1].replace(/"/g, '');
         const a: HTMLAnchorElement = document.createElement('a');
-        const data: Blob = new Blob([file], { type: 'application/pdf' });
+        const data: Blob = new Blob([response.body!], { type: 'application/pdf' });
         const downloadURL: string = window.URL.createObjectURL(data);
         a.href = downloadURL;
-        let pipe: DateConvertPipe = new DateConvertPipe();
-        a.download = `${pipe.transform(new Date().toString())}.pdf`;
+        a.download = fileName;
         a.click();
         this.repairInfoComponent.stopLoading();
       }

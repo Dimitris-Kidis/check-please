@@ -20,6 +20,7 @@ namespace Command.Car.UpdateCar
         public Task<int> Handle(UpdateCarMileageCommand request, CancellationToken cancellationToken)
         {
             var car = _carsRepository.FindBy(carUpdate => carUpdate.Id == request.CarId).FirstOrDefault();
+
             if (car != null)
             {
                 car.Mileage = request.Mileage;

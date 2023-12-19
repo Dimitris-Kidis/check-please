@@ -17,7 +17,7 @@ namespace Command.Car.CreateCar
                 .MaximumLength(8).WithMessage("Максимальная длина номеров - восемь символа.");
 
             RuleFor(car => car.VinCode)
-                .NotEmpty().WithMessage("Поле вин-кода не может быть пустым.")
+                //.NotEmpty().WithMessage("Поле вин-кода не может быть пустым.")
                 .Length(17).WithMessage((value) => $"Вин-код должен быть ровно 17 символов в длину. Вы ввели {value.VinCode.Length}");
 
             RuleFor(car => car.Mileage)

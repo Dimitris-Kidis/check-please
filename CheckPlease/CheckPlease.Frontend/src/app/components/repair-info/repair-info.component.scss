@@ -33,7 +33,7 @@
     }
 
     .solid-input {
-        width: 80%;
+        width: 100%;
         padding: 15px;
         font-size: 20px;
         border-radius: 16px;
@@ -153,4 +153,16 @@
             filter: brightness(90%);
         }
     }
+}
+
+.trash-icon {
+    color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 16px;
+    transition: background-color 0.25s;
+}
+
+.trash-icon:hover {
+    background-color: rgba(255, 0, 0, 0.5);
 }

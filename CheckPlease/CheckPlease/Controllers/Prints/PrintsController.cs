@@ -1,9 +1,13 @@
-﻿using AutoMapper;
+﻿using ApplicationCore.Domain.Entities;
+using ApplicationCore.Services.Repository.CheckRepository;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using Query.History.GetExcelFile;
 using Query.Repairs.GetCheckPrint;
+using System.Data.Entity.Core.Objects;
 
 namespace CheckPlease.Controllers.Prints
 {
@@ -13,10 +17,19 @@ namespace CheckPlease.Controllers.Prints
     {
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        public PrintsController(IMapper mapper, IMediator mediator)
+        private readonly ICheckRepository<Repair> _repairsRepository;
+        private readonly ICheckRepository<Detail> _detailsRepository;
+
+        public PrintsController(
+            IMapper mapper,
+            IMediator mediator,
+            ICheckRepository<Repair> repairsRepository,
+            ICheckRepository<Detail> detailsRepository)
         {
             _mapper = mapper;
             _mediator = mediator;
+            _repairsRepository = repairsRepository;
+            _detailsRepository = detailsRepository;
         }
 
         /// <summary>
@@ -24,14 +37,42 @@ namespace CheckPlease.Controllers.Prints
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetCheckPrint(int repairId)
-
         {
             var result = await _mediator.Send(new GetCheckPrintQuery { RepairId = repairId });
+
             if (result == null)
             {
                 return BadRequest("Entity is not found");
             }
-            string fileName = @$"{DateTime.Now}.pdf";
+
+            var today = DateTimeOffset.Now.Date;
+            var todayCarOrder = _repairsRepository.FindBy(repair => repair.CreatedAt.Date == today).Count();
+
+            var total = 0;
+            var detailsInfoForTable = _detailsRepository
+                .FindBy(detail => detail.RepairId == repairId)
+                .ToList();
+            for (int i = 0; i < detailsInfoForTable.Count; i++)
+            {
+                total += detailsInfoForTable[i].RepairPrice + (detailsInfoForTable[i].PricePerOne * detailsInfoForTable[i].Quantity) ?? 0;
+            }
+
+            var repairCheck = _repairsRepository
+                .GetAll()
+                .Include(repair => repair.Car)
+                .Where(repair => repair.Id == repairId)
+                .Select(repair => new
+                {
+                    repair.Car.CarSign,
+                    CarOrder = todayCarOrder
+                }).FirstOrDefault();
+
+            //List<int> sums = { 20, 50 };
+            //int[] array = new int { 20, 50 };
+            int[] payments = { 20, 50 };
+            var sumToPay = total <= 300 ? payments[0] : payments[1];
+
+            string fileName = @$"({repairCheck.CarOrder}) [{sumToPay}] {repairCheck.CarSign} {DateTime.Now.ToString("dd/MM/yyyy HH:mm")}.pdf";
             new FileExtensionContentTypeProvider().TryGetContentType(fileName, out string type);
             return File(result, type, fileName);
         }

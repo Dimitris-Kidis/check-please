@@ -64,8 +64,8 @@ namespace Query.Repairs.GetCheckPrint
         </html>"
         ;
         public GetCheckPrintQueryHandler(
-            ICheckRepository<Car> carsRepository,
             ICheckRepository<Client> clientsRepository,
+            ICheckRepository<Car> carsRepository,
             ICheckRepository<Repair> repairsRepository,
             ICheckRepository<Detail> detailsRepository,
             IMapper mapper)
@@ -92,7 +92,7 @@ namespace Query.Repairs.GetCheckPrint
                     FullName = check.Client.FullName,
                     PhoneNumber = check.Client.PhoneNumber,
                     CarSign = check.Car.CarSign,
-                    Volume = check.Car.Volume,
+                    Volume = check.Car.Volume ?? "-",
                     Brand = check.Car.Brand,
                     Mileage = check.Car.Mileage,
                     Model = check.Car.Model,
@@ -101,14 +101,16 @@ namespace Query.Repairs.GetCheckPrint
                     RepairDate = check.CreatedAt
                 }).FirstOrDefault();
 
-            var problems = _repairsRepository.FindBy(repair => repair.Id == request.RepairId).FirstOrDefault().Problems;
-            var hasProblems = (problems == null || problems == "") ? false : true;
+            var problems = _repairsRepository
+                .FindBy(repair => repair.Id == request.RepairId)
+                .FirstOrDefault()
+                .Problems;
 
-            if (hasProblems)
+            if (problems != null && problems != "")
             {
                 _problemsTemplate = @$"
                 <div class='header'>
-                    <div class='header-element'>Проблемы: {_repairsRepository.FindBy(repair => repair.Id == request.RepairId).FirstOrDefault().Problems}</div
+                    <div class='header-element'>Проблемы: {problems}</div
                 </div>
                 <hr>
                 ";
@@ -130,13 +132,16 @@ namespace Query.Repairs.GetCheckPrint
                     <th style='padding: 4px;'>Общая цена</th>
                 </tr>
             ";
+
             var detailPrice = 0;
             var repairPrice = 0;
             var total = 0;
-            for (int i = 0; i < detailsInfoForTable.Count(); i++)
+
+            for (int i = 0; i < detailsInfoForTable.Count; i++)
             {
+                var color = i % 2 == 0 ? "#ffffff" : "#f2f2f2";
                 _detailsTemplate += $@"
-                    <tr>  
+                    <tr style='background-color: {color};'>  
                         <td style='text-align: center;'>{detailsInfoForTable[i].DetailName}</td>
                         <td style='text-align: center;'>{detailsInfoForTable[i].PricePerOne}</td>
                         <td style='text-align: center;'>{detailsInfoForTable[i].Quantity}</td>
@@ -149,6 +154,7 @@ namespace Query.Repairs.GetCheckPrint
                 repairPrice += detailsInfoForTable[i].RepairPrice;
                 total += detailsInfoForTable[i].RepairPrice + (detailsInfoForTable[i].PricePerOne * detailsInfoForTable[i].Quantity) ?? 0;
             }
+
             _detailsTemplate += $@"
                     <table style='margin-top: 40px; margin-bottom: 20px; border-collapse: collapse; width: 100%;' border='1px'>
                         <tr>  
@@ -158,9 +164,8 @@ namespace Query.Repairs.GetCheckPrint
                         </tr>  
                     </table>
                 ";
+
             _detailsTemplate += @"</table><hr>";
-
-
 
             _endTemplate += $@"
                     <table style='margin-top: 40px; margin-bottom: 20px; border-collapse: collapse; width: 100%;' border='0px'>

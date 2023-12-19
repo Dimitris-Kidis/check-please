@@ -32,15 +32,15 @@ namespace Command.Repair.CreateRepair
             RuleFor(detail => detail.DetailName)
                 .NotEmpty().WithMessage("Название детали обязательно.")
                 .MinimumLength(3).WithMessage("Название детали должно содержать минимум 3 символа.")
-                .MaximumLength(20).WithMessage("Название детали может содержать максимум 20 символов.");
+                .MaximumLength(40).WithMessage("Название детали может содержать максимум 40 символов.");
 
             RuleFor(detail => detail.PricePerOne)
                 .NotEmpty().WithMessage("Укажите стоимость запчасти/услуги за одну шт.")
-                .GreaterThan(0).WithMessage("Цена запчасти должна быть больше нуля.");
+                .GreaterThanOrEqualTo(0).WithMessage("Цена запчасти должна быть больше или равна нулю.");
 
             RuleFor(detail => detail.Quantity)
                 .NotEmpty().WithMessage("Укажите количество запчастей/услуг.")
-                .GreaterThan(0).WithMessage("Количество должно быть больше нуля.");
+                .GreaterThanOrEqualTo(0).WithMessage("Количество должно быть больше нуля.");
 
             RuleFor(detail => detail.RepairPrice)
                 .GreaterThanOrEqualTo(0).WithMessage("Цена работы должна быть больше или равна нулю.");

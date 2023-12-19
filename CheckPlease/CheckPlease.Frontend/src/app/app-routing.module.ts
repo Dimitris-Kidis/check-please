@@ -3,43 +3,48 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { RegisterComponent } from './components/register/register.component';
-import { SearchComponent } from './components/search/search.component';
 import { RepairComponent } from './components/repair/repair.component';
+import { RepairsComponent } from './components/repairs/repairs.component';
+import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: 'menu',
-    component: MenuComponent
+    component: MenuComponent,
   },
   {
     path: 'search',
-    component: SearchComponent
+    component: SearchComponent,
   },
   {
     path: 'repair',
-    component: RepairComponent
+    component: RepairComponent,
+  },
+  {
+    path: 'repairs',
+    component: RepairsComponent,
   },
   {
     path: '**',
-    component: LoginComponent
+    component: LoginComponent,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

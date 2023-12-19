@@ -1,19 +1,26 @@
+import {
+  BlockScrollStrategy,
+  CdkOverlayOrigin,
+  FlexibleConnectedPositionStrategy,
+  Overlay,
+  OverlayPositionBuilder,
+  OverlayRef,
+} from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+import { faArrowLeft, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CarSearchResult, RepairHistory } from 'src/models/search';
-import { SearchService } from 'src/services/search.service';
-import { DateConvertPipe } from '../../pipes/date-convert.pipe';
-import { faArrowLeft, faDownload } from '@fortawesome/free-solid-svg-icons';
-import { BlockScrollStrategy, CdkOverlayOrigin, FlexibleConnectedPositionStrategy, Overlay, OverlayPositionBuilder, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
-import { SharedService } from 'src/services/shared-dropdown.service';
 import { FilesService } from 'src/services/files.service';
+import { SearchService } from 'src/services/search.service';
+import { SharedService } from 'src/services/shared-dropdown.service';
+import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit, AfterViewInit {
   public results$: Observable<CarSearchResult[]>;
@@ -38,7 +45,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     private injector: Injector,
     private sharedService: SharedService,
     private filesService: FilesService,
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.goSearch();
@@ -54,17 +61,15 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   public downloadPdf(id: number): void {
-    this.filesService.getPdfFile(id).subscribe(
-      (file: Blob) => {
-        const a: HTMLAnchorElement = document.createElement('a');
-        const data: Blob = new Blob([file], { type: 'application/pdf' });
-        const downloadURL: string = window.URL.createObjectURL(data);
-        a.href = downloadURL;
-        let pipe: DateConvertPipe = new DateConvertPipe();
-        a.download = `${pipe.transform(new Date().toString())}.pdf`;
-        a.click();
-      }
-    )
+    this.filesService.getPdfFile(id).subscribe((response: HttpResponse<Blob>) => {
+      const fileName = response.headers.get('content-disposition')!.split(';')[1].split('=')[1].replace(/"/g, '');
+      const a: HTMLAnchorElement = document.createElement('a');
+      const data: Blob = new Blob([response.body!], { type: 'application/pdf' });
+      const downloadURL: string = window.URL.createObjectURL(data);
+      a.href = downloadURL;
+      a.download = fileName;
+      a.click();
+    });
   }
 
   public openWindow(): void {
@@ -100,7 +105,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
         },
       ],
     });
-    
+
     overlayRef.attach(new ComponentPortal(SearchDropdownComponent, null, injector));
     this.overlayRef = overlayRef;
   }
@@ -126,18 +131,16 @@ export class SearchComponent implements OnInit, AfterViewInit {
       if (this.overlayRef && this.isWindowOpen) {
         this.overlayRef.detach();
         this.isWindowOpen = false;
-        this.getCurrentCar(carSign)
+        this.getCurrentCar(carSign);
       }
-    })
+    });
   }
 
   public getCurrentCar(carSign: string): void {
-    this.searchService.getRepairInfo(carSign).subscribe(
-      (repairs: RepairHistory[]) => {
-        this.currentRepairs = repairs;
-        this.isCarInfoLoadingDone$.next(true);
-      }
-    );
+    this.searchService.getRepairInfo(carSign).subscribe((repairs: RepairHistory[]) => {
+      this.currentRepairs = repairs;
+      this.isCarInfoLoadingDone$.next(true);
+    });
   }
 
   public get isCarInfoLoaded$(): Observable<boolean> {

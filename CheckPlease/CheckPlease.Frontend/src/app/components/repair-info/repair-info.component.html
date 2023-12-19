@@ -18,7 +18,7 @@
     >
     <form [formGroup]="myForm" class="form">
         <div formArrayName="details" class="details-container">
-            <div *ngFor="let detail of details.controls; let i = index" [formGroupName]="i" class="one-detail">
+            <div *ngFor="let detail of details.controls; let i = index" [formGroupName]="i" class="one-detail" #inputs>
                 <input class="detail-input" type="text"  formControlName="detailName" placeholder="Название">
 
 
@@ -31,11 +31,17 @@
 
 
 
-                
+                <span *ngIf="details.controls.length > 1" (click)="removeControl(i)">
+                    <fa-icon class="trash-icon" [icon]="faTrashCan"></fa-icon>
+                </span>
             </div>
         </div>
         <button class="add-button" (click)="addDetail()"><fa-icon class="add-icon" [icon]="faPlus"></fa-icon></button>
     </form>
+
+
+
+    
     <table class="table">
         <tr>
             <td class="title"></td>

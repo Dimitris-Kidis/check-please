@@ -27,8 +27,9 @@ import { CarOptionComponent } from './components/car-option/car-option.component
 import { RepairInfoComponent } from './components/repair-info/repair-info.component';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
+import { RepairsComponent } from './components/repairs/repairs.component';
 
-library.add(faPlus)
+library.add(faPlus);
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ library.add(faPlus)
     RepairComponent,
     ClientOptionComponent,
     CarOptionComponent,
-    RepairInfoComponent
+    RepairInfoComponent,
+    RepairsComponent,
   ],
   imports: [
     BrowserModule,
