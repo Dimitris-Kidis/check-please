@@ -95,9 +95,9 @@ namespace Query.Repairs.GetRepairs
                           DetailName = detail.DetailName,
                           PricePerOne = detail.PricePerOne,
                           Quantity = detail.Quantity,
-                          DetailsPrice = ((detail.PricePerOne ?? 0) * (detail.Quantity ?? 0)),
+                          DetailsPrice = detail.DetailsPrice,
                           RepairPrice = detail.RepairPrice,
-                          TotalPrice = ((detail.PricePerOne ?? 0) * (detail.Quantity ?? 0)) + detail.RepairPrice
+                          TotalPrice = detail.TotalPrice
                       })
                   })
                   .OrderByDescending(repair => repair.Date)
