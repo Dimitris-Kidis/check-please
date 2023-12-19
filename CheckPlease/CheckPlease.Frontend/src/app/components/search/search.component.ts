@@ -48,6 +48,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('test-change');
     this.goSearch();
   }
 
