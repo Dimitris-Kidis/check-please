@@ -30,6 +30,8 @@
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "file-saver": "^2.0.5",
     "ngx-toastr": "^16.2.0",
     "rxjs": "~7.8.0",

@@ -16,6 +16,7 @@ import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-br
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { TranslateModule } from '@ngx-translate/core';
 import { provideToastr, ToastrModule } from 'ngx-toastr';
 import { CarOptionComponent } from './components/car-option/car-option.component';
 import { ClientOptionComponent } from './components/client-option/client-option.component';
@@ -27,6 +28,7 @@ import { RepairComponent } from './components/repair/repair.component';
 import { RepairsComponent } from './components/repairs/repairs.component';
 import { SearchDropdownComponent } from './components/search-dropdown/search-dropdown.component';
 import { SearchComponent } from './components/search/search.component';
+import { TRANSLATE_CONFIG } from './core/configs/translate.config';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { DateConvertPipe } from './pipes/date-convert.pipe';
 import { MileagePipe } from './pipes/mileage.pipe';
@@ -67,6 +69,7 @@ library.add(faPlus);
     ToastrModule.forRoot(),
     DragDropModule,
     MatAutocompleteModule,
+    TranslateModule.forRoot(TRANSLATE_CONFIG),
   ],
   exports: [SimpleTruncatePipe, MileagePipe, DateConvertPipe],
   providers: [
