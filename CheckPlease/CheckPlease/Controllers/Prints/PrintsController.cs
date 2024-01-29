@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Query.History.GetExcelFile;
+using Query.History.GetMonthSummaryExcelFile;
 using Query.Repairs.GetCheckPrint;
 using System.Data.Entity.Core.Objects;
 
@@ -78,12 +79,22 @@ namespace CheckPlease.Controllers.Prints
         }
 
         /// <summary>
-        /// Get excel file
+        /// Get excel file with info
         /// </summary>
         [HttpGet("excel")]
         public async Task<IActionResult> GetExcelFile()
         {
             var result = await _mediator.Send(new GetExcelFileQuery());
+            return (IActionResult)result;
+        }
+
+        /// <summary>
+        /// Get month summary excel file
+        /// </summary>
+        [HttpGet("excel/summary")]
+        public async Task<IActionResult> GetMonthSummaryExcelFile()
+        {
+            var result = await _mediator.Send(new GetMonthSummaryExcelFileQuery());
             return (IActionResult)result;
         }
     }

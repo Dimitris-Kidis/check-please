@@ -1,70 +1,140 @@
 <div class="container">
-    <div class="button-container" [routerLink]="['/menu']">
-        <fa-icon class="back-icon" [icon]="faArrowLeft"></fa-icon>
-        <span class="go-back-btn"> Вернуться в меню</span>
-    </div>
-    <input
-        #mileageInput
-        type="text"
-        class="solid-input"
-        [(ngModel)]="mileage"
-        placeholder="Новый пробег *"
+  <div
+    class="button-container"
+    [routerLink]="['/menu']"
+  >
+    <fa-icon
+      class="back-icon"
+      [icon]="faArrowLeft"
+    ></fa-icon>
+    <span class="go-back-btn"> Вернуться в меню</span>
+  </div>
+  <input
+    #mileageInput
+    type="text"
+    class="solid-input"
+    [(ngModel)]="mileage"
+    placeholder="Новый пробег *"
+  />
+  <input
+    type="text"
+    class="solid-input"
+    [(ngModel)]="problems"
+    placeholder="Описание проблем"
+  />
+
+  <app-repair-rows> </app-repair-rows>
+  <!-- <form
+    [formGroup]="myForm"
+    class="form"
+  >
+    <div
+      formArrayName="details"
+      class="details-container"
+      cdkDropList
+      (cdkDropListDropped)="drop($event)"
     >
-    <input
-        type="text"
-        class="solid-input"
-        [(ngModel)]="problems"
-        placeholder="Описание проблем"
-    >
-    <form [formGroup]="myForm" class="form">
-        <div formArrayName="details" class="details-container">
-            <div *ngFor="let detail of details.controls; let i = index" [formGroupName]="i" class="one-detail" #inputs>
-                <input class="detail-input" type="text"  formControlName="detailName" placeholder="Название">
+      <div
+        *ngFor="let detail of details.controls; let i = index"
+        [formGroupName]="i"
+        class="one-detail"
+        #inputs
+        cdkDrag
+        [cdkDragData]="i"
+      >
+        <input
+          class="detail-input"
+          type="text"
+          formControlName="detailName"
+          placeholder="Название"
+          cdkDragHandle
+        />
 
+        <input
+          class="detail-input"
+          type="number"
+          formControlName="pricePerOne"
+          placeholder="Цена за 1 шт."
+          (input)="calculateTotal(i)"
+        />
+        <input
+          class="detail-input"
+          type="number"
+          formControlName="quantity"
+          placeholder="Количество"
+          (input)="calculateTotal(i)"
+        />
+        <input
+          class="detail-input readonly"
+          type="number"
+          placeholder="Стоимость запчастей"
+          readonly
+          [value]="getSubtotal(i)"
+        />
+        <input
+          class="detail-input"
+          type="number"
+          formControlName="repairPrice"
+          placeholder="Работа"
+          (input)="calculateTotal(i)"
+        />
+        <input
+          class="detail-input readonly"
+          type="number"
+          placeholder="Всего"
+          readonly
+          [value]="getTotal(i)"
+        />
 
-
-                <input class="detail-input" type="number" formControlName="pricePerOne" placeholder="Цена за 1 шт." (input)="calculateTotal(i)">
-                <input class="detail-input" type="number" formControlName="quantity" placeholder="Количество" (input)="calculateTotal(i)">
-                <input class="detail-input readonly"  type="number" placeholder="Стоимость запчастей" readonly [value]="getSubtotal(i)">
-                <input class="detail-input" type="number" formControlName="repairPrice" placeholder="Работа" (input)="calculateTotal(i)">
-                <input class="detail-input readonly" type="number" placeholder="Всего" readonly [value]="getTotal(i)">
-
-
-
-                <span *ngIf="details.controls.length > 1" (click)="removeControl(i)">
-                    <fa-icon class="trash-icon" [icon]="faTrashCan"></fa-icon>
-                </span>
-            </div>
-        </div>
-        <button class="add-button" (click)="addDetail()"><fa-icon class="add-icon" [icon]="faPlus"></fa-icon></button>
-    </form>
-
-
-
-    
-    <table class="table">
-        <tr>
-            <td class="title"></td>
-            <td class="download-cell"></td>
-            <td class="download-cell"></td>
-        </tr>
-        <tr>
-            <td class="title"></td>
-            <td class="download-cell"></td>
-            <td class="download-cell"></td>
-        </tr>
-    </table>
-    <div class="download-container" (click)="passRepairInfo()">
-        <ng-container *ngIf="isLoaded$ | async; else loading">
-            <fa-icon class="download-icon" [icon]="faDownload"></fa-icon>
-            <span class="download-text">
-                Скачать чек
-            </span>
-        </ng-container>
-        <ng-template #loading>
-            <div class="loader">
-                <app-loading loaderSize="large"></app-loading>
-            </div>
-        </ng-template>
+        <span
+          *ngIf="details.controls.length > 1"
+          (click)="removeControl(i)"
+        >
+          <fa-icon
+            class="trash-icon"
+            [icon]="faTrashCan"
+          ></fa-icon>
+        </span>
+      </div>
     </div>
+    <button
+      class="add-button"
+      (click)="addDetail()"
+    >
+      <fa-icon
+        class="add-icon"
+        [icon]="faPlus"
+      ></fa-icon>
+    </button>
+  </form> -->
+
+  <table class="table">
+    <tr>
+      <td class="title"></td>
+      <td class="download-cell"></td>
+      <td class="download-cell"></td>
+    </tr>
+    <tr>
+      <td class="title"></td>
+      <td class="download-cell"></td>
+      <td class="download-cell"></td>
+    </tr>
+  </table>
+  <div
+    class="download-container"
+    (click)="passRepairInfo()"
+  >
+    <ng-container *ngIf="isLoaded$ | async; else loading">
+      <fa-icon
+        class="download-icon"
+        [icon]="faDownload"
+      ></fa-icon>
+      <span class="download-text"> Скачать чек </span>
+    </ng-container>
+    <ng-template #loading>
+      <div class="loader">
+        <app-loading loaderSize="large"></app-loading>
+      </div>
+    </ng-template>
+  </div>
 </div>

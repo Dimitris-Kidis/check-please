@@ -1,5 +1,4 @@
 export enum SearchType {
-    Client = 'Client',
-    Car = 'Car',
+  Client = 'Client',
+  Car = 'Car',
 }
-  

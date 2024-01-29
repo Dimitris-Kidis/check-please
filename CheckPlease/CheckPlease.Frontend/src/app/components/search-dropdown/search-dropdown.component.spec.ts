@@ -8,9 +8,8 @@ describe('SearchDropdownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SearchDropdownComponent ]
-    })
-    .compileComponents();
+      declarations: [SearchDropdownComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SearchDropdownComponent);
     component = fixture.componentInstance;

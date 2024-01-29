@@ -1,8 +1,6 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -19,62 +17,40 @@ import { CreateDetailCommand, CreateRepairCommand } from 'src/app/commands/repai
 import { CarsService } from 'src/services/cars.service';
 import { ClientsService } from 'src/services/clients.service';
 import { FilesService } from 'src/services/files.service';
-import { RepairRowsComponent } from '../repair-rows/repair-rows.component';
 
 @Component({
-  selector: 'app-repair-info',
-  templateUrl: './repair-info.component.html',
-  styleUrls: ['./repair-info.component.scss'],
-  animations: [
-    trigger('slideInOut', [
-      state('in', style({ 'overflow-y': 'hidden', height: '*' })),
-      state('out', style({ 'overflow-y': 'hidden', height: '0px' })),
-      transition('in => out', animate('400ms ease-in-out')),
-      transition('out => in', animate('400ms ease-in-out')),
-    ]),
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-repair-rows',
+  templateUrl: './repair-rows.component.html',
+  styleUrls: ['./repair-rows.component.scss'],
 })
-export class RepairInfoComponent implements OnInit, AfterViewInit {
+export class RepairRowsComponent implements OnInit, AfterViewInit {
   @Output() public passRepairData = new EventEmitter<CreateRepairCommand>();
 
   @Input() public newMileage: number;
 
-  @ViewChild(RepairRowsComponent) public rows: RepairRowsComponent;
   @ViewChild('mileageInput') public mileageInput: ElementRef;
   @ViewChild('inputs') public inputs: ElementRef;
 
+  public options: string[] = ['Фильтр'];
+
   public myForm: FormGroup;
+
   public mileage: number;
   public problems: string = '';
-  public detailsPrice: number;
 
   public faArrowLeft = faArrowLeft;
   public faDownload = faDownload;
   public faPlus = faPlus;
   public faTrashCan = faTrashCan;
-
   private isLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   public constructor(
     private readonly cdr: ChangeDetectorRef,
-    private readonly clientsService: ClientsService,
-    private readonly fb: FormBuilder,
-    private readonly filesService: FilesService,
-    private readonly carService: CarsService,
+    private clientsService: ClientsService,
+    private fb: FormBuilder,
+    private filesService: FilesService,
+    private carService: CarsService,
   ) {}
-
-  public get isLoaded$(): Observable<boolean> {
-    return this.isLoadingDone$.asObservable();
-  }
-
-  public get details(): FormArray {
-    return this.myForm.get('details') as FormArray;
-  }
-
-  public get detailsArray(): FormArray {
-    return this.myForm.get('details') as FormArray;
-  }
 
   public ngOnInit(): void {
     this.myForm = this.fb.group({
@@ -84,14 +60,26 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.newMileage ? (this.mileage = this.newMileage) : this.mileageInput.nativeElement.focus();
-    this.cdr.detectChanges();
+  }
+
+  // Inside your component class
+  public onInput(event: Event, index: number): void {
+    const input = event.target as HTMLInputElement;
+    const value = input.value.toLowerCase();
+    // Set the filtered options for the specific form control
+    this.detailsArray.at(index).get('detailName')!.setValue(value);
+  }
+
+  public filteredOptions(i: number): string[] {
+    const inputValue = this.detailsArray.at(i).get('detailName')!.value;
+    console.log(inputValue);
+    return this.options.filter((option) => option.toLowerCase().includes(inputValue.toLowerCase));
   }
 
   public passRepairInfo(): void {
     this.isLoadingDone$.next(false);
 
-    // const details: CreateDetailCommand[] = this.myForm.value.details;
-    const details: CreateDetailCommand[] = this.rows.myForm.value.details;
+    const details: CreateDetailCommand[] = this.myForm.value.details;
 
     console.log('DET', details);
     details.forEach((detail) => {
@@ -125,6 +113,7 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
     //     0 :
     //     this.myForm.value.details[length].repairPrice;
     // }
+    console.log('repair-info ' + this.mileage);
     const repairData: CreateRepairCommand = {
       mileage: !this.mileage || this.mileage === undefined ? 0 : this.mileage,
       problems: this.problems,
@@ -180,6 +169,14 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
   //   )
   // }
 
+  public get isLoaded$(): Observable<boolean> {
+    return this.isLoadingDone$.asObservable();
+  }
+
+  public get details(): FormArray {
+    return this.myForm.get('details') as FormArray;
+  }
+
   public addDetail(): void {
     this.details.push(this.createDetail());
 
@@ -205,7 +202,17 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public calculateTotal(index: number): void {
+  public detailsPrice: number;
+
+  updateTotals(index: number) {
+    console.log(index);
+  }
+
+  get detailsArray(): FormArray {
+    return this.myForm.get('details') as FormArray;
+  }
+
+  calculateTotal(index: number) {
     const detail = this.detailsArray.at(index);
 
     const pricePerOne = detail.get('pricePerOne')?.value;
@@ -219,11 +226,11 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
     detail.get('total')?.setValue(total);
   }
 
-  public getSubtotal(index: number): number {
+  getSubtotal(index: number) {
     return this.detailsArray.at(index).get('subtotal')?.value;
   }
 
-  public getTotal(index: number): number {
+  getTotal(index: number) {
     return this.detailsArray.at(index).get('total')?.value;
   }
 }

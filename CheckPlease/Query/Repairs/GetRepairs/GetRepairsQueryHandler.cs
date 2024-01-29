@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Query.Clients.GetClientHistory;
 
 using AutoMapper.QueryableExtensions;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace Query.Repairs.GetRepairs
 {
@@ -61,6 +63,7 @@ namespace Query.Repairs.GetRepairs
             }
 
             return (resultList.Count > 0 ? resultList : carsList)
+                .DistinctBy(x => x.Id)
                 .OrderByDescending(x => x.Date)
                 .Select(_mapper.Map<GetRepairsDto>);
         }

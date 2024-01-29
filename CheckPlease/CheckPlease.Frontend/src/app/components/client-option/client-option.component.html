@@ -1,70 +1,112 @@
 <div class="container">
-    <div class="button-container new-client-button" (click)="toggleNewClientForm()">
-        <fa-icon class="back-icon" [icon]="faPlus"></fa-icon>
-        <span class="go-back-btn"> Новый клиент</span>
-    </div>
-    <div [@slideInOut]="newClientSlider" class="new-form">
-        <input type="text"
-        #phoneInput
-        [(ngModel)]="phoneString"
-        class="search-input"
-        placeholder="Номер телефона" >
-        <input type="text"
-        #nameBox
-        [(ngModel)]="nameString"
-        class="search-input"
-        placeholder="Имя клиента">
-        <input type="text"
-        #jobBox
-        [(ngModel)]="jobString"
-        class="search-input"
-        placeholder="Работа">
-        <button class="add-button" (click)="createNewClient()">
-            <ng-container *ngIf="isLoaded$ | async; else loading">
-                Добавить
-            </ng-container>
-            <ng-template #loading>
-                <div class="loader">
-                    <app-loading loaderSize="large"></app-loading>
-                </div>
-            </ng-template>
-        </button>
-    </div>
-
-    <div class="button-container find-existing" (click)="toggleExistingClientForm()">
-        <fa-icon class="back-icon" [icon]="faSearch"></fa-icon>
-        <span class="go-back-btn"> Существующий клиент</span>
-    </div>
-    <div [@slideInOut]="existingClientSlider" class="new-form">
-        <input
-        type="text"
-        #searchBox
-        autofocus
-        autocomplete="off"
-        (input)="search(searchBox.value)"
-        class="search-input"
-        [(ngModel)]="searchString"
-        placeholder="Поиск номера телефона..."
-        (clickOutside)="closeWindow()"
-        >
-    </div>
-
-    <div class="current-client">
-        <fa-icon class="client-icon" [icon]="faClient"></fa-icon>
-        <div class="client-info">
-            <span class="client-name">{{ fullName ? fullName : '—'}}</span>
-            <span class="client-phone">{{ phoneNumber ? phoneNumber : '—' }}</span>
+  <div
+    class="button-container new-client-button"
+    (click)="toggleNewClientForm()"
+  >
+    <fa-icon
+      class="back-icon"
+      [icon]="faPlus"
+    ></fa-icon>
+    <span class="go-back-btn"> Новый клиент</span>
+  </div>
+  <div
+    [@slideInOut]="newClientSlider"
+    class="new-form"
+  >
+    <input
+      type="text"
+      #phoneInput
+      [(ngModel)]="phoneString"
+      class="search-input"
+      placeholder="Номер телефона"
+    />
+    <input
+      type="text"
+      #nameBox
+      [(ngModel)]="nameString"
+      class="search-input"
+      placeholder="Имя клиента"
+    />
+    <input
+      type="text"
+      #jobBox
+      [(ngModel)]="jobString"
+      class="search-input"
+      placeholder="Работа"
+    />
+    <button
+      class="add-button"
+      (click)="createNewClient()"
+    >
+      <ng-container *ngIf="isLoaded$ | async; else loading"> Добавить </ng-container>
+      <ng-template #loading>
+        <div class="loader">
+          <app-loading loaderSize="large"></app-loading>
         </div>
-    </div>
+      </ng-template>
+    </button>
+  </div>
 
-    <div class="nav-buttons">
-        <div class="button-container back-button" [routerLink]="['/menu']" (click)="closeWindow('manual')">
-            <fa-icon class="back-icon" [icon]="faArrowLeft"></fa-icon>
-            <span class="go-back-btn"> Меню </span>
-        </div>
-        <div class="button-container go-button disabled" #nextButton (click)="checkForm($event)">
-            <span class="go-back-btn"> Далее </span>
-            <fa-icon class="go-icon" [icon]="faArrowRight"></fa-icon>
-        </div>
+  <div
+    class="button-container find-existing"
+    (click)="toggleExistingClientForm()"
+  >
+    <fa-icon
+      class="back-icon"
+      [icon]="faSearch"
+    ></fa-icon>
+    <span class="go-back-btn"> Существующий клиент</span>
+  </div>
+  <div
+    [@slideInOut]="existingClientSlider"
+    class="new-form"
+  >
+    <input
+      type="text"
+      #searchBox
+      autofocus
+      autocomplete="off"
+      (input)="search(searchBox.value)"
+      class="search-input"
+      [(ngModel)]="searchString"
+      placeholder="Поиск номера телефона..."
+      (clickOutside)="closeWindow()"
+    />
+  </div>
+
+  <div class="current-client">
+    <fa-icon
+      class="client-icon"
+      [icon]="faClient"
+    ></fa-icon>
+    <div class="client-info">
+      <span class="client-name">{{ fullName ? fullName : '—' }}</span>
+      <span class="client-phone">{{ phoneNumber ? phoneNumber : '—' }}</span>
     </div>
+  </div>
+
+  <div class="nav-buttons">
+    <div
+      class="button-container back-button"
+      [routerLink]="['/menu']"
+      (click)="closeWindow('manual')"
+    >
+      <fa-icon
+        class="back-icon"
+        [icon]="faArrowLeft"
+      ></fa-icon>
+      <span class="go-back-btn"> Меню </span>
+    </div>
+    <div
+      class="button-container go-button disabled"
+      #nextButton
+      (click)="checkForm($event)"
+    >
+      <span class="go-back-btn"> Далее </span>
+      <fa-icon
+        class="go-icon"
+        [icon]="faArrowRight"
+      ></fa-icon>
+    </div>
+  </div>
 </div>

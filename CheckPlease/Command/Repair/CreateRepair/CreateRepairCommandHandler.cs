@@ -47,6 +47,12 @@ namespace Command.Repair.CreateRepair
                 }).ToList()
             };
 
+            int currentRepairId = newRepair.Id;
+
+            var repairTotalPrice = newRepair.Details.Select(x => x.TotalPrice).ToList().Sum();
+
+            newRepair.TotalRepairPrice = repairTotalPrice;
+
             _repairRepository.Add(newRepair);
             _repairRepository.Save();
 

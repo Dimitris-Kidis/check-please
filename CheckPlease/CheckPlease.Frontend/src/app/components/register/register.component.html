@@ -1,8 +1,24 @@
-<form class="register-container" [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)" >
-    <h1 class="register-container__header">Регистрация</h1>
-    <span #invalidregister class="error"></span>
-    <input class="register-container__input" type="email" formControlName="email" placeholder="Почтовый ящик">
-    <input class="register-container__input" type="password" formControlName="password" placeholder="Пароль">
-    <button class="register-container__button">Зарегистрироваться</button>
+<form
+  class="register-container"
+  [formGroup]="registerForm"
+  (ngSubmit)="register(registerForm.value)"
+>
+  <h1 class="register-container__header">Регистрация</h1>
+  <span
+    #invalidregister
+    class="error"
+  ></span>
+  <input
+    class="register-container__input"
+    type="email"
+    formControlName="email"
+    placeholder="Почтовый ящик"
+  />
+  <input
+    class="register-container__input"
+    type="password"
+    formControlName="password"
+    placeholder="Пароль"
+  />
+  <button class="register-container__button">Зарегистрироваться</button>
 </form>
-

@@ -1,27 +1,34 @@
-<div *ngIf="isDropdownLoaded$ | async; else dropdownLoading" class="loading-container">
-    <div class="dropdown" *ngIf="(results$ | async) as results">
-        <div 
-            class="dropdown-item"
-            *ngFor="let result of results"
-            (click)="selectItem(result)"
-            [innerHTML]="
-            result.phoneNumber
-            ? (result.phoneNumber
-                        + (result.fullName ? ', ' + result.fullName : '')
-                        + (result.jobTitle ? ', ' + result.jobTitle : '')
-                        | simpleTruncate : 35)
-            : result.carSign 
-                        + (result.brand ? ', ' + result.brand : '')
-                        + (result.model ? ', ' + result.model : '')
-                        + (result.volume? ', ' + result.volume : '')
-                        + (result.year ? ', ' + result.year + 'г.' : '')
-                        | simpleTruncate : 45
-            "
-        ></div>
-    </div>
+<div
+  *ngIf="isDropdownLoaded$ | async; else dropdownLoading"
+  class="loading-container"
+>
+  <div
+    class="dropdown"
+    *ngIf="results$ | async as results"
+  >
+    <div
+      class="dropdown-item"
+      *ngFor="let result of results"
+      (click)="selectItem(result)"
+      [innerHTML]="
+        result.phoneNumber
+          ? (result.phoneNumber +
+              (result.fullName ? ', ' + result.fullName : '') +
+              (result.jobTitle ? ', ' + result.jobTitle : '') | simpleTruncate : 35)
+          : (result.carSign +
+              (result.brand ? ', ' + result.brand : '') +
+              (result.model ? ', ' + result.model : '') +
+              (result.volume ? ', ' + result.volume : '') +
+              (result.year ? ', ' + result.year + 'г.' : '') | simpleTruncate : 45)
+      "
+    ></div>
+  </div>
 </div>
-<ng-template #dropdownLoading class="loading-container">
-    <div class="dropdown-loader">
-        <app-loading loaderSize="large"></app-loading>
-    </div>
+<ng-template
+  #dropdownLoading
+  class="loading-container"
+>
+  <div class="dropdown-loader">
+    <app-loading loaderSize="large"></app-loading>
+  </div>
 </ng-template>

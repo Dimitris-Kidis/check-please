@@ -1,71 +1,150 @@
 <div class="search-container">
-    <div class="button-container" [routerLink]="['/menu']" (click)="closeWindowMenu()">
-        <fa-icon class="back-icon" [icon]="faArrow"></fa-icon>
-        <span class="go-back-btn"> Вернуться в меню</span>
-    </div>
-    <input
-        type="text"
-        #searchBox
-        autofocus
-        (input)="search(searchBox.value)"
-        class="search-input"
-        [(ngModel)]="searchString"
-        placeholder="Начните вводить номер машины..."
-        (clickOutside)="closeWindow()"
-    >
+  <div
+    class="button-container"
+    [routerLink]="['/menu']"
+    (click)="closeWindowMenu()"
+  >
+    <fa-icon
+      class="back-icon"
+      [icon]="faArrow"
+    ></fa-icon>
+    <span class="go-back-btn"> Вернуться в меню</span>
+  </div>
+  <input
+    type="text"
+    #searchBox
+    autofocus
+    (input)="search(searchBox.value)"
+    class="search-input"
+    [(ngModel)]="searchString"
+    placeholder="Начните вводить номер машины..."
+    (clickOutside)="closeWindow()"
+  />
 
-    <div class="car-info-container">
-        <div *ngIf="isCarInfoLoaded$ | async; else carInfoLoading">
-            <div *ngIf="currentRepairs; else message" style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
-                <table class="table" *ngFor="let repair of currentRepairs">
-                    <tr>
-                        <td colspan="5" class="title">Дата починки: <span class="content">{{repair.repairationDate | dateConvert}}</span></td>
-                        <td colspan="1" class="download-cell"><fa-icon class="download-icon" [icon]="faDownload" (click)="downloadPdf(repair.id)"></fa-icon></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Номер машины: <span class="content">{{repair.carSign}}</span></td>
-                        <td colspan="2">Brand: <span class="content">{{repair.brand ?? '—'}}</span></td>
-                        <td colspan="2">Model: <span class="content">{{repair.model ?? '—'}}</span></td>
-                    </tr>
-                    <tr *ngIf="repair.problems">
-                        <td colspan="6" class="title">Проблемы: <span class="content">{{repair.problems}}</span></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">Vin-Code: <span class="content">{{repair.vinCode ?? '—'}}</span></td>
-                        <td colspan="3">Year: <span class="content">{{repair.year ?? '—'}}</span></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">Объем двигателя: <span class="content">{{repair.volume ?? '—'}}</span></td>
-                        <td colspan="3">Пробег: <span class="content">{{repair.mileage ?? '—' | mileage}}</span></td>
-                    </tr>        
-                    <tr>
-                        <td colspan="6" class="title">Запчасти:</td>
-                    </tr>
-                    <tr *ngFor="let detail of repair.details">
-                        <td class="detail-info">Название запчасти: <span class="content">{{detail.detailName}}</span></td>
-                        <td class="detail-info">Цена за одну: <span class="content">{{detail.pricePerOne ?? '—'}}</span></td>
-                        <td class="detail-info">Кол-во: <span class="content">{{detail.quantity}}</span></td>
-                        <td class="detail-info">Общая цена запчасти: <span class="content">{{detail.detailsPrice}}</span></td>
-                        <td class="detail-info">Цена ремонта: <span class="content">{{detail.repairPrice}}</span></td>
-                        <td class="detail-info">Общая цена: <span class="content">{{detail.totalPrice}}</span></td>
-                    </tr>
-                    <tr>
-                        <td class="detail-info" style="background-color: #ebebeb;" colspan="4">Общая цена запчастей: <span class="content">{{5}}</span></td>
-                        <td class="detail-info" style="background-color: #ebebeb;" colspan="1">Общая цена работы: <span class="content">{{5}}</span></td>
-                        <td class="detail-info" style="background-color: #dddddd;" colspan="1">ИТОГО: <span class="content">{{5}}</span></td>
-                    </tr>
-                   </table>
-            </div>
-            <ng-template #message>
-                <div class="message">
-                    Здесь появится история ремонтов..
-                </div>
-            </ng-template>
-        </div>
-        <ng-template #carInfoLoading>
-            <div class="car-info-loader">
-                <app-loading loaderSize="large"></app-loading>
-            </div>
-        </ng-template>
+  <div class="car-info-container">
+    <div *ngIf="isCarInfoLoaded$ | async; else carInfoLoading">
+      <div
+        *ngIf="currentRepairs; else message"
+        style="display: flex; align-items: center; justify-content: center; flex-direction: column"
+      >
+        <table
+          class="table"
+          *ngFor="let repair of currentRepairs"
+        >
+          <tr>
+            <td
+              colspan="5"
+              class="title"
+            >
+              Дата починки: <span class="content">{{ repair.repairationDate | dateConvert }}</span>
+            </td>
+            <td
+              colspan="1"
+              class="download-cell"
+            >
+              <fa-icon
+                class="download-icon"
+                [icon]="faDownload"
+                (click)="downloadPdf(repair.id)"
+              ></fa-icon>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              Номер машины: <span class="content">{{ repair.carSign }}</span>
+            </td>
+            <td colspan="2">
+              Brand: <span class="content">{{ repair.brand ?? '—' }}</span>
+            </td>
+            <td colspan="2">
+              Model: <span class="content">{{ repair.model ?? '—' }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="repair.problems">
+            <td
+              colspan="6"
+              class="title"
+            >
+              Проблемы: <span class="content">{{ repair.problems }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              Vin-Code: <span class="content">{{ repair.vinCode ?? '—' }}</span>
+            </td>
+            <td colspan="3">
+              Year: <span class="content">{{ repair.year ?? '—' }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              Объем двигателя: <span class="content">{{ repair.volume ?? '—' }}</span>
+            </td>
+            <td colspan="3">
+              Пробег: <span class="content">{{ repair.mileage ?? '—' | mileage }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="6"
+              class="title"
+            >
+              Запчасти:
+            </td>
+          </tr>
+          <tr *ngFor="let detail of repair.details">
+            <td class="detail-info">
+              Название запчасти: <span class="content">{{ detail.detailName }}</span>
+            </td>
+            <td class="detail-info">
+              Цена за одну: <span class="content">{{ detail.pricePerOne ?? '—' }}</span>
+            </td>
+            <td class="detail-info">
+              Кол-во: <span class="content">{{ detail.quantity }}</span>
+            </td>
+            <td class="detail-info">
+              Общая цена запчасти: <span class="content">{{ detail.detailsPrice }}</span>
+            </td>
+            <td class="detail-info">
+              Цена ремонта: <span class="content">{{ detail.repairPrice }}</span>
+            </td>
+            <td class="detail-info">
+              Общая цена: <span class="content">{{ detail.totalPrice }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="detail-info"
+              style="background-color: #ebebeb"
+              colspan="4"
+            >
+              Общая цена запчастей: <span class="content">{{ 5 }}</span>
+            </td>
+            <td
+              class="detail-info"
+              style="background-color: #ebebeb"
+              colspan="1"
+            >
+              Общая цена работы: <span class="content">{{ 5 }}</span>
+            </td>
+            <td
+              class="detail-info"
+              style="background-color: #dddddd"
+              colspan="1"
+            >
+              ИТОГО: <span class="content">{{ 5 }}</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <ng-template #message>
+        <div class="message">Здесь появится история ремонтов..</div>
+      </ng-template>
     </div>
+    <ng-template #carInfoLoading>
+      <div class="car-info-loader">
+        <app-loading loaderSize="large"></app-loading>
+      </div>
+    </ng-template>
+  </div>
 </div>
