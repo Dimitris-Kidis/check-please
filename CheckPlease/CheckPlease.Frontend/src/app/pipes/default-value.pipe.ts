@@ -10,6 +10,6 @@ export class DefaultValuePipe implements PipeTransform {
       return value;
     }
 
-    return value || '-';
+    return value || '—';
   }
 }

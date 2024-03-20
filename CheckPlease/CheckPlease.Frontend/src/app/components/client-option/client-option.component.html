@@ -13,26 +13,28 @@
     [@slideInOut]="newClientSlider"
     class="new-form"
   >
+    <!-- <span *ngIf="!isEditMode">{{ utility.dto.location | defaultValue }}</span> -->
+
+    <!-- *ngIf="isEditMode" -->
+    <app-text-edit-control
+      [(value)]="clientOption.dto.clientName"
+      [config]="config.clientName"
+      [schema]="clientOption.schema.clientName"
+    ></app-text-edit-control>
+
     <input
       type="text"
-      #phoneInput
-      [(ngModel)]="phoneString"
-      class="search-input"
-      placeholder="Номер телефона"
-    />
-    <input
-      type="text"
-      #nameBox
-      [(ngModel)]="nameString"
+      #nameInput
+      [(ngModel)]="userInputData.fullName"
       class="search-input"
       placeholder="Имя клиента"
     />
     <input
       type="text"
-      #jobBox
-      [(ngModel)]="jobString"
+      #phoneInput
+      [(ngModel)]="userInputData.phoneNumber"
       class="search-input"
-      placeholder="Работа"
+      placeholder="Номер телефона"
     />
     <button
       class="add-button"
@@ -80,8 +82,8 @@
       [icon]="faClient"
     ></fa-icon>
     <div class="client-info">
-      <span class="client-name">{{ fullName ? fullName : '—' }}</span>
-      <span class="client-phone">{{ phoneNumber ? phoneNumber : '—' }}</span>
+      <span class="client-name">{{ userInputData.fullName | defaultValue }}</span>
+      <span class="client-phone">{{ userInputData.phoneNumber | defaultValue }}</span>
     </div>
   </div>
 

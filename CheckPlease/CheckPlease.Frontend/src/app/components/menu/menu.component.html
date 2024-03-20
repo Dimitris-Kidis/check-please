@@ -9,7 +9,12 @@
         class="icon"
         [icon]="faWrench"
       ></fa-icon>
-      <span class="item-title"> Новый ремонт </span>
+      <span
+        class="item-title"
+        (mouseover)="changeColor()"
+      >
+        Новый ремонт
+      </span>
     </div>
     <div
       class="menu-item search"
@@ -49,6 +54,17 @@
           <app-loading loaderSize="large"></app-loading>
         </div>
       </ng-template>
+    </div>
+
+    <div
+      class="menu-item search"
+      (click)="changeColor()"
+    >
+      <fa-icon
+        class="icon"
+        [icon]="faSearch"
+      ></fa-icon>
+      <span class="item-title"> Сменить тему </span>
     </div>
   </div>
 </div>

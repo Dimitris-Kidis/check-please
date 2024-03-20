@@ -23,6 +23,7 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
   },
+  "explorer.compactFolders": false,
   "typescript.unstable": {
     "organizeImportsIgnoreCase": true
   }

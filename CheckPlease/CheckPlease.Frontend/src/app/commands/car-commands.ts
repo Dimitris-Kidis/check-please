@@ -1,6 +1,6 @@
 export class CreateNewCar {
   public carSign: string;
-  public vinCode: string;
+  public vinCode?: string;
   public mileage?: number;
   public year?: number;
   public model?: string;
@@ -9,7 +9,7 @@ export class CreateNewCar {
 
   public constructor(
     carSign: string,
-    vinCode: string,
+    vinCode?: string,
     mileage?: number,
     year?: number,
     model?: string,
@@ -27,10 +27,10 @@ export class CreateNewCar {
 }
 
 export class UpdateMileageCommand {
-  carId: number;
-  mileage: number;
+  public carId: number;
+  public mileage: number;
 
-  constructor(carId: number, mileage: number) {
+  public constructor(carId: number, mileage: number) {
     this.carId = carId;
     this.mileage = mileage;
   }

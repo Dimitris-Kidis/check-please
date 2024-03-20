@@ -36,6 +36,7 @@ namespace Query.Clients.GetClientHistory
             var repairsInfo = await _repairsRepository
                 .GetAll()
                 .Include(repair => repair.Car)
+                .Include(repair => repair.Client)
                 .Where(repair => repair.Car.CarSign == request.CarSign)
                 .Select(repair => new GetClientHistoryDto
                 {
@@ -49,6 +50,7 @@ namespace Query.Clients.GetClientHistory
                     Model = repair.Car.Model,
                     RepairationDate = repair.CreatedAt,
                     Problems = repair.Problems,
+                    OwnerPhoneNumber = repair.Client.PhoneNumber,
                     Details = (ICollection<DetailInfo>)repair.Details.Select(detail => new DetailInfo
                     {
                         DetailName = detail.DetailName,

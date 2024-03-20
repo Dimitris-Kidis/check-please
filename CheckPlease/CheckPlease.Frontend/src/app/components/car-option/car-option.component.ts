@@ -77,6 +77,8 @@ export class CarOptionComponent implements OnInit {
   public mileageString: number;
   public yearString: number;
 
+  public newCar: CreateNewCar;
+
   public faArrowLeft = faArrowLeft;
   public faArrowRight = faArrowRight;
   public faPlus = faPlus;

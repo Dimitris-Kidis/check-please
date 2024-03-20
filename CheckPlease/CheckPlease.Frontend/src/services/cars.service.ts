@@ -16,12 +16,11 @@ export class CarsService {
 
   public createNewCar(command: CreateNewCar): Observable<any> {
     command.carSign = processInput(command.carSign, true);
-    command.vinCode = processInput(command.vinCode, true);
+    command.vinCode ? (command.vinCode = processInput(command.vinCode, true)) : null;
     return this._httpService.post<any>('api/cars', command);
   }
 
   public updateMileage(command: UpdateMileageCommand): Observable<any> {
-    console.log('4', command);
     return this._httpService.put<any>('api/cars/car', command);
   }
 }

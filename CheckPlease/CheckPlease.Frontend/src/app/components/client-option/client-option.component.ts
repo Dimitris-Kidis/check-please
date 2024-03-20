@@ -28,7 +28,10 @@ import { ClientHistory, ClientSearchResult } from 'src/models/search';
 import { ClientsService } from 'src/services/clients.service';
 import { SearchService } from 'src/services/search.service';
 import { SharedService } from 'src/services/shared-dropdown.service';
+import { ClientUserInput } from '../interfaces/client.interface';
 import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
+import { getClientOptionSchema, IClientOptionSchema } from './client-option.config';
+import { getClientOptionConfig } from './client-option.schema';
 
 @Component({
   selector: 'app-client-option',
@@ -47,6 +50,7 @@ import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.comp
 export class ClientOptionComponent implements OnInit {
   @ViewChild('searchBox') public searchBox: ElementRef;
   @ViewChild('phoneInput') public phoneInput: ElementRef;
+  @ViewChild('nameInput') public nameInput: ElementRef;
   @ViewChild('nextButton') public nextButton: ElementRef;
   @Output() public saveClientId = new EventEmitter<number>();
 
@@ -56,14 +60,23 @@ export class ClientOptionComponent implements OnInit {
   public overlayRef: OverlayRef;
   public isWindowOpen: boolean = false;
   public results$: Observable<ClientSearchResult[]>;
+  public config = getClientOptionConfig();
 
-  public fullName: string = '';
-  public phoneNumber: string = '';
+  public clientOption: ClientOptionData;
+
+  // public fullName: string = '';
+  // public phoneNumber: string = '';
   public currentClientId: number = 0;
 
-  public phoneString: string = '';
-  public jobString: string = '';
-  public nameString: string = '';
+  // public phoneString: string = '';
+  // public jobString: string = '';
+  // public nameString: string = '';
+
+  public userInputData: ClientUserInput;
+  // ; = {
+  //   phoneNumber: '',
+  //   fullName: '',
+  // };
 
   public faArrowLeft = faArrowLeft;
   public faArrowRight = faArrowRight;
@@ -84,7 +97,9 @@ export class ClientOptionComponent implements OnInit {
     private readonly cdr: ChangeDetectorRef,
     private readonly clientsService: ClientsService,
     private readonly toastrService: ToastrService,
-  ) {}
+  ) {
+    this.resetInputs();
+  }
 
   public get isCarInfoLoaded$(): Observable<boolean> {
     return this.isPersonInfoLoadingDone$.asObservable();
@@ -102,6 +117,10 @@ export class ClientOptionComponent implements OnInit {
 
   public ngOnInit(): void {
     this.goSearch();
+    this.clientOption = {
+      dto: { clientName: '' },
+      schema: getClientOptionSchema(),
+    };
   }
 
   public passClientId(): void {
@@ -116,9 +135,13 @@ export class ClientOptionComponent implements OnInit {
     setTimeout(() => {
       if (this.newClientSlider === 'in') {
         this.searchString = '';
-        this.phoneInput.nativeElement.focus();
-        this.fullName = '';
-        this.phoneNumber = '';
+        this.nameInput.nativeElement.focus();
+        // this.fullName = '';
+        // this.phoneNumber = '';
+        // for (const key in this.userInputData) {
+        //   this.userInputData[key] = '';
+        // }
+        this.resetInputs();
         this.cdr.detectChanges();
       }
     });
@@ -131,9 +154,7 @@ export class ClientOptionComponent implements OnInit {
 
     setTimeout(() => {
       if (this.existingClientSlider === 'in') {
-        this.jobString = '';
-        this.phoneString = '';
-        this.nameString = '';
+        this.resetInputs();
         this.searchBox.nativeElement.focus();
       }
     });
@@ -143,6 +164,13 @@ export class ClientOptionComponent implements OnInit {
     this.searchTerm.next(term);
     this.cdr.detectChanges();
     if (this.searchString !== '') this.openWindow();
+  }
+
+  public resetInputs(): void {
+    this.userInputData = {
+      fullName: '',
+      phoneNumber: '',
+    };
   }
 
   public checkForm(event: Event): boolean {
@@ -228,10 +256,10 @@ export class ClientOptionComponent implements OnInit {
   public createNewClient(): void {
     this.isLoadingDone$.next(false);
     const newClient: CreateNewClient = {
-      fullName: this.nameString,
-      phoneNumber: `${this.phoneString}`,
-      ...(this.jobString === '' ? {} : { jobTitle: this.jobString }),
+      ...this.userInputData,
     };
+
+    // newClient.fullName = this.clientOption.dto.clientName;
 
     this.clientsService
       .createNewClient(newClient)
@@ -244,9 +272,9 @@ export class ClientOptionComponent implements OnInit {
         ),
       )
       .subscribe((newClientId: number) => {
-        this.currentClientId = +newClientId;
-        this.phoneNumber = this.phoneString;
-        this.fullName = this.nameString;
+        this.currentClientId = newClientId;
+        // console.log(newClientId, +newClientId);
+        // this.currentClientId = +newClientId;
         this.nextButton.nativeElement.classList.remove('disabled');
         this.isLoadingDone$.next(true);
         this.newClientSlider = 'out';
@@ -257,12 +285,22 @@ export class ClientOptionComponent implements OnInit {
 
   public getCurrentClient(phoneNumber: string): void {
     this.searchService.searchClient(phoneNumber).subscribe((repairs: ClientHistory[]) => {
-      this.fullName = repairs[0].fullName;
-      this.phoneNumber = repairs[0].phoneNumber.replace(/<[^>]*>/g, '');
+      console.log(repairs);
+      this.userInputData.fullName = repairs[0].fullName;
+      this.userInputData.phoneNumber = repairs[0].phoneNumber.replace(/<[^>]*>/g, '');
       this.currentClientId = repairs[0].id;
       this.nextButton.nativeElement.classList.remove('disabled');
       this.cdr.detectChanges();
       this.isPersonInfoLoadingDone$.next(true);
     });
   }
+}
+
+export interface ClientOptionData {
+  dto: ClientOptionDto;
+  schema: IClientOptionSchema;
+}
+
+export interface ClientOptionDto {
+  clientName: string;
 }

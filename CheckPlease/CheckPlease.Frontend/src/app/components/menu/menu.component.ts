@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faDatabase, faPlus, faSearch, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { NavigationBlockGuard } from 'src/app/guards/navigation-block.guard';
 import { FilesService } from 'src/services/files.service';
 import { DateConvertPipe } from '../../pipes/date-convert.pipe';
 
@@ -20,7 +22,11 @@ export class MenuComponent {
 
   private isLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-  public constructor(private readonly filesService: FilesService) {
+  public constructor(
+    private readonly filesService: FilesService,
+    private readonly modalService: NavigationBlockGuard,
+    private readonly router: Router,
+  ) {
     library.add(faPlus);
   }
 
@@ -40,5 +46,9 @@ export class MenuComponent {
       a.download = `${pipe.transform(new Date().toString())}.xlsx`;
       a.click();
     });
+  }
+
+  public changeColor(): void {
+    // this.router.navigate(['not-found']);
   }
 }

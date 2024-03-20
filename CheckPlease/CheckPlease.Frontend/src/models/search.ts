@@ -31,6 +31,7 @@ export interface RepairHistory {
   volume?: string;
   brand?: string;
   model?: string;
+  ownerPhoneNumber: string;
   repairationDate: string;
   problems?: string;
   details?: Details[];
@@ -55,7 +56,6 @@ export interface ClientHistory {
   id: number;
   fullName: string;
   phoneNumber: string;
-  jobTitle: string;
 }
 
 export interface CarHistory {

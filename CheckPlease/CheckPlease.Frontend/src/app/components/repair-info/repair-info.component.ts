@@ -132,6 +132,7 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
       carId: 0,
       clientId: 0,
     };
+    console.log(repairData);
     this.passRepairData.emit(repairData);
   }
 

@@ -18,10 +18,12 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideToastr, ToastrModule } from 'ngx-toastr';
+import { TextEditControlComponent } from './common/controls/text-edit-control/text-edit-control.component';
 import { CarOptionComponent } from './components/car-option/car-option.component';
 import { ClientOptionComponent } from './components/client-option/client-option.component';
 import { DestroyBaseComponent } from './components/destroy-base/destroy-base.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { NotificationModalModule } from './components/notification-modal/notification-modal.module';
 import { RepairInfoComponent } from './components/repair-info/repair-info.component';
 import { RepairRowsComponent } from './components/repair-rows/repair-rows.component';
 import { RepairComponent } from './components/repair/repair.component';
@@ -31,6 +33,7 @@ import { SearchComponent } from './components/search/search.component';
 import { TRANSLATE_CONFIG } from './core/configs/translate.config';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { DateConvertPipe } from './pipes/date-convert.pipe';
+import { DefaultValuePipe } from './pipes/default-value.pipe';
 import { MileagePipe } from './pipes/mileage.pipe';
 import { SimpleTruncatePipe } from './pipes/simple-truncate.pipe';
 
@@ -57,6 +60,12 @@ library.add(faPlus);
     RepairsComponent,
     RepairRowsComponent,
   ],
+  exports: [SimpleTruncatePipe, MileagePipe, DateConvertPipe],
+  providers: [
+    provideAnimations(), // required animations providers
+    provideToastr(),
+  ],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -70,12 +79,9 @@ library.add(faPlus);
     DragDropModule,
     MatAutocompleteModule,
     TranslateModule.forRoot(TRANSLATE_CONFIG),
+    DefaultValuePipe,
+    NotificationModalModule,
+    TextEditControlComponent,
   ],
-  exports: [SimpleTruncatePipe, MileagePipe, DateConvertPipe],
-  providers: [
-    provideAnimations(), // required animations providers
-    provideToastr(),
-  ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}
