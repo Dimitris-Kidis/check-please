@@ -3,15 +3,11 @@ using ApplicationCore.Services.Repository.CheckRepository;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Query.Cars.FindCarsByCarSign;
-using Query.Cars.GetAllCars;
 using Query.Clients.GetClientHistory;
-using System;
-using System.Collections.Generic;
+
+using AutoMapper.QueryableExtensions;
+using System.Linq.Expressions;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Query.Repairs.GetRepairs
 {
@@ -36,74 +32,40 @@ namespace Query.Repairs.GetRepairs
 
         public async Task<IEnumerable<GetRepairsDto>> Handle(GetRepairsQuery request, CancellationToken cancellationToken)
         {
-
             var today = DateTimeOffset.Now.Date;
             var yesterday = DateTimeOffset.Now.Date.AddDays(-1);
 
-            var cars = _carsRepository.GetAll();
-            var repairs = _repairsRepository.GetAll();
-            var details = _detailsRepository.GetAll();
+            var tempList = new List<GetRepairsDto?>();
+            var resultList = new List<GetRepairsDto?>();
 
-            //var car2 = _carsRepository
-            //    .GetAll()
-            //    .Include(x => x.Repairs).ThenInclude(detai => detai.Details)
-            //.Where(car => car.CarSign.Contains(request.CarSign))
-            //.Where(car => !request.IsToday && car.CreatedAt.Date == today)
-            //.Where(car => !request.IsYesterday && car.CreatedAt.Date == yesterday)
-            //.Where(car => request.Date.Date != default(DateTimeOffset) && car.CreatedAt.Date == request.Date.Date)
-            //    .Select(x => new GetRepairsDto
-            //    {
-            //          Id = x.Repairs.Id,
-            //          Date = repair.CreatedAt,
-            //          CarSign = car.CarSign,
-            //          Mileage = car.Mileage,
-            //          Details = (IEnumerable<Detail>)repair.Details.Select(detail => new DetailInfo
-            //          {
-            //              DetailName = detail.DetailName,
-            //              PricePerOne = detail.PricePerOne,
-            //              Quantity = detail.Quantity,
-            //              DetailsPrice = ((detail.PricePerOne ?? 0) * (detail.Quantity ?? 0)),
-            //              RepairPrice = detail.RepairPrice,
-            //              TotalPrice = ((detail.PricePerOne ?? 0) * (detail.Quantity ?? 0)) + detail.RepairPrice
-            //          })
-            //    })
-            //    .ToList();
+            var carsList = await _repairsRepository
+                .GetAll()
+                .Where(r => r.Car.CarSign.Contains(request.CarSign.ToUpper()))
+                .ProjectTo<GetRepairsDto?>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
-            var l = request.IsToday.Value;
+            if (request.IsToday.HasValue && request.IsToday.Value)
+            {
+                tempList = carsList.Where(x => !request.IsToday.Value || x.Date.Date == today).ToList();
+                if (tempList.Count > 0) resultList = resultList.Concat(tempList).ToList();
+            }
 
-            var carsInfuo = 
-                cars
-                .Where(car => car.CarSign.Contains(request.CarSign))
-                .Where(car => !request.IsToday.Value || car.CreatedAt.Date == today)
-                .ToList();
+            if (request.IsYesterday.HasValue && request.IsYesterday.Value)
+            {
+                tempList = carsList.Where(x => !request.IsYesterday.Value || x.Date.Date == yesterday).ToList();
+                if (tempList.Count > 0) resultList = resultList.Concat(tempList).ToList();
+            }
 
-            var carsInfo = await
-                 (from repair in repairs
-                  join car in cars on repair.CarId equals car.Id
-                  where car.CarSign.Contains(request.CarSign)
-                  where !request.IsToday.Value || repair.CreatedAt.Date == today
-                  where !request.IsYesterday.Value || repair.CreatedAt.Date == yesterday
-                  where request.Date == null || repair.CreatedAt.Date == request.Date.Value.Date
-                  select new GetRepairsDto
-                  {
-                      Id = repair.Id,
-                      Date = repair.CreatedAt,
-                      CarSign = car.CarSign,
-                      Mileage = car.Mileage,
-                      Details = repair.Details.Select(detail => new DetailInfo
-                      {
-                          DetailName = detail.DetailName,
-                          PricePerOne = detail.PricePerOne,
-                          Quantity = detail.Quantity,
-                          DetailsPrice = detail.DetailsPrice,
-                          RepairPrice = detail.RepairPrice,
-                          TotalPrice = detail.TotalPrice
-                      })
-                  })
-                  .OrderByDescending(repair => repair.Date)
-                  .ToListAsync(cancellationToken);
+            if (request.Date != null && (request.Date.Value.Date != today || request.Date.Value.Date != yesterday))
+            {
+                tempList = carsList.Where(x => !request.Date.HasValue || x.Date.Date == request.Date.Value.Date).ToList();
+                if (tempList.Count > 0) resultList = resultList.Concat(tempList).ToList();
+            }
 
-            return carsInfo.Select(_mapper.Map<GetRepairsDto>);
+            return (resultList.Count > 0 ? resultList : carsList)
+                .DistinctBy(x => x.Id)
+                .OrderByDescending(x => x.Date)
+                .Select(_mapper.Map<GetRepairsDto>);
         }
     }
 }

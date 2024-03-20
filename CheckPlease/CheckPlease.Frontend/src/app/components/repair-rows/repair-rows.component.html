@@ -1,0 +1,94 @@
+<form
+  [formGroup]="myForm"
+  class="form"
+>
+  <div
+    formArrayName="details"
+    class="details-container"
+    cdkDropList
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div
+      *ngFor="let detail of details.controls; let i = index"
+      [formGroupName]="i"
+      class="one-detail"
+      #inputs
+      cdkDrag
+      [cdkDragData]="i"
+    >
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option
+          *ngFor="let option of filteredOptions(i)"
+          [value]="option"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+      <input
+        class="detail-input"
+        type="text"
+        formControlName="detailName"
+        placeholder="Название"
+        cdkDragHandle
+      />
+      <!-- [matAutocomplete]="auto"
+        (input)="onInput($event, i)" -->
+      <!-- [formControl]="detailsArray.at(i).get()" -->
+
+      <input
+        class="detail-input"
+        type="number"
+        formControlName="pricePerOne"
+        placeholder="Цена за 1 шт."
+        (input)="calculateTotal(i)"
+      />
+      <input
+        class="detail-input"
+        type="number"
+        formControlName="quantity"
+        placeholder="Количество"
+        (input)="calculateTotal(i)"
+      />
+      <input
+        class="detail-input readonly"
+        type="number"
+        placeholder="Стоимость запчастей"
+        readonly
+        [value]="getSubtotal(i)"
+      />
+      <input
+        class="detail-input"
+        type="number"
+        formControlName="repairPrice"
+        placeholder="Работа"
+        (input)="calculateTotal(i)"
+      />
+      <input
+        class="detail-input readonly"
+        type="number"
+        placeholder="Всего"
+        readonly
+        [value]="getTotal(i)"
+      />
+
+      <span
+        *ngIf="details.controls.length > 1"
+        (click)="removeControl(i)"
+      >
+        <fa-icon
+          class="trash-icon"
+          [icon]="faTrashCan"
+        ></fa-icon>
+      </span>
+    </div>
+  </div>
+  <button
+    class="add-button"
+    (click)="addDetail()"
+  >
+    <fa-icon
+      class="add-icon"
+      [icon]="faPlus"
+    ></fa-icon>
+  </button>
+</form>

@@ -1,19 +1,34 @@
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { OverlayRef, Overlay, OverlayPositionBuilder, FlexibleConnectedPositionStrategy, BlockScrollStrategy } from '@angular/cdk/overlay';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  BlockScrollStrategy,
+  FlexibleConnectedPositionStrategy,
+  Overlay,
+  OverlayPositionBuilder,
+  OverlayRef,
+} from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Injector, OnInit, Output, ViewChild } from '@angular/core';
-import { faArrowLeft, faArrowRight, faCar, faPlus, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
-import { CreateNewClient } from 'src/app/commands/client-commands';
-import { ClientSearchResult, ClientHistory, RepairHistory, CarHistory } from 'src/models/search';
-import { ClientsService } from 'src/services/clients.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Injector,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { faArrowLeft, faArrowRight, faCar, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
+import { CreateNewCar } from 'src/app/commands/car-commands';
+import { CarHistory, ClientSearchResult } from 'src/models/search';
+import { CarsService } from 'src/services/cars.service';
 import { SearchService } from 'src/services/search.service';
 import { SharedService } from 'src/services/shared-dropdown.service';
 import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
-import { CarsService } from 'src/services/cars.service';
-import { CreateNewCar } from 'src/app/commands/car-commands';
-import { ToastrService } from 'ngx-toastr';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-car-option',
@@ -21,24 +36,29 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./car-option.component.scss'],
   animations: [
     trigger('slideInOut', [
-      state('in', style({ 'overflow-y': 'hidden', 'height': '*'})),
-      state('out', style({ 'overflow-y': 'hidden', 'height': '0px'})),
+      state('in', style({ 'overflow-y': 'hidden', height: '*' })),
+      state('out', style({ 'overflow-y': 'hidden', height: '0px' })),
       transition('in => out', animate('400ms ease-in-out')),
-      transition('out => in', animate('400ms ease-in-out'))
-    ])
+      transition('out => in', animate('400ms ease-in-out')),
+    ]),
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarOptionComponent implements OnInit{
-  public newCarSlider: string = 'out';
+export class CarOptionComponent implements OnInit {
+  @ViewChild('searchBox') public searchBox: ElementRef;
+  @ViewChild('nextButton') public nextButton: ElementRef;
+  @Output() public saveCarId = new EventEmitter<number>();
+  @Output() public newCarMileage = new EventEmitter<number>();
+
+  @ViewChild('carSignInput') public carSignInput: ElementRef;
+  @ViewChild('vinCodeInput') public vinCodeInput: ElementRef;
+
+  public newCarSlider = 'out';
   public existingCarSlider: string = 'out';
   public searchString: string = '';
-  private searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public overlayRef: OverlayRef;
-  public isWindowOpen: boolean = false;
-  private isPersonInfoLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  private isLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public results$: Observable<ClientSearchResult[]>;
+  public isWindowOpen: boolean = false;
 
   public carSign: string = '';
   public vinCode: string = '';
@@ -49,7 +69,6 @@ export class CarOptionComponent implements OnInit{
   public model: string = '';
   public currentCarId: number = 0;
 
-
   public carSignString: string = '';
   public vinCodeString: string = '';
   public volumeString: string = '';
@@ -58,39 +77,44 @@ export class CarOptionComponent implements OnInit{
   public mileageString: number;
   public yearString: number;
 
-  @ViewChild('searchBox') searchBox: ElementRef;
-  @ViewChild('nextButton') nextButton: ElementRef;
-  @Output() saveCarId = new EventEmitter<number>();
-  @Output() newCarMileage = new EventEmitter<number>();
+  public newCar: CreateNewCar;
 
-  @ViewChild('carSignInput') carSignInput: ElementRef;
-  @ViewChild('vinCodeInput') vinCodeInput: ElementRef;
-  // @ViewChild('carSignInput') carSignInput: ElementRef;
-  // @ViewChild('carSignInput') carSignInput: ElementRef;
-  // @ViewChild('carSignInput') carSignInput: ElementRef;
-  // @ViewChild('carSignInput') carSignInput: ElementRef;
-  // @ViewChild('carSignInput') carSignInput: ElementRef;
+  public faArrowLeft = faArrowLeft;
+  public faArrowRight = faArrowRight;
+  public faPlus = faPlus;
+  public faSearch = faSearch;
+  public faCar = faCar;
 
-  faArrowLeft = faArrowLeft;
-  faArrowRight = faArrowRight;
-  faPlus = faPlus;
-  faSearch = faSearch;
-  faCar = faCar;
+  private searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  private isPersonInfoLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  private isLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-  constructor(
-    private overlay: Overlay,
-    private overlayPositionBuilder: OverlayPositionBuilder,
-    private injector: Injector,
-    private searchService: SearchService,
-    private sharedService: SharedService,
+  public constructor(
+    private readonly overlay: Overlay,
+    private readonly overlayPositionBuilder: OverlayPositionBuilder,
+    private readonly injector: Injector,
+    private readonly searchService: SearchService,
+    private readonly sharedService: SharedService,
     private readonly cdr: ChangeDetectorRef,
-    private carsService: CarsService,
-    private toastrService: ToastrService,
-  ) {
+    private readonly carsService: CarsService,
+    private readonly toastrService: ToastrService,
+  ) {}
 
+  public get isCarInfoLoaded$(): Observable<boolean> {
+    return this.isPersonInfoLoadingDone$.asObservable();
   }
 
-  ngOnInit(): void {
+  public get isLoaded$(): Observable<boolean> {
+    return this.isLoadingDone$.asObservable();
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  public enterPress(event: KeyboardEvent): void {
+    this.checkForm(event);
+    event.preventDefault();
+  }
+
+  public ngOnInit(): void {
     this.goSearch();
   }
 
@@ -102,17 +126,11 @@ export class CarOptionComponent implements OnInit{
     this.newCarMileage.emit(this.mileage);
   }
 
-  @HostListener('document:keydown.enter', ['$event'])
-  enterPress(event: KeyboardEvent) {
-    this.checkForm(event);
-    event.preventDefault();
-  }
-
   public toggleNewCarForm(): void {
-    if (this.newCarSlider === 'out' ) this.closeWindow('manual');
+    if (this.newCarSlider === 'out') this.closeWindow('manual');
     this.newCarSlider = this.newCarSlider === 'out' ? 'in' : 'out';
     this.existingCarSlider = 'out';
-    this.searchString = ''
+    this.searchString = '';
     setTimeout(() => {
       if (this.newCarSlider === 'in') {
         this.searchString = '';
@@ -130,10 +148,10 @@ export class CarOptionComponent implements OnInit{
   }
 
   public toggleExistingCarForm(): void {
-    if (this.existingCarSlider === 'in' ) this.closeWindow('manual');
+    if (this.existingCarSlider === 'in') this.closeWindow('manual');
     this.existingCarSlider = this.existingCarSlider === 'out' ? 'in' : 'out';
     this.newCarSlider = 'out';
-    
+
     setTimeout(() => {
       if (this.existingCarSlider === 'in') {
         this.carSignString = '';
@@ -166,7 +184,7 @@ export class CarOptionComponent implements OnInit{
       return true;
     }
   }
-  
+
   public openWindow(): void {
     if (this.isWindowOpen) return;
 
@@ -201,11 +219,10 @@ export class CarOptionComponent implements OnInit{
         },
       ],
     });
-    
+
     overlayRef.attach(new ComponentPortal(SearchDropdownComponent, null, injector));
     this.overlayRef = overlayRef;
   }
-
 
   public closeWindow(type: string = 'auto'): void {
     if (!this.overlayRef) return;
@@ -223,7 +240,6 @@ export class CarOptionComponent implements OnInit{
       this.overlayRef.dispose();
       this.cdr.detectChanges();
     }
-    
   }
 
   public goSearch(): void {
@@ -242,21 +258,23 @@ export class CarOptionComponent implements OnInit{
       carSign: this.carSignString,
       vinCode: this.vinCodeString,
       mileage: this.mileageString,
-      ...(this.volumeString === '' || !this.volumeString ? {} : {volume: `${this.volumeString}`}),
-      ...(this.brandString === '' || !this.brandString ? {} : {brand: `${this.brandString}`}),
-      ...(this.modelString === '' || !this.modelString ? {} : {model: `${this.modelString}`}),
-      ...(this.yearString === 0 || !this.yearString ? {} : {year: this.yearString}),
+      ...(this.volumeString === '' || !this.volumeString ? {} : { volume: `${this.volumeString}` }),
+      ...(this.brandString === '' || !this.brandString ? {} : { brand: `${this.brandString}` }),
+      ...(this.modelString === '' || !this.modelString ? {} : { model: `${this.modelString}` }),
+      ...(this.yearString === 0 || !this.yearString ? {} : { year: this.yearString }),
     };
-    console.log(newCar)
-    this.carsService.createNewCar(newCar)
-    .pipe(
-      catchError((err: HttpErrorResponse) => throwError(() => {
-        this.isLoadingDone$.next(true);
-        this.sharedService.displayErrors(err)
-      }))
-    )
-    .subscribe(
-      (newCarId: number) => {
+    console.log(newCar);
+    this.carsService
+      .createNewCar(newCar)
+      .pipe(
+        catchError((err: HttpErrorResponse) =>
+          throwError(() => {
+            this.isLoadingDone$.next(true);
+            this.sharedService.displayErrors(err);
+          }),
+        ),
+      )
+      .subscribe((newCarId: number) => {
         this.currentCarId = +newCarId;
         this.carSign = this.carSignString;
         this.vinCode = this.vinCodeString;
@@ -269,35 +287,24 @@ export class CarOptionComponent implements OnInit{
         this.newCarSlider = 'out';
         this.isLoadingDone$.next(true);
         this.passNewCarMileage();
-        this.toastrService.success('Машина успешно добавлена в базу данных!')
+        this.toastrService.success('Машина успешно добавлена в базу данных!');
         this.cdr.detectChanges();
-      }
-    );
+      });
   }
 
   public getCurrentCar(carSign: string): void {
-    this.searchService.searchCar(carSign).subscribe(
-      (repairs: CarHistory[]) => {
-        this.carSign = repairs[0].carSign.replace(/<[^>]*>/g, '');
-        this.vinCode = repairs[0].vinCode ?? '';
-        this.mileage = repairs[0].mileage ?? 0;
-        this.year = repairs[0].year ?? 0;
-        this.volume = repairs[0].volume ?? '';
-        this.brand = repairs[0].brand ?? '';
-        this.model = repairs[0].model ?? '';
-        this.currentCarId = repairs[0].id;
-        this.nextButton.nativeElement.classList.remove('disabled');
-        this.cdr.detectChanges();
-        this.isPersonInfoLoadingDone$.next(true);
-      }
-    );
-  }
-
-  public get isCarInfoLoaded$(): Observable<boolean> {
-    return this.isPersonInfoLoadingDone$.asObservable();
-  }
-
-  public get isLoaded$(): Observable<boolean> {
-    return this.isLoadingDone$.asObservable();
+    this.searchService.searchCar(carSign).subscribe((repairs: CarHistory[]) => {
+      this.carSign = repairs[0].carSign.replace(/<[^>]*>/g, '');
+      this.vinCode = repairs[0].vinCode ?? '';
+      this.mileage = repairs[0].mileage ?? 0;
+      this.year = repairs[0].year ?? 0;
+      this.volume = repairs[0].volume ?? '';
+      this.brand = repairs[0].brand ?? '';
+      this.model = repairs[0].model ?? '';
+      this.currentCarId = repairs[0].id;
+      this.nextButton.nativeElement.classList.remove('disabled');
+      this.cdr.detectChanges();
+      this.isPersonInfoLoadingDone$.next(true);
+    });
   }
 }

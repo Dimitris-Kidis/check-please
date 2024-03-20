@@ -3,14 +3,10 @@
   "globals": {
     "__dirname": true
   },
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
         "project": ["**/tsconfig.json"],
         "createDefaultProgram": true
@@ -28,7 +24,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "app",
+            "prefix": "",
             "style": "camelCase"
           }
         ],
@@ -49,6 +45,7 @@
             "exceptAfterSingleLine": true
           }
         ],
+        "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-shadow": "off",
         "@typescript-eslint/no-unused-vars": [
           "error",
@@ -78,12 +75,8 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
         "@angular-eslint/template/eqeqeq": [
           "error",

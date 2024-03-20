@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { DestroyBaseComponent } from '../destroy-base/destroy-base.component';
 import { SizeOptions } from 'src/app/enums/size-options';
+import { DestroyBaseComponent } from '../destroy-base/destroy-base.component';
 
 export type LoadingSize = 'tiny' | 'small' | 'medium' | 'large';
 
@@ -10,13 +10,13 @@ export type LoadingSize = 'tiny' | 'small' | 'medium' | 'large';
   styleUrls: ['./loading.component.scss'],
 })
 export class LoadingComponent extends DestroyBaseComponent {
-  @Input() set loaderSize(value: LoadingSize) {
-    this.size = SizeOptions[value];
+  public size: string = SizeOptions.medium;
+
+  public constructor() {
+    super();
   }
 
-  size: string = SizeOptions.medium;
-
-  constructor() {
-    super();
+  @Input() public set loaderSize(value: LoadingSize) {
+    this.size = SizeOptions[value];
   }
 }

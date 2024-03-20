@@ -23,36 +23,40 @@ import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.comp
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit, AfterViewInit {
+  @ViewChild('searchBox') public searchBox: HTMLElement;
+  @ViewChild('searchBox') public input: ElementRef;
+  @ViewChild(CdkOverlayOrigin, { static: false }) public overlayOrigin: CdkOverlayOrigin;
+
   public results$: Observable<CarSearchResult[]>;
   public currentRepairs: RepairHistory[];
   public searchString: string = '';
-  private searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  private isCarInfoLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public overlayRef: OverlayRef;
   public isWindowOpen: boolean = false;
 
-  @ViewChild('searchBox') searchBox: HTMLElement;
-  @ViewChild('searchBox') input: ElementRef;
-  @ViewChild(CdkOverlayOrigin, { static: false }) overlayOrigin: CdkOverlayOrigin;
+  public faArrow = faArrowLeft;
+  public faDownload = faDownload;
 
-  faArrow = faArrowLeft;
-  faDownload = faDownload;
+  private searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  private isCarInfoLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-  constructor(
-    private searchService: SearchService,
-    private overlay: Overlay,
-    private overlayPositionBuilder: OverlayPositionBuilder,
-    private injector: Injector,
-    private sharedService: SharedService,
-    private filesService: FilesService,
+  public constructor(
+    private readonly searchService: SearchService,
+    private readonly overlay: Overlay,
+    private readonly overlayPositionBuilder: OverlayPositionBuilder,
+    private readonly injector: Injector,
+    private readonly sharedService: SharedService,
+    private readonly filesService: FilesService,
   ) {}
 
-  ngOnInit(): void {
-    console.log('test-change');
+  public get isCarInfoLoaded$(): Observable<boolean> {
+    return this.isCarInfoLoadingDone$.asObservable();
+  }
+
+  public ngOnInit(): void {
     this.goSearch();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.input.nativeElement.focus();
   }
 
@@ -111,7 +115,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.overlayRef = overlayRef;
   }
 
-  public closeWindow() {
+  public closeWindow(): void {
     if (this.overlayRef) {
       this.overlayRef.backdropClick().subscribe(() => {
         this.overlayRef.detach();
@@ -120,7 +124,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public closeWindowMenu() {
+  public closeWindowMenu(): void {
     if (this.overlayRef) {
       this.overlayRef.detach();
       this.overlayRef.dispose();
@@ -142,9 +146,5 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.currentRepairs = repairs;
       this.isCarInfoLoadingDone$.next(true);
     });
-  }
-
-  public get isCarInfoLoaded$(): Observable<boolean> {
-    return this.isCarInfoLoadingDone$.asObservable();
   }
 }

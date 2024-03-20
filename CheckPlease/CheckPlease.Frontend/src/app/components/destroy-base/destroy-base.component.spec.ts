@@ -8,9 +8,8 @@ describe('DestroyBaseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DestroyBaseComponent ]
-    })
-    .compileComponents();
+      declarations: [DestroyBaseComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DestroyBaseComponent);
     component = fixture.componentInstance;

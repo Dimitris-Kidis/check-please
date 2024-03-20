@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="EPPlus" Version="6.2.4" />
     <PackageReference Include="Handlebars.Net" Version="2.1.4" />
     <PackageReference Include="MediatR" Version="11.1.0" />

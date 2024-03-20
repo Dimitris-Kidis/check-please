@@ -222,6 +222,9 @@ namespace ApplicationCore.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
+                    b.Property<int>("TotalRepairPrice")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");

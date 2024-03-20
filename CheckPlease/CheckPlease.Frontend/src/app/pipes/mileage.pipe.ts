@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'mileage',
 })
 export class MileagePipe implements PipeTransform {
-  transform(mileage: number | string): string {
+  public transform(mileage: number | string): string {
     if (typeof mileage === 'string') return mileage + ' km';
     return mileage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' km';
   }

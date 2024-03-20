@@ -1,4 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -18,12 +19,8 @@ import { CreateDetailCommand, CreateRepairCommand } from 'src/app/commands/repai
 import { CarsService } from 'src/services/cars.service';
 import { ClientsService } from 'src/services/clients.service';
 import { FilesService } from 'src/services/files.service';
+import { RepairRowsComponent } from '../repair-rows/repair-rows.component';
 
-enum DetailInputs {
-  pricePerOne = 'pricePerOne',
-  quantity = 'quantity',
-  repairPrice = 'repairPrice',
-}
 @Component({
   selector: 'app-repair-info',
   templateUrl: './repair-info.component.html',
@@ -39,45 +36,62 @@ enum DetailInputs {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RepairInfoComponent implements OnInit, AfterViewInit {
-  myForm: FormGroup;
+  @Output() public passRepairData = new EventEmitter<CreateRepairCommand>();
+
+  @Input() public newMileage: number;
+
+  @ViewChild(RepairRowsComponent) public rows: RepairRowsComponent;
+  @ViewChild('mileageInput') public mileageInput: ElementRef;
+  @ViewChild('inputs') public inputs: ElementRef;
+
+  public myForm: FormGroup;
   public mileage: number;
   public problems: string = '';
+  public detailsPrice: number;
+
+  public faArrowLeft = faArrowLeft;
+  public faDownload = faDownload;
+  public faPlus = faPlus;
+  public faTrashCan = faTrashCan;
 
   private isLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  @Output() passRepairData = new EventEmitter<CreateRepairCommand>();
 
-  @Input() newMileage: number;
-
-  @ViewChild('mileageInput') mileageInput: ElementRef;
-  @ViewChild('inputs') inputs: ElementRef;
-
-  faArrowLeft = faArrowLeft;
-  faDownload = faDownload;
-  faPlus = faPlus;
-  faTrashCan = faTrashCan;
-
-  constructor(
+  public constructor(
     private readonly cdr: ChangeDetectorRef,
-    private clientsService: ClientsService,
-    private fb: FormBuilder,
-    private filesService: FilesService,
-    private carService: CarsService,
+    private readonly clientsService: ClientsService,
+    private readonly fb: FormBuilder,
+    private readonly filesService: FilesService,
+    private readonly carService: CarsService,
   ) {}
 
-  ngOnInit(): void {
+  public get isLoaded$(): Observable<boolean> {
+    return this.isLoadingDone$.asObservable();
+  }
+
+  public get details(): FormArray {
+    return this.myForm.get('details') as FormArray;
+  }
+
+  public get detailsArray(): FormArray {
+    return this.myForm.get('details') as FormArray;
+  }
+
+  public ngOnInit(): void {
     this.myForm = this.fb.group({
       details: this.fb.array([this.createDetail()]),
     });
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.newMileage ? (this.mileage = this.newMileage) : this.mileageInput.nativeElement.focus();
+    this.cdr.detectChanges();
   }
 
   public passRepairInfo(): void {
     this.isLoadingDone$.next(false);
 
-    const details: CreateDetailCommand[] = this.myForm.value.details;
+    // const details: CreateDetailCommand[] = this.myForm.value.details;
+    const details: CreateDetailCommand[] = this.rows.myForm.value.details;
 
     console.log('DET', details);
     details.forEach((detail) => {
@@ -111,7 +125,6 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
     //     0 :
     //     this.myForm.value.details[length].repairPrice;
     // }
-    console.log('repair-info ' + this.mileage);
     const repairData: CreateRepairCommand = {
       mileage: !this.mileage || this.mileage === undefined ? 0 : this.mileage,
       problems: this.problems,
@@ -119,7 +132,35 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
       carId: 0,
       clientId: 0,
     };
+    console.log(repairData);
     this.passRepairData.emit(repairData);
+  }
+
+  public drop(event: CdkDragDrop<string[]>): void {
+    const currentIndex = event.currentIndex;
+    const previousIndex = event.previousIndex;
+
+    if (currentIndex !== previousIndex) {
+      // this.details.controls = this.moveItemInFormArray(this.details.controls, previousIndex, currentIndex);
+      const controls = this.details.controls;
+      const controlToMove = controls[previousIndex];
+
+      controls.splice(previousIndex, 1);
+      controls.splice(currentIndex, 0, controlToMove);
+
+      this.myForm.setControl('details', this.fb.array(controls));
+    }
+
+    // const prevIndex = this.details.controls[event.item.data];
+    // moveItemInArray(this.details.controls, prevIndex, event.currentIndex);
+  }
+
+  public moveItemInFormArray(formArray: FormArray, fromIndex: number, toIndex: number): FormArray {
+    const controlToMove = formArray.at(fromIndex);
+    formArray.removeAt(fromIndex);
+    formArray.insert(toIndex, controlToMove);
+
+    return formArray;
   }
 
   public stopLoading(): void {
@@ -139,14 +180,6 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
   //     }
   //   )
   // }
-
-  public get isLoaded$(): Observable<boolean> {
-    return this.isLoadingDone$.asObservable();
-  }
-
-  public get details(): FormArray {
-    return this.myForm.get('details') as FormArray;
-  }
 
   public addDetail(): void {
     this.details.push(this.createDetail());
@@ -173,17 +206,7 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public detailsPrice: number;
-
-  updateTotals(index: number) {
-    console.log(index);
-  }
-
-  get detailsArray(): FormArray {
-    return this.myForm.get('details') as FormArray;
-  }
-
-  calculateTotal(index: number) {
+  public calculateTotal(index: number): void {
     const detail = this.detailsArray.at(index);
 
     const pricePerOne = detail.get('pricePerOne')?.value;
@@ -197,11 +220,11 @@ export class RepairInfoComponent implements OnInit, AfterViewInit {
     detail.get('total')?.setValue(total);
   }
 
-  getSubtotal(index: number) {
+  public getSubtotal(index: number): number {
     return this.detailsArray.at(index).get('subtotal')?.value;
   }
 
-  getTotal(index: number) {
+  public getTotal(index: number): number {
     return this.detailsArray.at(index).get('total')?.value;
   }
 }

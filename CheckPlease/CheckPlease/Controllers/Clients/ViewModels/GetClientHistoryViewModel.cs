@@ -13,6 +13,7 @@ namespace CheckPlease.Controllers.Clients.ViewModels
         public string? Volume { get; set; }
         public string? Brand { get; set; }
         public string? Model { get; set; }
+        public string? OwnerPhoneNumber { get; set; }
         public DateTimeOffset RepairationDate { get; set; }
         public string? Problems { get; set; }
         public ICollection<DetailInfo> Details { get; set; }

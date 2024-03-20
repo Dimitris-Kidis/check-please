@@ -15,5 +15,6 @@ namespace ApplicationCore.Domain.Entities
         public Client Client { get; set; }
         public int CarId { get; set; }
         public Car Car { get; set; }
+        public int TotalRepairPrice {  get; set; }
     }
 }

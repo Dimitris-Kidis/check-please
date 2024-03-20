@@ -16,10 +16,6 @@ namespace Command.Car.CreateCar
                 .MinimumLength(3).WithMessage("Минимальная длина номеров - три символа.")
                 .MaximumLength(8).WithMessage("Максимальная длина номеров - восемь символа.");
 
-            RuleFor(car => car.VinCode)
-                //.NotEmpty().WithMessage("Поле вин-кода не может быть пустым.")
-                .Length(17).WithMessage((value) => $"Вин-код должен быть ровно 17 символов в длину. Вы ввели {value.VinCode.Length}");
-
             RuleFor(car => car.Mileage)
                 .NotEmpty().WithMessage("Поле пробега обязательно.")
                 .InclusiveBetween(10000, 1000000).WithMessage("Диапазон пробега может быть от 10.000 до 1.000.000 км.");

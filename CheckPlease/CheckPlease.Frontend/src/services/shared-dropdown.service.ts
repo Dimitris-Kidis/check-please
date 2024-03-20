@@ -1,27 +1,26 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Observable, catchError, map, of, throwError } from 'rxjs';
-import { CarSearchResult, RepairHistory } from 'src/models/search';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedService {
-    private selectedItemSource = new BehaviorSubject<string>('');
-    selectedItem$ = this.selectedItemSource.asObservable();
+  private selectedItemSource = new BehaviorSubject<string>('');
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public selectedItem$ = this.selectedItemSource.asObservable();
 
-    constructor(private toastrService: ToastrService) {
-    }
+  public constructor(private readonly toastrService: ToastrService) {}
 
-    selectItem(item: string) {
-        this.selectedItemSource.next(item);
-    }
+  public selectItem(item: string): void {
+    this.selectedItemSource.next(item);
+  }
 
-    public displayErrors(error: HttpErrorResponse) {
-      const err = error.error.errors;
-      for (const key in err) {
-        this.toastrService.error(err[key], 'Ошибка')
-      }
+  public displayErrors(error: HttpErrorResponse): void {
+    const err = error.error.errors;
+    for (const key in err) {
+      this.toastrService.error(err[key], 'Ошибка');
     }
+  }
 }

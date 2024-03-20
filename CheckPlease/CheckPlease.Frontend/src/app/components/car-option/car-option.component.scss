@@ -1,148 +1,143 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: 30px;
+  min-height: 90vh;
+
+  .new-form {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    position: relative;
-    margin-top: 30px;
-    min-height: 90vh;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
 
-    .new-form {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 90%;
+    .add-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60%;
+      border-radius: 16px;
+      font-size: 16px;
+      height: 42px;
+      padding: 8px 16px;
+      margin-bottom: 15px;
+      color: white;
+      transition: filter 0.3s ease;
+      background-color: #49cc90;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
 
-        .add-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60%;
-            border-radius: 16px;
-            font-size: 16px;
-            height: 42px;
-            padding: 8px 16px;
-            margin-bottom: 15px;
-            color: white;
-            transition: filter 0.3s ease;
-            background-color: #49cc90;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
-
-            &:hover {
-                filter: brightness(90%);
-            }
-        }
-
-        input {
-            width: 80%;
-            padding: 15px;
-            font-size: 20px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            border: none;
-            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
-            box-sizing: border-box;
-            outline: none;
-        }
-    }
-    
-
-    .button-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60%;
-        border-radius: 16px;
-        padding: 15px 30px;
-        margin-bottom: 15px;
-        color: white;
-        transition: filter 0.3s ease;
-        cursor: pointer;
-        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
-
-        &:hover {
-            filter: brightness(90%);
-        }
-
-        .back-icon {
-            margin-right: 10px;
-        }
-
-        .go-icon {
-            margin-left: 10px;
-        }
-
-        .go-back-btn {
-
-        }
+      &:hover {
+        filter: brightness(90%);
+      }
     }
 
-    .back-button {
-        background-color: #61affe;
-        // width: 25%;
-        // position: absolute;
-        bottom: 0;
+    input {
+      width: 80%;
+      padding: 15px;
+      font-size: 20px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+      border: none;
+      box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+      box-sizing: border-box;
+      outline: none;
+    }
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    border-radius: 16px;
+    padding: 15px 30px;
+    margin-bottom: 15px;
+    color: white;
+    transition: filter 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      filter: brightness(90%);
     }
 
-    .go-button {
-        background-color: #61affe;
-        margin-left: 20px;
+    .back-icon {
+      margin-right: 10px;
     }
 
-    .new-car-button {
-        background-color: #49cc90;
+    .go-icon {
+      margin-left: 10px;
     }
 
-    .find-existing {
-        background-color: #fca130;
+    .go-back-btn {
+    }
+  }
+
+  .back-button {
+    background-color: #61affe;
+    // width: 25%;
+    // position: absolute;
+    bottom: 0;
+  }
+
+  .go-button {
+    background-color: #61affe;
+    margin-left: 20px;
+  }
+
+  .new-car-button {
+    background-color: #49cc90;
+  }
+
+  .find-existing {
+    background-color: #fca130;
+  }
+
+  .nav-buttons {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+  }
+
+  .current-car {
+    background-color: rgb(255, 206, 206);
+    padding: 20px 40px;
+    // border: 1px dashed white;
+    border-radius: 30px;
+    position: absolute;
+    bottom: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+
+    .car-icon {
+      font-size: 30px;
+      color: rgb(79, 79, 79);
+      margin-right: 15px;
     }
 
-    .nav-buttons {
-        position: absolute;
-        bottom: 0;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        width: 80%;
+    .car-info {
+      display: flex;
+      flex-direction: column;
+
+      .car-name {
+        margin-bottom: 5px;
+      }
     }
-
-    .current-car {
-        background-color: rgb(255, 206, 206);
-        padding: 20px 40px;
-        // border: 1px dashed white;
-        border-radius: 30px;
-        position: absolute;
-        bottom: 30%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        width:fit-content;
-
-        .car-icon {
-            font-size: 30px;
-            color: rgb(79, 79, 79);
-            margin-right: 15px;
-        }
-
-        .car-info {
-            display: flex;
-            flex-direction: column;
-
-            .car-name {
-                margin-bottom: 5px;
-            }
-
-        }
-        
-    }
+  }
 }
 
 .disabled {
-
-    background-color: #c0c0c0 !important;
-    cursor: not-allowed !important;
+  background-color: #c0c0c0 !important;
+  cursor: not-allowed !important;
 }
