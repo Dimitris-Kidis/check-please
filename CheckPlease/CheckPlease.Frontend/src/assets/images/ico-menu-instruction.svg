@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+<style type="text/css">
+	.instructions-st0{fill:none;}
+	.instructions-st1{fill:currentColor;}
+</style>
+<path class="instructions-st0" d="M0,0h24v24H0V0z"/>
+<path id="Union_1" class="instructions-st1 color-fill" d="M5,10.4L5,10.4L0.4,6.5L2,4.6l4.6,3.9l6.2-7.4l1.9,1.6l-6.2,7.4l0,0l-1.6,1.9L5,10.4z"/>
+<rect x="15.3" y="8.3" class="instructions-st1 color-fill" width="7.3" height="2.3"/>
+<rect x="8.1" y="14.3" class="instructions-st1 color-fill" width="14.5" height="2.3"/>
+<rect x="0.4" y="19.9" class="instructions-st1 color-fill" width="22.2" height="2.3"/>
+</svg>

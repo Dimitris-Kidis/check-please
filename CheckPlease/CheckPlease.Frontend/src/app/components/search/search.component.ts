@@ -7,20 +7,41 @@ import {
   OverlayRef,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { IconsModule } from 'src/app/icons/icons.module';
+import { DateConvertPipe } from 'src/app/pipes/date-convert.pipe';
+import { MileagePipe } from 'src/app/pipes/mileage.pipe';
 import { CarSearchResult, RepairHistory } from 'src/models/search';
 import { FilesService } from 'src/services/files.service';
 import { SearchService } from 'src/services/search.service';
 import { SharedService } from 'src/services/shared-dropdown.service';
+import { LoadingComponent } from '../loading/loading.component';
 import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
 
 @Component({
-  selector: 'app-search',
+  selector: 'check-please-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
+  standalone: true,
+  imports: [
+    RouterModule,
+    IconsModule,
+    MatIconModule,
+    FontAwesomeModule,
+    CommonModule,
+    DateConvertPipe,
+    MileagePipe,
+    FormsModule,
+    LoadingComponent,
+  ],
 })
 export class SearchComponent implements OnInit, AfterViewInit {
   @ViewChild('searchBox') public searchBox: HTMLElement;

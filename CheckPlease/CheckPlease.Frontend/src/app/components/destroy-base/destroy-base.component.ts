@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-destroy-base',
+  selector: 'check-please-destroy-base',
   templateUrl: './destroy-base.component.html',
 })
 export class DestroyBaseComponent implements OnDestroy {

@@ -5,7 +5,7 @@ import { UserForAuthenticationDto, UserForRegistrationDto } from 'src/models/aut
 import { AuthenticationService } from 'src/services/authentication.service';
 
 @Component({
-  selector: 'app-register',
+  selector: 'check-please-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })

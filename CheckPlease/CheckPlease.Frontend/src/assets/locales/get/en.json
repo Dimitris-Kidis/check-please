@@ -1,3 +1,14 @@
 {
-  "COMMON.MENU": "Меню"
+  "COMMON.MENU": "Меню",
+  "COMMON.MENU.MAIN": "Главная",
+  "COMMON.MENU.NEW_REPAIR": "Новый ремонт",
+  "COMMON.MENU.HISTORY": "История",
+  "COMMON.MENU.CLIENTS": "Клиенты",
+  "COMMON.MENU.CARS": "Машины",
+  "COMMON.MENU.REPAIRS": "Ремонты",
+  "COMMON.MENU.FINANCE": "Финансы",
+  "COMMON.MENU.SETTINGS": "Настройки",
+  "COMMON.MENU.AUDIT": "Аудит",
+  "COMMON.NOT_FOUND.PAGE_NOT_FOUND": "Страница не найдена",
+  "COMMON.NOT_FOUND.VISIT_MAIN_PAGE": "Посетите главную страницу"
 }

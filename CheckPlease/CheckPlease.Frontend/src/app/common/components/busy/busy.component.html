@@ -1,0 +1,17 @@
+<div
+  *ngIf="isBusy"
+  class="busy"
+  [class.busy-background]="busyBackground"
+>
+  <div class="spinner"></div>
+
+  <mat-spinner
+    [strokeWidth]="5"
+    [diameter]="72"
+  ></mat-spinner>
+
+  <div class="spinner-label mt-3 mat-hint">
+    <span>{{ label }}</span>
+    <span>{{ extraInfo }}</span>
+  </div>
+</div>

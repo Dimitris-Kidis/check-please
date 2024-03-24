@@ -1,0 +1,11 @@
+<check-please-main-menu></check-please-main-menu>
+
+<main>
+  <mat-toolbar class="mat-elevation-z1">
+    <div class="topbar-title">{{ pageTitleService.pageTitle$ | async | translateResolveNull }}</div>
+  </mat-toolbar>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</main>

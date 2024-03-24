@@ -5,7 +5,7 @@ import { UserForAuthenticationDto } from 'src/models/auth';
 import { AuthenticationService } from 'src/services/authentication.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'check-please-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })

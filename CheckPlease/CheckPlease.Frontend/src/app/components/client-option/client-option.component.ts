@@ -34,7 +34,7 @@ import { getClientOptionSchema, IClientOptionSchema } from './client-option.conf
 import { getClientOptionConfig } from './client-option.schema';
 
 @Component({
-  selector: 'app-client-option',
+  selector: 'check-please-client-option',
   templateUrl: './client-option.component.html',
   styleUrls: ['./client-option.component.scss'],
   animations: [

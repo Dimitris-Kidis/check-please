@@ -1,0 +1,50 @@
+<div
+  class="main-menu-wrapper"
+  [class.minimized]="mainMenuService.minimizedMode$ | async"
+>
+  <mat-toolbar class="mat-elevation-z1">
+    <a routerLink="/">
+      <img
+        *ngIf="mainMenuService.minimizedMode$ | async"
+        class="check-please-brand-mark"
+        src="assets/images/logo.webp"
+        alt="CheckPlease"
+        width="40"
+        height="40"
+      />
+
+      <img
+        *ngIf="(mainMenuService.minimizedMode$ | async) === false"
+        class="check-please-logo"
+        src="assets/images/logo.svg"
+        alt="CheckPlease"
+        width="100"
+        height="40"
+      />
+    </a>
+  </mat-toolbar>
+
+  <div class="items-container">
+    <div class="items-list">
+      <div class="items main-menu-items">
+        <check-please-main-menu-item
+          *ngFor="let item of menuItems"
+          [menuItem]="item"
+        ></check-please-main-menu-item>
+      </div>
+    </div>
+    <div
+      class="main-menu-footer"
+      (click)="mainMenuService.toggleMinimizedMode()"
+    >
+      <mat-icon
+        fontSet="fa"
+        fontIcon="fa-angle-double-left"
+      ></mat-icon>
+      <mat-icon
+        fontSet="fa"
+        fontIcon="fa-angle-double-right"
+      ></mat-icon>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { MenuComponent } from './components/menu/menu.component';
 import { RegisterComponent } from './components/register/register.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -19,6 +18,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideToastr, ToastrModule } from 'ngx-toastr';
 import { TextEditControlComponent } from './common/controls/text-edit-control/text-edit-control.component';
+import { NgOnDestroy } from './common/services/ng-on-destroy.service';
 import { CarOptionComponent } from './components/car-option/car-option.component';
 import { ClientOptionComponent } from './components/client-option/client-option.component';
 import { DestroyBaseComponent } from './components/destroy-base/destroy-base.component';
@@ -29,12 +29,12 @@ import { RepairRowsComponent } from './components/repair-rows/repair-rows.compon
 import { RepairComponent } from './components/repair/repair.component';
 import { RepairsComponent } from './components/repairs/repairs.component';
 import { SearchDropdownComponent } from './components/search-dropdown/search-dropdown.component';
-import { SearchComponent } from './components/search/search.component';
 import { TRANSLATE_CONFIG } from './core/configs/translate.config';
-import { ClickOutsideDirective } from './directives/click-outside.directive';
-import { DateConvertPipe } from './pipes/date-convert.pipe';
+import { ClickOutsideDirective } from './directives/click-outside/click-outside.directive';
+import { SpinnerModule } from './directives/spinner/spinner.module';
+import { IconsModule } from './icons/icons.module';
+import { LayoutModule } from './layout/layout.module';
 import { DefaultValuePipe } from './pipes/default-value.pipe';
-import { MileagePipe } from './pipes/mileage.pipe';
 import { SimpleTruncatePipe } from './pipes/simple-truncate.pipe';
 
 library.add(faPlus);
@@ -43,14 +43,14 @@ library.add(faPlus);
   declarations: [
     AppComponent,
     LoginComponent,
-    MenuComponent,
+    // MenuComponent,
     RegisterComponent,
-    SearchComponent,
-    LoadingComponent,
+    // SearchComponent,
+    // LoadingComponent,
     DestroyBaseComponent,
     SimpleTruncatePipe,
-    MileagePipe,
-    DateConvertPipe,
+    // MileagePipe,
+    // DateConvertPipe,
     SearchDropdownComponent,
     ClickOutsideDirective,
     RepairComponent,
@@ -60,10 +60,11 @@ library.add(faPlus);
     RepairsComponent,
     RepairRowsComponent,
   ],
-  exports: [SimpleTruncatePipe, MileagePipe, DateConvertPipe],
+  exports: [SimpleTruncatePipe],
   providers: [
     provideAnimations(), // required animations providers
     provideToastr(),
+    NgOnDestroy,
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -82,6 +83,10 @@ library.add(faPlus);
     DefaultValuePipe,
     NotificationModalModule,
     TextEditControlComponent,
+    SpinnerModule,
+    LayoutModule,
+    IconsModule,
+    LoadingComponent,
   ],
 })
 export class AppModule {}

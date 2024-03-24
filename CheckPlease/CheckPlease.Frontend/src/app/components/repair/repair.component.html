@@ -1,16 +1,19 @@
-<div class="container">
-  <app-client-option
+<div
+  class="container"
+  cdk-scrollable
+>
+  <check-please-client-option
     *ngIf="state === 'client'"
     (saveClientId)="getClientId($event)"
-  ></app-client-option>
-  <app-car-option
+  ></check-please-client-option>
+  <check-please-car-option
     *ngIf="state === 'car'"
     (saveCarId)="getCarId($event)"
     (newCarMileage)="getNewCarMileage($event)"
-  ></app-car-option>
-  <app-repair-info
+  ></check-please-car-option>
+  <check-please-repair-info
     *ngIf="state === 'repair'"
     (passRepairData)="getRepairData($event)"
     [newMileage]="newMileage"
-  ></app-repair-info>
+  ></check-please-repair-info>
 </div>

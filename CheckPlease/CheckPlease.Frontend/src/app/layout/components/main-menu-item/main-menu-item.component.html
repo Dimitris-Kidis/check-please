@@ -1,0 +1,33 @@
+<div
+  class="main-menu-item"
+  [class.collapsed]="collapsed"
+>
+  <div
+    *ngIf="!menuItem.navigationPath"
+    class="main-menu-title"
+    (click)="toggleCollapse()"
+    [title]="menuItem.nodeNameTranslationKey | translate"
+  >
+    <mat-icon [svgIcon]="menuItem.nodeIcon"></mat-icon>
+    <div class="main-menu-node-name">
+      {{ menuItem.nodeNameTranslationKey | translate }}
+    </div>
+  </div>
+
+  <a
+    *ngIf="menuItem.navigationPath"
+    class="main-menu-title"
+    (click)="toggleCollapse()"
+    [routerLink]="menuItem.navigationPath"
+    [title]="menuItem.nodeNameTranslationKey | translate"
+  >
+    <mat-icon
+      fontSet="fa"
+      [fontIcon]="menuItem.nodeIcon"
+    ></mat-icon>
+
+    <div class="main-menu-node-name">
+      {{ menuItem.nodeNameTranslationKey | translate }}
+    </div>
+  </a>
+</div>

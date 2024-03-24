@@ -7,7 +7,7 @@ import { CONTROL_CONTAINER_PROVIDER } from '../control-container-provider';
 import { ITextEditControlSchema } from './text-edit-control.schema';
 
 @Component({
-  selector: 'app-text-edit-control',
+  selector: 'check-please-text-edit-control',
   standalone: true,
   imports: [SharedModule, FormsModule, MatFormFieldModule, MatInputModule],
   templateUrl: './text-edit-control.component.html',

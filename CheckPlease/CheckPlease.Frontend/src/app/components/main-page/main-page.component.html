@@ -1,0 +1,43 @@
+<div
+  class="container"
+  cdk-scrollable
+>
+  <div class="wrapper">
+    <div class="picker-container">
+      <mat-form-field>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [value]="defaultDate"
+          [matDatepickerFilter]="filterDates"
+          readonly
+          (dateInput)="onDataChange($event.value)"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <div
+        *ngFor="let item of cars; let i = index"
+        class="car-item"
+      >
+        ({{ i }}) {{ item.carSign }}
+      </div>
+    </div>
+
+    <div class="numbers">
+      <div class="big-number"></div>
+      <div class="small-numbers"></div>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="!isBusy">lalal</div> -->
+
+  <mat-spinner
+    *ngIf="isBusy"
+    [diameter]="20"
+  ></mat-spinner>
+</div>

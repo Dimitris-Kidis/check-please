@@ -1,5 +1,5 @@
 <div class="search-container">
-  <div
+  <!-- <div
     class="button-container"
     [routerLink]="['/menu']"
     (click)="closeWindowMenu()"
@@ -9,7 +9,7 @@
       [icon]="faArrow"
     ></fa-icon>
     <span class="go-back-btn"> Вернуться в меню</span>
-  </div>
+  </div> -->
   <input
     type="text"
     #searchBox
@@ -143,7 +143,7 @@
     </div>
     <ng-template #carInfoLoading>
       <div class="car-info-loader">
-        <app-loading loaderSize="large"></app-loading>
+        <check-please-loading loaderSize="large"></check-please-loading>
       </div>
     </ng-template>
   </div>

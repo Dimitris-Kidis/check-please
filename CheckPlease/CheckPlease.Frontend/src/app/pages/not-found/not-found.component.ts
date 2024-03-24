@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-  selector: 'app-not-found',
+  selector: 'check-please-not-found',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './not-found.component.html',
@@ -10,5 +10,5 @@ import { SharedModule } from 'src/app/shared/shared.module';
   encapsulation: ViewEncapsulation.None,
 })
 export class NotFoundComponent {
-  public readonly baseUrl = '/login';
+  public readonly baseUrl = '/';
 }

@@ -1,0 +1,18 @@
+.busy {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.busy-background {
+  background: var(--kf-bg-card);
+  border: 1px solid var(--cp-fg-divider);
+}

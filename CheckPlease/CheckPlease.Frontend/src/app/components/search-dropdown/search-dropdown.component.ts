@@ -21,7 +21,7 @@ enum NotFound {
   Car = 'Машины с таким номером не нет',
 }
 @Component({
-  selector: 'app-search-dropdown',
+  selector: 'check-please-search-dropdown',
   templateUrl: './search-dropdown.component.html',
   styleUrls: ['./search-dropdown.component.scss'],
 })

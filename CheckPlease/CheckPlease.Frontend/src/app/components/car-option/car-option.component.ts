@@ -31,7 +31,7 @@ import { SharedService } from 'src/services/shared-dropdown.service';
 import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
 
 @Component({
-  selector: 'app-car-option',
+  selector: 'check-please-car-option',
   templateUrl: './car-option.component.html',
   styleUrls: ['./car-option.component.scss'],
   animations: [

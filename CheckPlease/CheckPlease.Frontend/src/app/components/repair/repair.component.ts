@@ -11,7 +11,7 @@ import { SharedService } from 'src/services/shared-dropdown.service';
 import { RepairInfoComponent } from '../repair-info/repair-info.component';
 
 @Component({
-  selector: 'app-repair',
+  selector: 'check-please-repair',
   templateUrl: './repair.component.html',
   styleUrls: ['./repair.component.scss'],
 })

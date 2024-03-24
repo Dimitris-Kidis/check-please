@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { CarsService } from 'src/services/cars.service';
+import { PageTitleService } from './common/services/page-title.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'check-please-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   public title = 'check-please';
 
-  public constructor(private readonly carService: CarsService) {
+  public constructor(private readonly pageTitle: PageTitleService) {
     library.add(faPlus);
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.pageTitle.init();
+  }
 }

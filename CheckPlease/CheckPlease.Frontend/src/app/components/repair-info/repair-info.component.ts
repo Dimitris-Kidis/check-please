@@ -22,7 +22,7 @@ import { FilesService } from 'src/services/files.service';
 import { RepairRowsComponent } from '../repair-rows/repair-rows.component';
 
 @Component({
-  selector: 'app-repair-info',
+  selector: 'check-please-repair-info',
   templateUrl: './repair-info.component.html',
   styleUrls: ['./repair-info.component.scss'],
   animations: [

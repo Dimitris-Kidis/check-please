@@ -1,16 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faDatabase, faPlus, faSearch, faWrench } from '@fortawesome/free-solid-svg-icons';
+import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NavigationBlockGuard } from 'src/app/guards/navigation-block.guard';
+import { SpinnerModule } from 'src/app/directives/spinner/spinner.module';
 import { FilesService } from 'src/services/files.service';
 import { DateConvertPipe } from '../../pipes/date-convert.pipe';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
-  selector: 'app-menu',
+  selector: 'check-please-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
+  standalone: true,
+  imports: [
+    LoadingComponent,
+    TranslateModule,
+    FormsModule,
+    RouterModule,
+    FontAwesomeModule,
+    SpinnerModule,
+    CommonModule,
+  ],
 })
 export class MenuComponent {
   public downloadLink: string = '';
@@ -22,11 +37,7 @@ export class MenuComponent {
 
   private isLoadingDone$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-  public constructor(
-    private readonly filesService: FilesService,
-    private readonly modalService: NavigationBlockGuard,
-    private readonly router: Router,
-  ) {
+  public constructor(private readonly filesService: FilesService) {
     library.add(faPlus);
   }
 

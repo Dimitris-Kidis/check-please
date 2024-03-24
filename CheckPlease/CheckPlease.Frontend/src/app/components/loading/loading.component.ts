@@ -5,9 +5,10 @@ import { DestroyBaseComponent } from '../destroy-base/destroy-base.component';
 export type LoadingSize = 'tiny' | 'small' | 'medium' | 'large';
 
 @Component({
-  selector: 'app-loading',
+  selector: 'check-please-loading',
   templateUrl: './loading.component.html',
   styleUrls: ['./loading.component.scss'],
+  standalone: true,
 })
 export class LoadingComponent extends DestroyBaseComponent {
   public size: string = SizeOptions.medium;

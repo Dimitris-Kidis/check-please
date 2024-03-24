@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-repairs',
+  selector: 'check-please-repairs',
   templateUrl: './repairs.component.html',
   styleUrls: ['./repairs.component.scss'],
 })

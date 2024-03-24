@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'mileage',
+  standalone: true,
 })
 export class MileagePipe implements PipeTransform {
   public transform(mileage: number | string): string {

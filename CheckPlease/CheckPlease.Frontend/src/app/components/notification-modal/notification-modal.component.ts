@@ -16,7 +16,7 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-notification-modal',
+  selector: 'check-please-notification-modal',
   templateUrl: './notification-modal.component.html',
   standalone: true,
   imports: [SharedModule, A11yModule, MatDialogModule, MatButtonModule, MatIconModule],

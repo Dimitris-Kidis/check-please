@@ -19,7 +19,7 @@ import { ClientsService } from 'src/services/clients.service';
 import { FilesService } from 'src/services/files.service';
 
 @Component({
-  selector: 'app-repair-rows',
+  selector: 'check-please-repair-rows',
   templateUrl: './repair-rows.component.html',
   styleUrls: ['./repair-rows.component.scss'],
 })

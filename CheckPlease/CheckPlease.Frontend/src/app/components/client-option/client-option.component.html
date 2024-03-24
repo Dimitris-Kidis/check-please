@@ -16,11 +16,11 @@
     <!-- <span *ngIf="!isEditMode">{{ utility.dto.location | defaultValue }}</span> -->
 
     <!-- *ngIf="isEditMode" -->
-    <app-text-edit-control
+    <check-please-text-edit-control
       [(value)]="clientOption.dto.clientName"
       [config]="config.clientName"
       [schema]="clientOption.schema.clientName"
-    ></app-text-edit-control>
+    ></check-please-text-edit-control>
 
     <input
       type="text"
@@ -43,7 +43,7 @@
       <ng-container *ngIf="isLoaded$ | async; else loading"> Добавить </ng-container>
       <ng-template #loading>
         <div class="loader">
-          <app-loading loaderSize="large"></app-loading>
+          <check-please-loading loaderSize="large"></check-please-loading>
         </div>
       </ng-template>
     </button>
