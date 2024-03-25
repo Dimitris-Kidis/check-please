@@ -3,12 +3,18 @@
   "globals": {
     "__dirname": true
   },
-  "ignorePatterns": ["projects/**/*"],
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parserOptions": {
-        "project": ["**/tsconfig.json"],
+        "project": [
+          "**/tsconfig.json"
+        ],
         "createDefaultProgram": true
       },
       "extends": [
@@ -18,7 +24,10 @@
         "prettier",
         "plugin:prettier/recommended"
       ],
-      "plugins": ["import", "@angular-eslint"],
+      "plugins": [
+        "import",
+        "@angular-eslint"
+      ],
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -65,7 +74,9 @@
         "no-bitwise": "off",
         "no-var": "error",
         "prefer-const": "error",
-        "@typescript-eslint/explicit-member-accessibility": ["error"],
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error"
+        ],
         "no-plusplus": [
           "error",
           {
@@ -75,8 +86,12 @@
       }
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
       "rules": {
         "@angular-eslint/template/eqeqeq": [
           "error",

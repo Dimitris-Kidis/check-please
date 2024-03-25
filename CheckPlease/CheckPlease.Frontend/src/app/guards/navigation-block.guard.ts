@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CanDeactivate, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { NotificationModalService } from '../components/notification-modal/notification-modal.service';
@@ -8,7 +7,7 @@ import { NotificationModalService } from '../components/notification-modal/notif
   providedIn: 'root',
   deps: [NotificationModalService],
 })
-export class NavigationBlockGuard implements CanDeactivate<unknown> {
+export class NavigationBlockGuard {
   private blockConditionFn?: () => boolean;
 
   public constructor(private readonly modalService: NotificationModalService) {}
@@ -17,7 +16,7 @@ export class NavigationBlockGuard implements CanDeactivate<unknown> {
     return this.blockConditionFn ? this.blockConditionFn() : false;
   }
 
-  public canDeactivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (this.isNavigationBlocked) {
       return this.openModal().pipe(
         filter(Boolean),
