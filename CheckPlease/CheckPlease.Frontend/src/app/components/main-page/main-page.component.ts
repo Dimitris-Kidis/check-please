@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -70,7 +71,7 @@ export class MainPageComponent implements OnInit {
           this.mainPageData = data;
           this.cars = data.carList;
         },
-        error: (e) => this.displayErrorHelper.displayErrorFunc(e),
+        error: (e: HttpErrorResponse) => this.displayErrorHelper.displayErrorFunc(e),
       })
       .add(() => {
         this.isBusy = false;
