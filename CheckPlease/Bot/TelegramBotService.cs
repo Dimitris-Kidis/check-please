@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Queries.DTOs;
+using Queries.Queries.General.GetGeneralInformation;
 using Queries.Queries.Repairs.GetReport;
+using System.Text;
 using System.Text.RegularExpressions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -37,6 +39,13 @@ namespace CheckPlease.Bot
                     return;
                 }
 
+                if (messageText.Equals("репорт"))
+                {
+                    await SendGeneralInformationAsync(chatId, cancellationToken);
+
+                    return;
+                }
+
                 var typePattern = @"(?<=:)([^(\r\n\(\[]+)(?=\s*\(|\s*\[|$)";
                 var langPattern = @"\(([^)]+)\)";
                 var carSignPattern = @"\[(.*?)\]";
@@ -49,7 +58,7 @@ namespace CheckPlease.Bot
                 LanguageLocale lang;
                 string carSign = null;
 
-                type = typeMatch.Groups[1].Value.Trim() switch // REFACTOR
+                type = typeMatch.Groups[1].Value.Trim() switch
                 {
                     "неотправленные" => ReportType.Unsent,
                     "сегодня" => ReportType.Day,
@@ -93,7 +102,32 @@ namespace CheckPlease.Bot
                 );
             }
 
-            await _botClient.SendMessage(chatId, report.Message, cancellationToken: cancellationToken);
+            await _botClient.SendMessage(chatId, report.Message, parseMode: ParseMode.Html, cancellationToken: cancellationToken);
         }
+
+        private async Task SendGeneralInformationAsync(long chatId, CancellationToken cancellationToken)
+        {
+            var generalInformation = await _mediator.Send(new GetGeneralInformationQuery(), cancellationToken);
+
+            string message = FormatGeneralInformationMessage(generalInformation);
+
+            await _botClient.SendMessage(chatId, message, parseMode: ParseMode.Html, cancellationToken: cancellationToken);
+        }
+
+        private static string FormatGeneralInformationMessage(GeneralInformationDto generalInformation)
+        {
+            var messageText = new StringBuilder();
+
+            messageText.AppendLine($"<b>Общая информация</b>");
+            messageText.AppendLine("<code>");
+            messageText.AppendLine($"Всего клиентов: <b>{generalInformation.ClientsNumber}</b>");
+            messageText.AppendLine($"Всего машин: <b>{generalInformation.CarsNumber}</b>");
+            messageText.AppendLine($"Всего ремонтов: <b>{generalInformation.RepairsNumber}</b>");
+            messageText.AppendLine($"Всего ремонтов в этом году: <b>{generalInformation.ThisYearRepairsNumber}</b>");
+            messageText.AppendLine("</code>");
+
+            return messageText.ToString();
+        }
+
     }
 }

@@ -1,31 +1,59 @@
-﻿using AutoMapper;
-using Core.Domain.Entities;
+﻿using Core.Domain.Entities;
 using Core.Repositories.CheckPleaseRepository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Queries.DTOs;
 using Queries.Queries.Repairs.GetRepairCheck;
+using System.Text;
+using static Common.Enums.LanguageLocaleEnum;
 using static Common.Enums.ReportTypeEnum;
 
-namespace Queries.Queries.Repairs.GetReport // REFACTOR
+namespace Queries.Queries.Repairs.GetReport
 {
     public class GetReportQueryHandler(
         ICheckPleaseRepository<Repair> repairRepository,
-        IMediator mediator,
-        IMapper mapper) : IRequestHandler<GetReportQuery, ReportDto>
+        IMediator mediator) : IRequestHandler<GetReportQuery, ReportDto>
     {
         private readonly ICheckPleaseRepository<Repair> repairRepository = repairRepository;
         private readonly IMediator mediator = mediator;
-        private readonly IMapper mapper = mapper;
 
         public async Task<ReportDto> Handle(GetReportQuery request, CancellationToken cancellationToken)
         {
-            DateTime startDate = DateTime.MinValue, endDate = DateTime.MinValue;
+            DateTime? startDate = null, endDate = null;
             List<Guid> repairIds = [];
-            string messageText = "";
+            var messageText = new StringBuilder();
             ReportDto report = new();
 
             var query = repairRepository.GetAll();
+
+            (query, startDate, endDate, messageText) = GetQueryForReportType(request, query, messageText);
+
+            repairIds = await query
+                .Select(r => r.Id)
+                .ToListAsync(cancellationToken);
+
+            var mechanicIncome = 0;
+            var assistantIncome = 0;
+            var repairsTextInfo = new StringBuilder();
+
+            await ProcessRepairs(repairIds, report, request.Locale, mechanicIncome, assistantIncome, repairsTextInfo, cancellationToken);
+
+            messageText.AppendLine($"<code>Общее количество ремонтов: <b>{repairIds.Count}</b>");
+            messageText.AppendLine($"Заработок механика: <b>{mechanicIncome}</b>");
+            messageText.AppendLine($"Заработок ассистента: <b>{assistantIncome}</b>");
+            messageText.AppendLine("\nМашины:</code>");
+            messageText.Append(repairsTextInfo);
+
+            return new ReportDto
+            {
+                Message = messageText.ToString(),
+                Files = report.Files,
+            };
+        }
+
+        private static (IQueryable<Repair>, DateTime?, DateTime?, StringBuilder) GetQueryForReportType(GetReportQuery request, IQueryable<Repair> query, StringBuilder messageText)
+        {
+            DateTime? startDate = null, endDate = null;
 
             switch (request.Type)
             {
@@ -38,38 +66,36 @@ namespace Queries.Queries.Repairs.GetReport // REFACTOR
                 case ReportType.Day:
                     startDate = DateTime.UtcNow.Date;
                     endDate = startDate;
-                    messageText += $"Дата: {startDate:dd.MM.yyyy}\n\n";
+                    messageText.AppendLine($"<b>Дата</b>: <code>{startDate:dd.MM.yyyy}</code>\n");
                     break;
                 case ReportType.Week:
                     startDate = DateTime.UtcNow.Date.AddDays(-(int)DateTime.UtcNow.DayOfWeek + (int)DayOfWeek.Monday);
-                    endDate = startDate.AddDays(6);
-                    messageText += $"Дата: {startDate:dd.MM.yyyy} - {endDate:dd.MM.yyyy}\n\n";
+                    endDate = startDate?.AddDays(6);
+                    messageText.AppendLine($"<b>Дата</b>: <code>{startDate:dd.MM.yyyy} - {endDate:dd.MM.yyyy}</code>\n");
                     break;
                 case ReportType.Month:
                     startDate = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
-                    endDate = startDate.AddMonths(1).AddDays(-1);
-                    messageText += $"Дата: {startDate:dd.MM.yyyy} - {endDate:dd.MM.yyyy}\n\n";
+                    endDate = startDate?.AddMonths(1).AddDays(-1);
+                    messageText.AppendLine($"<b>Дата</b>: <code>{startDate:dd.MM.yyyy} - {endDate:dd.MM.yyyy}</code>\n");
                     break;
                 default:
                     throw new ArgumentException("Invalid report type");
             }
 
-            if (request.Type == ReportType.Day || request.Type == ReportType.Week || request.Type == ReportType.Month)
+            if (startDate.HasValue && endDate.HasValue)
             {
-                query = query.Where(r => r.RepairDate.HasValue && r.RepairDate.Value.Date >= startDate.Date && r.RepairDate.Value.Date <= endDate.Date);
+                query = query.Where(r => r.RepairDate.HasValue && r.RepairDate.Value.Date >= startDate.Value.Date && r.RepairDate.Value.Date <= endDate.Value.Date);
             }
 
-            repairIds = await query
-                .Select(r => r.Id)
-                .ToListAsync(cancellationToken);
+            return (query, startDate, endDate, messageText);
+        }
 
+        private async Task ProcessRepairs(List<Guid> repairIds, ReportDto report, LanguageLocale locale, int mechanicIncome, int assistantIncome, StringBuilder repairsTextInfo, CancellationToken cancellationToken)
+        {
             int index = 1;
-            var repairsTextInfo = "";
-            int mechanicIncome = 0;
-            int assistantIncome = 0;
             foreach (var repairId in repairIds)
             {
-                var file = await mediator.Send(new GetRepairCheckQuery { Id = repairId, Locale = request.Locale }, cancellationToken);
+                var file = await mediator.Send(new GetRepairCheckQuery { Id = repairId, Locale = locale }, cancellationToken);
                 report.Files.Add(file);
 
                 var repair = await repairRepository
@@ -91,22 +117,9 @@ namespace Queries.Queries.Repairs.GetReport // REFACTOR
                 mechanicIncome += repair.TotalRepairPrice;
                 assistantIncome += repair.AssistantIncome;
 
-                repairsTextInfo += $"{index}. {repair.CarSign} ({repair.ClientName}, {repair.ClientPhoneNumber}) [{repair.AssistantIncome}] [{repair.RepairDate:dd.MM.yyyy}]\n";
+                repairsTextInfo.AppendLine($"{index}. {repair.CarSign} ({repair.ClientName}, {repair.ClientPhoneNumber}) [{repair.AssistantIncome}] [{repair.RepairDate:dd.MM.yyyy}]");
                 index++;
             }
-
-            messageText += $"Общее количество ремонтов: {repairIds.Count}\n";
-            messageText += $"Заработок механика: {mechanicIncome}\n";
-            messageText += $"Заработок ассистента: {assistantIncome}\n";
-            messageText += $"Машины:\n";
-            messageText += repairsTextInfo;
-
-
-            return new ReportDto
-            {
-                Message = messageText,
-                Files = report.Files,
-            };
         }
     }
 }

@@ -71,7 +71,7 @@ namespace Queries.Queries.Repairs.GetRepairCheck
             {
                 repair.Id,
                 repair.Problems,
-                repair.Mileage, // REFACTOR
+                repair.Mileage,
                 repair.RepairDate,
                 repair.Client,
                 repair.Car,
