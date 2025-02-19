@@ -1,0 +1,29 @@
+<div class="user-card">
+  <div class="header">
+    <div class="user-info">
+      <span class="name"
+        ><strong>Полное имя:</strong> {{ client.fullName }} / <strong>Номер телефона:</strong>
+        {{ client.phoneNumber }}</span
+      >
+    </div>
+    <div class="icons">
+      <button class="icon edit">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        class="icon delete"
+        (click)="deleteClient(client.id!)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="notes">
+    <label for="notes">Дополнительные заметки</label>
+    <div class="notes-box">
+      {{ client.additionalNotes | defaultValue }}
+    </div>
+    <small style="text-align: right">Создан: {{ client.createdAt | date : 'dd-MM-yyyy' }}</small>
+  </div>
+</div>
