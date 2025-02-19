@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+<style type="text/css">
+	.company-st0{fill:none;}
+	.company-st1{fill:currentColor;}
+</style>
+<rect id="Rectangle_2199" x="-1" y="-1" class="company-st0" width="25" height="25"/>
+<rect x="0.6" y="1" class="company-st1 color-fill" width="0.9" height="22.4"/>
+<rect x="0.7" y="4.8" class="company-st1 color-fill" width="0.9" height="15.3"/>
+<circle class="company-st1 color-fill" cx="3.9" cy="5.8" r="0.7"/>
+<g>
+	<circle class="company-st1 color-fill" cx="3.9" cy="8.7" r="0.7"/>
+</g>
+<circle class="company-st1 color-fill" cx="6.5" cy="8.7" r="0.7"/>
+<circle class="company-st1 color-fill" cx="9.2" cy="8.7" r="0.7"/>
+<g>
+	<g>
+		<circle class="company-st1 color-fill" cx="3.9" cy="5.8" r="0.7"/>
+	</g>
+	<circle class="company-st1 color-fill" cx="6.5" cy="5.8" r="0.7"/>
+	<circle class="company-st1 color-fill" cx="9.2" cy="5.8" r="0.7"/>
+	<g>
+		<circle class="company-st1 color-fill" cx="3.9" cy="8.7" r="0.7"/>
+	</g>
+	<circle class="company-st1 color-fill" cx="6.5" cy="8.7" r="0.7"/>
+	<circle class="company-st1 color-fill" cx="9.2" cy="8.7" r="0.7"/>
+	<g>
+		<circle class="company-st1 color-fill" cx="3.9" cy="11.5" r="0.7"/>
+	</g>
+	<circle class="company-st1 color-fill" cx="6.5" cy="11.5" r="0.7"/>
+	<circle class="company-st1 color-fill" cx="9.2" cy="11.5" r="0.7"/>
+</g>
+<path class="company-st1 color-fill" d="M23.1,8.1h-0.6h-0.2h-10V1h-0.2h-0.2h-0.7H1.7h-1H0.6v1v20.4v0.2v0.9h0.2h0.9h9.5h0.9h10.2h0.2h0.9v-0.9v-0.2
+	V9.2V8.1v0H23.1z M7.7,22.4H5.2v-6.2h2.6V22.4z M11.2,22.4H8.9v-6.2v-1.1v0H4v0v1.1v6.2H1.7V2h9.5V22.4z M18.6,22.4h-2.5v-5h2.5
+	V22.4z M22.3,22.4h-2.7v-5v-0.9v-0.2h-3.5H15h0v0.2v0.9v5h-2.7V9.2h10V22.4z"/>
+</svg>

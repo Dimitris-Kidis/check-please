@@ -1,0 +1,242 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use './mixins/colors' as kf-colors;
+
+$hub-typography: mat.m2-define-typography-config(
+  $display-4: mat.m2-define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+  $display-3: mat.m2-define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+  $display-2: mat.m2-define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+  $display-1: mat.m2-define-typography-level(34px, 40px, 400),
+  $headline: mat.m2-define-typography-level(24px, 32px, 400),
+  $title: mat.m2-define-typography-level(20px, 32px, 500),
+  $subheading-2: mat.m2-define-typography-level(13px, 16px, 500),
+  $subheading-1: mat.m2-define-typography-level(13px, 16px, 500),
+  $body-2: mat.m2-define-typography-level(12px, 24px, 500),
+  $body-1: mat.m2-define-typography-level(12px, 20px, 400),
+  $caption: mat.m2-define-typography-level(11px, 14px, 400),
+  $button: mat.m2-define-typography-level(12px, 12px, 500),
+  $input: mat.m2-define-typography-level(inherit, 1.125, 400),
+);
+
+@include mat.elevation-classes();
+@include mat.app-background();
+
+$dark-primary-text: rgba(black, 0.87);
+$dark-secondary-text: rgba(black, 0.54);
+$dark-disabled-text: rgba(black, 0.38);
+$dark-dividers: rgba(black, 0.12);
+$dark-focused: rgba(black, 0.12);
+$light-primary-text: white;
+$light-secondary-text: rgba(white, 0.7);
+$light-disabled-text: rgba(white, 0.5);
+$light-dividers: rgba(white, 0.12);
+$light-focused: rgba(white, 0.12);
+
+$app-primary: (
+  50: #ffebf0,
+  100: #ffcdd8,
+  200: #f299a4,
+  300: #ea7080,
+  400: #f74b62,
+  500: #ff314a,
+  600: #ef2748,
+  700: #dd1b41,
+  800: #d0103a,
+  900: #c2002d,
+  A100: #ffcdd8,
+  A200: #f299a4,
+  A400: #f74b62,
+  A700: #dd1b41,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
+$app-accent: (
+  50: #eceef6,
+  100: #d0d7e2,
+  200: #b4bccc,
+  300: #96a2b5,
+  400: #808da4,
+  500: #6a7a93,
+  600: #5d6b82,
+  700: #4c586b,
+  800: #3c4555,
+  900: #29313d,
+  A100: #d0d7e2,
+  A200: #b4bccc,
+  A400: #808da4,
+  A700: #4c586b,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
+$default-primary-palette: mat.m2-define-palette($app-primary, 800, 400, 900);
+$default-accent-palette: mat.m2-define-palette($app-accent, 800, 400, 900);
+$default-warn-palette: mat.m2-define-palette(mat.$m2-red-palette, 700, 100, 800);
+$default-success-palette: mat.m2-define-palette(mat.$m2-green-palette, 500, 100, 800);
+$default-warning-palette: mat.m2-define-palette(mat.$m2-amber-palette, 500, 100, 800);
+$default-info-palette: mat.m2-define-palette(mat.$m2-light-blue-palette, 500, 100, 800);
+
+$default-foreground: map.merge(
+  mat.$m2-light-theme-foreground-palette,
+  (
+    // focused-field: rgba(black, 0.16),
+    section-header: #146390,
+    scheduler-color-current-range-border: #d0103a,
+    circular-state-circle-default: #f5f5f5,
+    circular-state-circle-not-started: #e5e5e5,
+    circular-state-circle-completed: #319f5d,
+    circular-state-circle-in-progress: #ff8552,
+    circular-state-circle-invalid: #d0103a,
+    circular-state-element-number: #0c6291,
+    small-layout: #337ab7,
+    small-border: #aaa
+  )
+);
+
+$default-background: map.merge(
+  mat.$m2-light-theme-background-palette,
+  (
+    app-bar: white,
+    background: white,
+    stage: #f6f6f6,
+    entity-card: #f6f6f6,
+    input: #fbfbfb,
+    input-disabled: rgba(0, 0, 0, 0.04),
+    photo-block: rgba(255, 255, 255, 0.8),
+    color-appointment-busy: #d9cadd,
+    scheduler-color-showover-unavailable: rgba(#dedede, 0.7),
+    scheduler-color-current-range-bg: rgba(#e66985, 0.5),
+    color-appointment-oof: #f5e6e6,
+    color-appointment-showover-available: rgba(#fff, 0.9),
+    color-appointment-tentative:
+      repeating-linear-gradient(135deg, #f3ecf4, #f3ecf4 3.585px, #784a85 3.585px, #784a85 5px),
+    color-progress-bar: #59bf8b,
+    confidential-marker: #f0ad4e,
+    confidential-light: #fceedb,
+    confidential-hover: #fae3c4,
+    success-lighter: #d8ffd6,
+    company-row-color: #08706e,
+    column-resize: #f7f7f7,
+    panel-heading-status-undefined: #f5f5f5,
+    panel-heading-status-done: #e7fcd6,
+    panel-heading-status-in-progress: #fcfad6,
+    widget-title-color: #999,
+    widget-new-title-color: #666,
+    widget-header-new-color: #117eb8,
+    color-abbey: #d4d4d4,
+    color-wild-black: #333,
+    color-nobel: #b3b3b3,
+    color-mercury: #e5e5e5,
+    widget-capital-market: #abadd6,
+    widget-MarketOverview: #42a6a6,
+    widget-KnightFrankInstructions: #9496c7,
+    widget-LeasingDeals: #99bae5,
+    widget-ClientSearch: #bad1f7,
+    widget-ClientMeetings: #85d1d6,
+    widget-MessageBoard: #85d1d6,
+    widget-GlobalDocuments: #c4c7e8,
+    widget-KnightFrankInvestmentPersonnel: #78a6d6,
+    widget-ImportantActions: #66bdbf,
+    captial-header: #3a4556,
+    market-summary-border: #828282,
+    widget-CommercialAgencyDeals: #339900,
+    widget-CommercialAgencyBusinessGeneration: #828282,
+    widget-CommercialAgencyRequirements: #f2bf7d,
+    capital-market-border: #ddd,
+    gridstack-border: #ccc,
+    notification-type: #00b0a6,
+    widget-CommercialAgencyCapitalMarketActivities: #78a6d6,
+    expanded-parent: #fbc9c9,
+    expanded-child: #fbecec,
+  )
+);
+
+$light-theme: mat.m2-define-light-theme(
+  (
+    primary: $default-primary-palette,
+    accent: $default-accent-palette,
+    success: $default-success-palette,
+    warning: $default-warning-palette,
+    info: $default-info-palette,
+    warn: $default-warn-palette,
+    foreground: $default-foreground,
+    background: $default-background,
+  )
+);
+
+@include mat.all-component-themes($light-theme);
+
+body {
+  @include kf-colors.cascading-variables-from-theme($light-theme);
+}
+
+$accent-theme-background: map.merge(
+  mat.$m2-dark-theme-background-palette,
+  (
+    app-bar: white,
+    dialog: map.get($default-accent-palette, 'default'),
+  )
+);
+
+$accent-theme-foreground: map.merge(
+  mat.$m2-dark-theme-foreground-palette,
+  (
+    icon: $light-secondary-text,
+    icons: $light-secondary-text,
+  )
+);
+
+$accent-theme: mat.m2-define-dark-theme(
+  (
+    primary: $default-primary-palette,
+    accent: $default-accent-palette,
+    warn: $default-warn-palette,
+    foreground: $accent-theme-foreground,
+    background: $accent-theme-background,
+  )
+);
+
+.accent-bg {
+  $config: mat.m2-get-color-config($accent-theme);
+  $primary: map.get($config, primary);
+  $accent: map.get($config, accent);
+  $warn: map.get($config, warn);
+
+  $background: map.get($config, background);
+  $foreground: map.get($config, foreground);
+
+  @include mat.all-component-themes($accent-theme);
+  @include kf-colors.cascading-variables-from-theme($accent-theme);
+
+  background-color: mat.m2-get-color-from-palette($background, dialog);
+  color: mat.m2-get-color-from-palette($foreground, text);
+}

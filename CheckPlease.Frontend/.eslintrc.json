@@ -1,0 +1,88 @@
+{
+  "root": true,
+  "globals": {
+    "__dirname": true
+  },
+  "ignorePatterns": ["projects/**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["**/tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "airbnb-typescript/base",
+        "prettier",
+        "plugin:prettier/recommended"
+      ],
+      "plugins": ["import", "@angular-eslint"],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "",
+            "style": "camelCase"
+          }
+        ],
+        "@typescript-eslint/no-explicit-any": 1,
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "check-please",
+            "style": "kebab-case"
+          }
+        ],
+        "import/prefer-default-export": "off",
+        "import/no-cycle": 0,
+        "@typescript-eslint/lines-between-class-members": ["off", {}],
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/no-shadow": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_"
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": [
+          "error",
+          {
+            "allowExpressions": true
+          }
+        ],
+        "@typescript-eslint/member-ordering": "error",
+        "class-methods-use-this": "off",
+        "no-param-reassign": "off",
+        "no-bitwise": "off",
+        "no-var": "error",
+        "prefer-const": "error",
+        "@typescript-eslint/explicit-member-accessibility": "error",
+        "no-plusplus": [
+          "off",
+          {
+            "allowForLoopAfterthoughts": true
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {
+        "@angular-eslint/template/eqeqeq": [
+          "error",
+          {
+            "allowNullOrUndefined": true
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts"]
+    }
+  ]
+}

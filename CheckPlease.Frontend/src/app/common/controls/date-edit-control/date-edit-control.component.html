@@ -1,0 +1,39 @@
+<mat-form-field
+  *ngIf="config && !config[schema.fieldName].hidden"
+  [class]="schema.className"
+>
+  <mat-label *ngIf="schema.translationKey">{{ schema.translationKey | translate }}</mat-label>
+  <input
+    id="{{ schema.controlId }}"
+    matInput
+    #input="ngModel"
+    type="datetime-local"
+    [matDatepicker]="picker"
+    [name]="schema.formName"
+    [required]="config[schema.fieldName].required"
+    [disabled]="!config[schema.fieldName].active"
+    [min]="greaterThan"
+    [max]="lowerThan"
+    placeholder="{{ schema.placeholder! | translate }}"
+    [(ngModel)]="value"
+    (ngModelChange)="valueChange.emit($event)"
+    autocomplete="off"
+    [readonly]="schema.readonly"
+  />
+  <mat-datepicker-toggle
+    matSuffix
+    [for]="picker"
+    [disabled]="schema.readonly"
+  ></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+
+  <mat-error *ngIf="input.errors?.['required']">
+    {{ errorMessages.required.key | translate : errorMessages.required.params }}
+  </mat-error>
+  <mat-error *ngIf="input.errors?.['matDatepickerMin']">
+    {{ errorMessages.matDatepickerMin.key | translate : errorMessages.matDatepickerMin.params }}
+  </mat-error>
+  <mat-error *ngIf="input.errors?.['matDatepickerMax']">
+    {{ errorMessages.matDatepickerMax.key | translate : errorMessages.matDatepickerMax.params }}
+  </mat-error>
+</mat-form-field>

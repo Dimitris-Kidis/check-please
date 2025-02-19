@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "stylelint.vscode-stylelint",
+    "esbenp.prettier-vscode",
+    "angular.ng-template",
+    "wmaurer.change-case",
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens",
+    "heaths.vscode-guid",
+    "mechatroner.rainbow-csv",
+    "wix.vscode-import-cost"
+  ],
+  "unwantedRecommendations": []
+}

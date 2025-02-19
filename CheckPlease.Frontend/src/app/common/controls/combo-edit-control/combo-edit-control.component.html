@@ -1,0 +1,27 @@
+<mat-form-field *ngIf="config && !config[schema.fieldName].hidden">
+  <mat-label *ngIf="schema.translationKey">
+    {{ schema.translationKey | translate }}
+  </mat-label>
+
+  <mat-select
+    [id]="schema.controlId!"
+    #input="ngModel"
+    [ngModel]="value ?? EMPTY_VALUE"
+    (ngModelChange)="onModelChanged($event)"
+    [name]="schema.formName"
+    [required]="config[schema.fieldName].required"
+    [disabled]="!config[schema.fieldName].active"
+  >
+    <mat-option value="">{{ 'COMMON.SELECTEMPTYVALUE' | translate }}</mat-option>
+    <mat-option
+      *ngFor="let option of schema.options"
+      [value]="option.value"
+      >{{ option.translationKey ?? option.value | translate }}</mat-option
+    >
+  </mat-select>
+
+  <mat-error
+    *ngIf="input.errors?.['required']"
+    translate="FORM.FIELD_IS_REQUIRED"
+  ></mat-error>
+</mat-form-field>

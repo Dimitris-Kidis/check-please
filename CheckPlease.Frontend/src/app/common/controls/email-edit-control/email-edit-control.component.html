@@ -1,0 +1,40 @@
+<mat-form-field
+  *ngIf="config && !config[schema.fieldName].hidden"
+  [class]="schema.className"
+>
+  <mat-label *ngIf="schema.translationKey || isPrimary">
+    <mat-icon
+      *ngIf="isPrimary"
+      class="icon-size-4 text-hint"
+      fontSet="fa"
+      fontIcon="fa-star"
+    ></mat-icon>
+    {{ schema.translationKey | translateResolveNull }}
+  </mat-label>
+
+  <input
+    [id]="schema.controlId"
+    matInput
+    type="text"
+    #input="ngModel"
+    [(ngModel)]="emailAddress"
+    (ngModelChange)="onChange(input.valid)"
+    [ngModelOptions]="{ updateOn: updateModelOn || 'change' }"
+    autocomplete="off"
+    [name]="schema.formName"
+    [required]="config[schema.fieldName].required"
+    [disabled]="!config[schema.fieldName].active"
+    [spellcheck]="schema.spellCheck"
+    [placeholder]="schema.placeholder | translateResolveNull"
+    [maxlength]="schema.maxLength ?? 128"
+    checkPleaseEmailValidator
+  />
+
+  @if(input.hasError('required')) {
+  <mat-error>{{ 'FORM.FIELD_IS_REQUIRED' | translate }}</mat-error>
+  } @else if(input.hasError('maxlength')) {
+  <mat-error>{{ 'FORM.FIELD_EXCEEDED_MAX_LENGTH' | translate }}</mat-error>
+  } @else if(input.hasError('email')) {
+  <mat-error>{{ 'FORM.FIELD_SHOULD_BE_EMAIL_ADDRESS' | translate }}</mat-error>
+  }
+</mat-form-field>

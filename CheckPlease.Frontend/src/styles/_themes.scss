@@ -1,0 +1,164 @@
+// Abbreviations:
+// --t-c-
+// --bg-c-
+
+[data-theme='light'] {
+  --t-c-accent-lighter: #12d6b6;
+  --t-c-accent-light: #00a88c2d;
+  --t-c-accent: #00a88b;
+  --t-c-accent-darker: #048d76;
+  --t-c-warning: #ffb23e;
+  --t-c-warning-light: #ffb23e39;
+  --t-c-error: #db5252;
+  --t-c-error-light: #f0464623;
+  --t-c-error-bright: #f5222d;
+  --t-c-info: #3a79f7;
+  --t-c-white: #ffffff;
+
+  --t-c-grey: grey;
+
+  --bg-c-accent: #00a88b;
+
+  --bg-c-footer-and-header: whitesmoke; //-
+  --bg-c-menu: #ffffff;
+  --bg-c-main: #f0f4f7;
+  --t-c-primary: #1e222b; // logo, menu items names, bell
+  --t-c-secondary: #495057; // sub items,
+  --t-c-sections-names: #6c757d; // sections name, sub items, line
+
+  --t-c-disabled-grey: rgb(175, 175, 175); // всякий глухой серый текст
+
+  --t-c-disabled: rgba(0, 0, 0, 0.38);
+  --bg-c-disabled: rgba(0, 0, 0, 0.12);
+
+  --border-light: #e3eaee; // бордер под тулбаром, линия у субайтемов
+  --language-switch-primary: #555; // языковой тоглер
+
+  --light-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --medium-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+
+  --skeleton-base: #e4e6eb;
+}
+
+[data-theme='dark'] {
+  --t-c-accent-lighter: #12d6b6;
+  --t-c-accent: #00a88b;
+  --t-c-accent-darker: #048d76;
+  --t-c-warning: #ffb23e;
+  --t-c-error: #db5252;
+  --t-c-info: #3a79f7;
+  --t-c-white: #ffffff;
+
+  --bg-c-accent: #00a88b;
+
+  --t-c-disabled: rgba(0, 0, 0, 0.38);
+  --bg-c-disabled: rgba(0, 0, 0, 0.12);
+
+  // --bg-c-footer-and-header: whitesmoke; //-
+  // --bg-c-menu: #ffffff;
+  // --bg-c-main: #1e222b;
+  // --t-c-primary: #1e222b; // logo, menu items names, bell
+  // --t-c-secondary: #495057; // sub items,
+  // --t-c-sections-names: #6c757d; // sections name, sub items, line
+
+  // --t-c-disabled-grey: rgb(175, 175, 175); // всякий глухой серый текст
+
+  // --border-light: #e3eaee; // бордер под тулбаром, линия у субайтемов
+  // --language-switch-primary: #555; // языковой тоглер
+
+  // --light-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+  // --medium-shadow: 0px 4px 12px rgba(255, 255, 255, 0.1);
+
+  // --skeleton-base: #e4e6eb;
+  --bg-c-footer-and-header: #343a40;
+  --bg-c-menu: #a5abb1;
+  --bg-c-main: #333335;
+  --t-c-primary: #f1f3f5;
+  --t-c-secondary: #adb5bd;
+  --t-c-sections-names: #3d3d3d;
+  --t-c-disabled-grey: rgb(125, 125, 125);
+  --border-light: #495057;
+  --language-switch-primary: #555;
+  --light-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --medium-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  --skeleton-base: #6c757d;
+}
+
+/*
+// Light theme palette
+[data-theme='light'] {
+  // constants
+  --t-c-accent-lighter: #12d6b6;
+  --t-c-accent: #00a88b;
+  --t-c-accent-darker: #048d76;
+  --t-c-warning: #ffb23e;
+  --t-c-error: #db5252;
+  --t-c-info: #3a79f7;
+
+  --bg-c-accent: #00a88b;
+
+  // непонятки
+  --t-c-bright: #ffffff;
+  --t-c-fourth: #4c5463;
+  --t-c-third: #3f5467;
+  --t-c-second: #2e4368;
+  --t-c-first: #1e222b;
+  --t-c-light-grey: #dedede;
+  --t-c-middle-grey: #6c757d;
+  --t-c-disabled: rgba(0, 0, 0, 0.38);
+  --t-c-deaf: #555;
+  --t-c-inactive: #9ea4b0;
+
+  --bg-c-bright: #ffffff;
+  --bg-c-footer: #f0f0f0;
+  --bg-c-active-sub-menu-item: #f4f9fc;
+  --bg-c-bright-darker: #f5f7fa;
+  --bg-c-bright-blueish-global: #f0f4f7;
+  --bg-c-greyish: #e3eaee;
+  --bg-c-greyish-2: #ebebeb;
+
+  --border: 1px #c9d1dd solid;
+
+  --border-lighter: 1px #e8ecee solid;
+
+  --skeleton-base: #e4e6eb;
+}
+  */
+
+// Dark theme palette
+[data-theme='darrk'] {
+  // constants
+  --t-c-accent-lighter: #12d6b6;
+  --t-c-accent: #00a88b;
+  --t-c-accent-darker: #048d76;
+  --t-c-warning: #ffb23e;
+  --t-c-error: #db5252;
+  --t-c-info: #3a79f7;
+
+  --bg-c-accent: #00a88b;
+
+  // непонятки
+  --t-c-bright: #ffffff;
+  --t-c-fourth: #4c5463;
+  --t-c-third: #3f5467;
+  --t-c-second: #2e4368;
+  --t-c-first: #e5e6e8;
+  --t-c-light-grey: #dedede;
+  --t-c-middle-grey: #6c757d;
+  --t-c-disabled: rgba(0, 0, 0, 0.38);
+  --t-c-deaf: #aaaaaa;
+  --t-c-inactive: #9ea4b0;
+
+  --bg-c-bright: #1e222b;
+  --bg-c-footer: #727272;
+  --bg-c-active-sub-menu-item: #3a4453;
+  --bg-c-bright-darker: #232a33;
+  --bg-c-bright-blueish-global: #2f3a47;
+  --bg-c-greyish: #3f4f62;
+  --bg-c-greyish-2: #4c5a6a;
+
+  --border: 1px #1f2937 solid;
+  --border-lighter: 1px #e8ecee solid;
+
+  --skeleton-base: #e4e6eb;
+}

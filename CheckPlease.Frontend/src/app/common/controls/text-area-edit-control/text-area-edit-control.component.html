@@ -1,0 +1,67 @@
+<ng-container *ngIf="config && !config[schema.fieldName].hidden">
+  <label
+    *ngIf="schema.translationKey"
+    class="form-label"
+  >
+    <span [innerHTML]="schema.translationKey | translate"></span>
+
+    <span
+      *ngIf="schema.suffix"
+      class="text-area-suffix"
+    >
+      <ng-content select="kf-text-area-suffix, [kfTextAreaSuffix]"></ng-content>
+    </span>
+
+    <mat-hint
+      class="pull-right"
+      align="end"
+    >
+      {{ value?.length ?? 0 }}&nbsp;/&nbsp;{{
+        schema.maxLength ?? (schema.isWarningCounterEnabled ? maxWarningLength : schema.maxLength || 4000)
+      }}
+    </mat-hint>
+  </label>
+
+  <mat-form-field [class.mat-form-field-warning]="hasWarning">
+    <textarea
+      id="{{ schema.controlId }}"
+      matInput
+      #input="ngModel"
+      [(ngModel)]="value"
+      (ngModelChange)="valueChange.emit(value!)"
+      placeholder="{{ schema.placeholder! | translate }}"
+      autocomplete="off"
+      [name]="schema.formName"
+      [required]="config[schema.fieldName].required"
+      [disabled]="!config[schema.fieldName].active"
+      [minlength]="schema.minLength ?? ''"
+      [maxlength]="schema.maxLength ?? ''"
+      [attr.rows]="schema.autosize?.isEnabled ? undefined : textAreaRows"
+      [cdkTextareaAutosize]="schema.autosize?.isEnabled"
+      [cdkAutosizeMinRows]="schema.autosize?.rowsMin || 1"
+      [cdkAutosizeMaxRows]="schema.autosize?.rowsMax || 6"
+      kfNoWhitespace
+      kfTrim
+    ></textarea>
+
+    <mat-error
+      *ngIf="input.errors?.['required']"
+      translate="FORM.FIELD_IS_REQUIRED"
+    ></mat-error>
+    <mat-error
+      *ngIf="input.errors?.['minlength']"
+      translate="FORM.FIELD_EXCEEDED_MIN_LENGTH"
+    ></mat-error>
+    <mat-error
+      *ngIf="input.errors?.['maxlength']"
+      translate="FORM.FIELD_EXCEEDED_MAX_LENGTH"
+    ></mat-error>
+
+    <mat-hint
+      *ngIf="hasWarning"
+      class="mat-hint-warning warning-message"
+    >
+      {{ schema.warningMessage | translateResolveNull }}
+    </mat-hint>
+  </mat-form-field>
+</ng-container>

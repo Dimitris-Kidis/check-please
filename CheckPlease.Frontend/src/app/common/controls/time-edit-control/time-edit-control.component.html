@@ -1,0 +1,29 @@
+<mat-form-field
+  *ngIf="config && !config[schema.fieldName].hidden"
+  [class]="schema.className"
+>
+  <mat-label *ngIf="schema.translationKey">{{ schema.translationKey | translate }}</mat-label>
+  <input
+    id="{{ schema.controlId }}"
+    matInput
+    [matTimepicker]="picker"
+    [name]="schema.formName"
+    [required]="config[schema.fieldName].required"
+    [disabled]="!config[schema.fieldName].active"
+    placeholder="{{ schema.placeholder! | translate }}"
+    [(ngModel)]="value"
+    (ngModelChange)="valueChange.emit($event)"
+    autocomplete="off"
+    [readonly]="schema.readonly"
+  />
+  <mat-timepicker-toggle
+    matSuffix
+    [for]="picker"
+    [disabled]="schema.readonly"
+  ></mat-timepicker-toggle>
+  <mat-timepicker #picker></mat-timepicker>
+
+  <mat-error *ngIf="input.errors?.['required']">
+    {{ errorMessages.required.key | translate : errorMessages.required.params }}
+  </mat-error>
+</mat-form-field>

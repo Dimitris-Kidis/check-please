@@ -1,0 +1,19 @@
+.large-modal {
+  position: absolute;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 60%;
+  width: 90%;
+  border-radius: 3px;
+}
+
+.calendar-event-modal {
+  position: absolute;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: fit-content;
+  width: 90%;
+  border-radius: 3px;
+}

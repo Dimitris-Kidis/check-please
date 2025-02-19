@@ -1,0 +1,12 @@
+<ng-container *ngIf="busyData; then kfBusy; else spinner"></ng-container>
+
+<ng-template #kfBusy>
+  <check-please-busy
+    [isBusy]="true"
+    [label]="busyData!.labelKey$ | async | translateResolveNull"
+  ></check-please-busy>
+</ng-template>
+
+<ng-template #spinner>
+  <mat-spinner checkPleaseSpinnerSize="medium"></mat-spinner>
+</ng-template>

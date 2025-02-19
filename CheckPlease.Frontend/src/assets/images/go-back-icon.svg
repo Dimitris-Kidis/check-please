@@ -1,0 +1,8 @@
+<svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style type="text/css">
+	.report-st0{fill:currentColor;}
+	.report-st1{fill:none;stroke:currentColor;stroke-width:2;}
+</style>
+<path class="report-st0" d="M1.43159 3.35978L3.86097 1.08235C3.97809 0.972549 4.16809 0.972549 4.28522 1.08235L4.56859 1.34802C4.68559 1.45771 4.68572 1.63536 4.56909 1.74528L2.64372 3.55864L4.56897 5.37212C4.68572 5.48204 4.68547 5.6597 4.56847 5.76939L4.28509 6.03505C4.16797 6.14485 3.97797 6.14485 3.86084 6.03505L1.43159 3.75751C1.31447 3.64771 1.31447 3.46958 1.43159 3.35978V3.35978Z" />
+<path class="report-st1" d="M2 3.55859H7C9.76142 3.55859 12 5.79717 12 8.55859V8.55859C12 11.32 9.76142 13.5586 7 13.5586H4.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

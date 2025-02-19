@@ -1,0 +1,28 @@
+<div
+  *ngIf="config && !config[schema.fieldName].hidden"
+  class="kf-form-field"
+>
+  <mat-checkbox
+    #model="ngModel"
+    [id]="schema.controlId!"
+    [name]="schema.formName"
+    [(ngModel)]="value"
+    (ngModelChange)="valueChange.next(value)"
+    [required]="config[schema.fieldName].required"
+    [disabled]="!config[schema.fieldName].active"
+    class="kf-checkbox-wrap"
+    [class.text-warn]="errorStateMatcher.isErrorState(model.control, parentForm)"
+  >
+    <div class="d-flex align-items-center">
+      <ng-content select="prefix-element"></ng-content>
+      {{ schema.translationKey | translateResolveNull }}
+      <ng-content select="suffix-element"></ng-content>
+    </div>
+  </mat-checkbox>
+
+  <mat-error
+    *ngIf="errorStateMatcher.isErrorState(model.control, parentForm) && model.errors?.['required']"
+    translate="FORM.FIELD_IS_REQUIRED"
+    class="ms-4"
+  ></mat-error>
+</div>

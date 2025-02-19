@@ -1,0 +1,101 @@
+@use 'sass:map';
+
+@import 'mixins/bootstrap-grid';
+
+@import 'node_modules/bootstrap/scss/vendor/rfs';
+@import 'node_modules/bootstrap/scss/grid';
+@import 'node_modules/bootstrap/scss/utilities';
+
+$utilities: map.merge(
+  $utilities,
+  (
+    'flex': (
+      responsive: true,
+      property: flex,
+      values: (
+        1: 1 1 0%,
+        auto: 1 1 auto,
+        initial: 0 1 auto,
+        none: none,
+      ),
+    ),
+  )
+);
+
+$utilities: map-get-multiple(
+  $utilities,
+  (
+    'display',
+    'flex',
+    'flex-direction',
+    'flex-grow',
+    'flex-shrink',
+    'flex-wrap',
+    'justify-content',
+    'align-items',
+    'align-content',
+    'align-self',
+    'margin',
+    'margin-x',
+    'margin-y',
+    'margin-top',
+    'margin-end',
+    'margin-bottom',
+    'margin-start',
+    'negative-margin',
+    'negative-margin-x',
+    'negative-margin-y',
+    'negative-margin-top',
+    'negative-margin-end',
+    'negative-margin-bottom',
+    'negative-margin-start',
+    'padding',
+    'padding-x',
+    'padding-y',
+    'padding-top',
+    'padding-end',
+    'padding-bottom',
+    'padding-start',
+    'position',
+    'overflow'
+  )
+);
+
+@import '../../node_modules/bootstrap/scss/utilities/api';
+
+.inset-0 {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.p-relative {
+  position: relative;
+}
+
+.p-absolute {
+  position: absolute;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.clearfix::before,
+.clearfix::after {
+  display: table;
+  content: ' ';
+}
+
+.clearfix::after {
+  clear: both;
+}

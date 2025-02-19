@@ -1,0 +1,44 @@
+<span
+  cdkOverlayOrigin
+  #overlay="cdkOverlayOrigin"
+  (click)="toggleTooltip($event)"
+>
+  <ng-content
+    select="pm-popover-element, [pmPopoverElement]"
+    type="button"
+  ></ng-content>
+</span>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="overlay"
+  [cdkConnectedOverlayOpen]="opened"
+>
+  <div class="popover kf-popover-area kf-popover-area-{{ size }} pb-3 px-3">
+    <header class="kf-popover-header">
+      <div id="popover-header">
+        <ng-content select="pm-popover-header, [pmPopoverHeader]"></ng-content>
+        <span *ngIf="headerText">{{ headerText | translate }}</span>
+      </div>
+      <button
+        id="close-popover-element"
+        mat-icon-button
+        type="button"
+        class="icon-button-size-4"
+        aria-label="Close"
+        (click)="closeButton($event)"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </header>
+
+    <div class="popover-content">
+      <ng-content select="pm-popover-content, [pmPopoverContent]"></ng-content>
+      <div
+        *ngIf="contentHtml"
+        [innerHTML]="contentHtml"
+      ></div>
+      <p *ngIf="contentText">{{ contentText }}</p>
+    </div>
+  </div>
+</ng-template>

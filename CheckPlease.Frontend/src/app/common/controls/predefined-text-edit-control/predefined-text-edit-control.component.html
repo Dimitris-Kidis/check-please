@@ -1,0 +1,59 @@
+<!-- <mat-form-field
+  *ngIf="config && !config[schema.fieldName].hidden"
+  [class]="schema.className"
+>
+  <mat-label *ngIf="schema.translationKey">{{ schema.translationKey | translate }}</mat-label>
+
+  <input
+    [id]="schema.controlId!"
+    matInput
+    #input="ngModel"
+    [(ngModel)]="value"
+    (ngModelChange)="valueChange.next(value!)"
+    [placeholder]="schema.placeholder! | translate"
+    [name]="schema.formName"
+    [required]="config[schema.fieldName].required"
+    [disabled]="!config[schema.fieldName].active"
+    [maxlength]="schema.maxLength ?? ''"
+    [minlength]="schema.minLength ?? ''"
+    [spellcheck]="schema.spellCheck"
+    [pattern]="schema.pattern ?? ''"
+    [matAutocomplete]="auto"
+  />
+
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option
+      *ngFor="let option of filteredOptions"
+      [value]="option.detailName"
+      (click)="selectItem.emit(option)"
+    >
+      {{ option.detailName }}
+    </mat-option>
+  </mat-autocomplete>
+
+  <span
+    *ngIf="schema.suffix"
+    matSuffix
+    >{{ schema.suffix }}</span
+  >
+
+  <mat-hint
+    *ngIf="schema.isLengthCounterEnabled"
+    align="end"
+  >
+    {{ value?.length ?? 0 }} / {{ schema.maxLength }}
+  </mat-hint>
+
+  <mat-error
+    *ngIf="input.errors?.['required']"
+    translate="FORM.FIELD_IS_REQUIRED"
+  ></mat-error>
+  <mat-error
+    *ngIf="input.errors?.['minlength']"
+    translate="FORM.FIELD_EXCEEDED_MIN_LENGTH"
+  ></mat-error>
+  <mat-error
+    *ngIf="input.errors?.['maxlength']"
+    translate="FORM.FIELD_EXCEEDED_MAX_LENGTH"
+  ></mat-error>
+</mat-form-field> -->

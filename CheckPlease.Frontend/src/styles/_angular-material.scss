@@ -1,0 +1,534 @@
+/* stylelint-disable no-descending-specificity */
+
+/* -----------------------------------------------------------------------------------------------------
+ *  @ Angular Material CDK helpers & overrides
+ * ----------------------------------------------------------------------------------------------------- */
+
+/* -----------------------------------------------------------------------------------------------------
+ *  @ Form fields
+ * ----------------------------------------------------------------------------------------------------- */
+@mixin override-angular-material() {
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  /* KF only uses 'fill' style form fields and therefore
+   * only provides fixes and tweaks for that style */
+  .mat-mdc-form-field.mat-form-field-appearance-fill {
+    /* Disabled */
+    &.mat-form-field-disabled {
+      opacity: 0.7 !important;
+
+      .mat-mdc-text-field-wrapper {
+        background-color: var(--kf-bg-input-disabled);
+        border-color: var(--kf-bg-input-disabled);
+
+        .mat-mdc-form-field-infix {
+          .mat-mdc-floating-label {
+            color: var(--kf-fg-disabled-text);
+          }
+        }
+      }
+    }
+
+    /* Invalid */
+    &.mat-form-field-invalid {
+      /* Border color */
+      .mat-mdc-text-field-wrapper {
+        border: 1px solid var(--kf-warn-default) !important;
+      }
+
+      /* Select */
+      .mat-mdc-select {
+        /* Placeholder color */
+        .mat-mdc-select-placeholder {
+          color: var(--kf-warn-default);
+        }
+      }
+    }
+
+    /* Hover */
+    &:hover {
+      .mat-mdc-form-field-focus-overlay {
+        opacity: 0 !important;
+      }
+    }
+
+    /* Focused */
+    &.mat-focused {
+      .mat-mdc-form-field-focus-overlay {
+        opacity: 0 !important;
+      }
+
+      .mat-mdc-text-field-wrapper {
+        background-color: var(--kf-bg-card);
+      }
+    }
+
+    /* Focused and valid fields */
+    &.mat-focused:not(.mat-form-field-invalid) {
+      /* Border color */
+      .mat-mdc-text-field-wrapper {
+        border-color: var(--kf-accent-default);
+      }
+    }
+
+    /* Remove the default arrow for native select */
+    &.mat-mdc-form-field-type-mat-native-select {
+      .mat-mdc-form-field-infix {
+        select {
+          top: auto;
+          margin-top: 0;
+          margin-bottom: 0;
+          padding-top: 0;
+          padding-right: 18px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2364748B' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right -7px center;
+          background-size: 24px;
+
+          .dark & {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2397a6ba' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+          }
+        }
+
+        &:after {
+          display: none;
+        }
+      }
+    }
+
+    /* Default style tweaks and enhancements */
+    .mat-mdc-text-field-wrapper {
+      padding: 0;
+      border-radius: 3px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: var(--kf-fg-divider);
+      background-color: var(--kf-bg-input);
+      transition: border-color 0.2s ease-in-out;
+
+      /* Adjust the top spacing and overflow when mat-label present */
+      &:not(.mdc-text-field--no-label) {
+        margin-top: 24px;
+        overflow: visible;
+      }
+
+      .mat-mdc-form-field-focus-overlay {
+        border-radius: 3px;
+      }
+
+      /* Form field */
+      .mat-mdc-form-field-flex {
+        position: relative;
+        display: flex;
+        align-items: stretch;
+        border-radius: 3px;
+        padding: 0 12px;
+
+        .mat-mdc-form-field-icon-prefix,
+        .mat-mdc-form-field-text-prefix {
+          padding: 0 !important;
+
+          > .mat-icon {
+            margin-right: 12px;
+            padding: 0 !important;
+          }
+
+          > .mat-mdc-icon-button {
+            margin: 0 4px 0 -10px;
+          }
+
+          > .mat-mdc-select {
+            margin-right: 10px;
+          }
+
+          > .mat-datepicker-toggle {
+            margin-left: -8px;
+          }
+        }
+
+        .mat-mdc-form-field-icon-suffix,
+        .mat-mdc-form-field-text-suffix {
+          padding: 0 !important;
+
+          > .mat-icon {
+            margin-left: 12px;
+            padding: 0 !important;
+          }
+
+          > .mat-mdc-icon-button {
+            margin: 0 -10px 0 4px;
+          }
+
+          > .mat-mdc-select {
+            margin-left: 10px;
+          }
+
+          > .mat-datepicker-toggle {
+            margin-right: -8px;
+          }
+        }
+
+        .mat-mdc-form-field-icon-prefix,
+        .mat-mdc-form-field-text-prefix,
+        .mat-mdc-form-field-icon-suffix,
+        .mat-mdc-form-field-text-suffix {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--kf-fg-hint-text) !important;
+
+          .mat-mdc-icon-button {
+            width: 2rem;
+            min-width: 2rem;
+            height: 2rem;
+            min-height: 2rem;
+            padding: 0.4rem;
+            font-size: 1.2rem;
+          }
+
+          .mat-icon {
+            width: 1.2rem;
+            height: 1.2rem;
+            font-size: 1.2rem;
+          }
+
+          .mat-icon,
+          .mat-mdc-icon-button:not([disabled]),
+          .mat-mdc-select-value {
+            color: var(--kf-fg-hint-text) !important;
+          }
+
+          /* Datepicker default icon size */
+          .mat-datepicker-toggle-default-icon {
+            width: 1.2rem;
+            height: 1.2rem;
+            min-width: 1.2rem;
+            min-height: 1.2rem;
+            font-size: 1.2rem;
+            line-height: 1.2rem;
+
+            svg {
+              width: 1.2rem;
+              height: 1.2rem;
+            }
+          }
+
+          /* Make mat-select usable as prefix and suffix */
+          .mat-mdc-select {
+            display: flex;
+            align-items: center;
+
+            &:focus {
+              .mat-mdc-select-trigger {
+                .mat-mdc-select-value {
+                  color: var(--kf-primary-text) !important;
+                }
+
+                .mat-mdc-select-arrow-wrapper {
+                  .mat-mdc-select-arrow {
+                    border-top-color: var(--fuse-primary) !important;
+                  }
+                }
+              }
+            }
+
+            .mat-mdc-select-trigger {
+              display: flex;
+              align-items: center;
+
+              .mat-mdc-select-value {
+                display: flex;
+                max-width: none;
+
+                mat-mdc-select-trigger {
+                  .mat-icon {
+                    margin: 0 !important;
+                  }
+                }
+              }
+
+              .mat-mdc-select-arrow-wrapper {
+                display: flex;
+                align-items: center;
+                transform: none;
+                margin-left: 4px;
+
+                .mat-mdc-select-arrow {
+                  min-height: 0;
+                  color: var(--kf-fg-secondary-text) !important;
+                }
+              }
+            }
+          }
+        }
+
+        /* Infix */
+        .mat-mdc-form-field-infix {
+          position: static;
+          display: flex;
+          align-items: center;
+          width: 88px;
+          min-height: 33px;
+          padding: 0;
+          border: 0;
+
+          /* Floating label - disable floating action */
+          .mat-mdc-floating-label {
+            top: -18px !important;
+            left: 0 !important;
+            width: 100% !important;
+            transform: none !important;
+            pointer-events: auto;
+            font-weight: 500;
+            color: var(--kf-fg-text);
+          }
+
+          /* Textarea */
+          textarea.mat-mdc-input-element {
+            margin: 4px 0;
+            padding: 0 6px 0 0;
+          }
+
+          /* Chips */
+          .mat-mdc-chip-set {
+            width: 100%;
+            margin: 0 -8px;
+          }
+
+          /* Select */
+          .mat-mdc-select {
+            .mat-mdc-select-trigger {
+              .mat-mdc-select-arrow-wrapper {
+                transform: none;
+              }
+            }
+          }
+        }
+      }
+
+      /* Remove the underline */
+      .mdc-line-ripple {
+        display: none;
+      }
+    }
+
+    /* Subscript tweaks */
+    .mat-mdc-form-field-subscript-wrapper {
+      font-size: 12px;
+      font-weight: 500;
+
+      .mat-mdc-form-field-hint-wrapper,
+      .mat-mdc-form-field-error-wrapper {
+        padding: 0;
+      }
+
+      .mat-mdc-form-field-hint {
+        color: var(--kf-fg-hint-text) !important;
+      }
+    }
+
+    /* Adds better alignment for textarea inputs */
+    &:has(textarea.mat-mdc-input-element) {
+      .mat-mdc-text-field-wrapper {
+        .mat-mdc-form-field-flex {
+          .mat-mdc-form-field-icon-prefix,
+          .mat-mdc-form-field-text-prefix,
+          .mat-mdc-form-field-icon-suffix,
+          .mat-mdc-form-field-text-suffix {
+            align-self: flex-start;
+            padding-top: 14px !important;
+          }
+        }
+      }
+    }
+
+    .mat-mdc-floating-label {
+      &:has(~ input[required]),
+      &:has(~ textarea[required]),
+      &:has(~ .mat-mdc-select[required]) {
+        mat-label:after {
+          margin-left: 0.25em;
+          display: inline-block;
+          width: 11px;
+
+          content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z" fill="rgb(211, 47, 47)"/></svg>');
+        }
+      }
+    }
+
+    &.ng-invalid {
+      .mat-mdc-text-field-wrapper:has(input[required]),
+      .mat-mdc-text-field-wrapper:has(textarea[required]),
+      .mat-mdc-text-field-wrapper:has(.mat-mdc-select[required]) {
+        border-color: var(--kf-warn-default);
+      }
+    }
+
+    input {
+      &:-internal-autofill-previewed,
+      &:-internal-autofill-selected {
+        appearance: menulist-button;
+        background-image: none !important;
+        background-color: #000 !important;
+        color: #fff !important;
+      }
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      &[type='number'] {
+        -moz-appearance: textfield;
+      }
+    }
+  }
+
+  .control-slim .mat-mdc-form-field.mat-form-field-appearance-fill,
+  .kf-mat-no-subscript.mat-mdc-form-field.mat-form-field-appearance-fill {
+    /* Removes subscript space */
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+      height: 0 !important;
+    }
+  }
+
+  .kf-inline-field {
+    .mat-form-field.mat-form-field-appearance-fill,
+    &.mat-form-field.mat-form-field-appearance-fill {
+      .mat-form-field-wrapper {
+        margin-top: 0;
+
+        $labelSize: 166px;
+
+        .mat-form-field-flex {
+          width: calc(100% - $labelSize);
+          margin-left: $labelSize;
+
+          .mat-form-field-label-wrapper {
+            top: 9px;
+            left: -$labelSize;
+            width: $labelSize;
+          }
+        }
+
+        .mat-form-field-subscript-wrapper {
+          margin-left: $labelSize;
+        }
+      }
+    }
+  }
+
+  .mat-autocomplete-panel {
+    min-width: 160px !important;
+  }
+
+  .mat-mdc-checkbox {
+    .mdc-label {
+      padding-left: 0;
+      margin-left: -6px;
+    }
+  }
+
+  .mat-checkbox.mat-accent {
+    .mat-checkbox-frame {
+      border-width: 1px;
+    }
+  }
+
+  .mat-mini-fab {
+    border-radius: 4px !important;
+  }
+
+  .square-icon-button.mdc-icon-button,
+  .square-flat-icon-button.mdc-icon-button {
+    height: 32px;
+    width: 32px;
+
+    border-radius: 3px;
+    border: 1px solid var(--kf-primary-default);
+    background-color: var(--kf-bg-background);
+
+    font-size: 1rem;
+    padding: 0.5rem;
+
+    &.chip-list-selector-button {
+      margin-top: auto;
+      margin-bottom: 16px;
+    }
+
+    &:hover {
+      .mat-button-focus-overlay {
+        opacity: 0.04;
+      }
+    }
+
+    .mat-icon {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .mat-mdc-button-touch-target {
+      height: 32px;
+      width: 32px;
+    }
+  }
+
+  .square-flat-icon-button.mdc-icon-button:not(.mat-button-disabled) {
+    color: var(--kf-on-primary-default);
+    background-color: var(--kf-primary-default);
+    border: 0;
+  }
+
+  .square-flat-icon-button.mdc-icon-button.mat-button-disabled {
+    color: var(--kf-fg-disabled-button);
+    background-color: var(--kf-bg-disabled-button);
+    border: 0;
+  }
+
+  .mat-button-toggle-appearance-standard {
+    .mat-button-toggle-label-content {
+      line-height: 33px !important;
+    }
+  }
+
+  .kf-checkbox-wrap {
+    .mat-checkbox-layout {
+      white-space: normal !important;
+    }
+
+    .mat-checkbox-inner-container {
+      margin-top: 3px !important;
+    }
+  }
+
+  .kf-radio-wrap .mat-radio-label {
+    white-space: normal;
+    align-items: start;
+  }
+
+  .mat-mdc-menu-item .mat-icon {
+    font-size: 18px;
+    line-height: 18px;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+  }
+
+  .mat-mdc-no-data-row .mat-cell {
+    padding: 0.5rem 1rem;
+    color: var(--kf-fg-secondary-text);
+  }
+
+  .cdk-global-scrollblock {
+    overflow-y: hidden !important;
+  }
+
+  .mat-mdc-option.contains-mat-select-search {
+    min-height: 36px;
+  }
+}

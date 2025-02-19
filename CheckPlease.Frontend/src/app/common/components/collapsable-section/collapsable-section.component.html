@@ -1,0 +1,29 @@
+<mat-accordion>
+  <mat-expansion-panel
+    hideToggle
+    [expanded]="expanded"
+    (opened)="expanded = true"
+    (closed)="expanded = false"
+  >
+    <mat-expansion-panel-header class="panel-title">
+      <mat-panel-title>
+        <mat-icon
+          *ngIf="expanded"
+          aria-hidden="false"
+          aria-label="Arrow icon"
+          fontIcon="arrow_drop_down"
+        ></mat-icon>
+        <mat-icon
+          *ngIf="!expanded"
+          aria-hidden="false"
+          aria-label="Arrow icon"
+          fontIcon="arrow_right"
+        ></mat-icon>
+        <span class="title">{{ title | translate }}</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="panel-body">
+      <ng-content></ng-content>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

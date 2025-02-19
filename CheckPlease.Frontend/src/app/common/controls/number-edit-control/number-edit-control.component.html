@@ -1,0 +1,44 @@
+<mat-form-field
+  *ngIf="config && !config[schema.fieldName].hidden && !config.hidden"
+  class="number"
+>
+  <mat-label
+    *ngIf="schema.translationKey"
+    [translate]="schema.translationKey"
+  ></mat-label>
+
+  <input
+    #input="ngModel"
+    [checkPleaseNumberPrecision]="0"
+    matInput
+    [required]="config[schema.fieldName].required"
+    type="number"
+    [(ngModel)]="value"
+    [id]="schema.controlId!"
+    (ngModelChange)="valueChange.emit($event)"
+    [name]="schema.formName"
+    [min]="!allowZero ? 1 : null"
+    [placeholder]="schema.placeholder! | translate"
+    [readonly]="schema.readonly"
+    onkeydown="return event.keyCode !== 69"
+  />
+  <span
+    *ngIf="schema.suffix"
+    matSuffix
+    >{{ schema.suffix | translate }}</span
+  >
+  <mat-error
+    *ngIf="input.errors?.['numberPrecision']"
+    translate="FORM.NUMBER_PRECISION_ALLOWED"
+    [translateParams]="{ value: 0 }"
+  ></mat-error>
+
+  <mat-error
+    *ngIf="input.errors?.['required']"
+    translate="FORM.FIELD_IS_REQUIRED"
+  ></mat-error>
+  <mat-error
+    *ngIf="input.errors?.['min']"
+    translate="FORM.FIELD_SHOULD_BE_GREATER_THAN_ZERO"
+  ></mat-error>
+</mat-form-field>

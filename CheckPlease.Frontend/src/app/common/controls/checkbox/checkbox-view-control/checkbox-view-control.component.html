@@ -1,0 +1,107 @@
+<div
+  *ngIf="config && !config[schema.fieldName].hidden"
+  [attr.id]="schema.controlId"
+>
+  <div
+    [ngSwitch]="schema.checkboxType"
+    class="attributes"
+  >
+    <!-- View -->
+    <ng-container *ngSwitchCase="checkboxTypes.ViewBoolean">
+      <div
+        class="attributes-title"
+        [translate]="schema.translationKey"
+      ></div>
+      <div class="attributes-value">
+        <span
+          class="status"
+          [ngClass]="{ 'status-no': !value, 'status-yes': value }"
+          title="{{ titleValue | translateResolveNull }}"
+        ></span>
+      </div>
+    </ng-container>
+
+    <!-- ViewQubeSlm -->
+    <ng-container *ngSwitchCase="checkboxTypes.ViewQubeSlm">
+      <span
+        class="attributes-title me-1"
+        [translate]="schema.translationKey"
+      ></span
+      >\
+
+      <span>
+        <span
+          *ngIf="url; else emptyValue"
+          class="status"
+          [ngClass]="{ 'status-no': !value, 'status-yes': value }"
+        >
+          <span>{{ text | defaultValue }}</span>
+
+          <span class="ms-3">
+            <a
+              class="qube-button"
+              mat-stroked-button
+              [href]="url"
+              target="_blank"
+              color="primary"
+              translate="COMMON.QUBE.LINK_NAME"
+            ></a>
+          </span>
+        </span>
+      </span>
+      <ng-template #emptyValue>-</ng-template>
+    </ng-container>
+
+    <!-- ViewWithDefaultValue -->
+    <ng-container *ngSwitchCase="checkboxTypes.ViewBooleanWithDefaultValue">
+      <div
+        class="attributes-title"
+        [translate]="schema.translationKey"
+      ></div>
+      <div class="attributes-value">
+        <span
+          *ngIf="value === null"
+          class="status"
+          >-</span
+        >
+        <span
+          *ngIf="value != null"
+          class="status"
+          [ngClass]="{ 'status-no': !value, 'status-yes': value }"
+          title="{{ titleValue | translateResolveNull }}"
+        ></span>
+      </div>
+    </ng-container>
+
+    <!-- ViewWithText -->
+    <ng-container *ngSwitchCase="checkboxTypes.ViewBooleanWithText">
+      <div
+        class="attributes-title"
+        [translate]="schema.translationKey"
+      ></div>
+      <div class="attributes-value">
+        <span
+          class="status"
+          [ngClass]="{ 'status-no': !value, 'status-yes': text && value }"
+        >
+          {{ text | defaultValue }}
+        </span>
+      </div>
+    </ng-container>
+
+    <!-- ViewYesNo -->
+    <ng-container *ngSwitchCase="checkboxTypes.ViewYesNo">
+      <div
+        class="attributes-title"
+        [translate]="schema.translationKey"
+      ></div>
+      <div class="attributes-value">
+        <span [translate]="value ? 'COMMON.YES' : 'COMMON.NO'"></span>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchDefault>
+      <mat-error>Template for {{ checkboxTypes[schema.checkboxType] }} not defined!</mat-error>
+    </ng-container>
+  </div>
+</div>
