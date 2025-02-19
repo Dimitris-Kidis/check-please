@@ -9,8 +9,14 @@ export const clientResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) =>
   const router = inject(Router);
   const clientsService = inject(ClientsService);
 
+  console.log(route);
+
   if (!clientId) {
     router.navigate([environment.redirectToMain]);
+    return of(null);
+  }
+
+  if (clientId == 'new') {
     return of(null);
   }
 
@@ -23,7 +29,7 @@ export const clientResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) =>
       return client;
     }),
     catchError(() => {
-      router.navigate([environment.redirectToMain]);
+      router.navigate(['clients', 'new']);
       return of(null);
     }),
   );

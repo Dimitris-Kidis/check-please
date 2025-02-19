@@ -108,6 +108,10 @@ export class ClientsTabComponent implements OnInit {
     this.router.navigate(['clients', 'new']);
   }
 
+  public editClient(id: string): void {
+    this.router.navigate(['clients', id]);
+  }
+
   public loadMore(): void {
     if (this.hasMore) {
       this.paginationQuery.paginatedRequest.pageIndex++;

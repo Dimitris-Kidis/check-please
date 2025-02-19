@@ -1,1 +1,60 @@
-<p>cars-tab works!</p>
+<div class="container">
+  <form
+    #form="ngForm"
+    class="form"
+    name="form"
+    autocomplete="off"
+    (ngSubmit)="(form.form.valid)"
+  >
+    <div class="search-input">
+      <check-please-text-edit-control
+        [(value)]="paginationQuery.searchInput"
+        [config]="config.searchInput"
+        [schema]="schema.searchInput"
+        class="control"
+      ></check-please-text-edit-control>
+      <small class="search-hint"
+        >Машин найдено: @if(isBusy) {
+        <mat-spinner checkPleaseSpinnerSize="extrasmall"></mat-spinner>
+        } @else {
+        <span> {{ total }}</span>
+        }
+      </small>
+    </div>
+
+    <button
+      type="submit"
+      class="search-button"
+      (click)="search()"
+    >
+      Поиск
+    </button>
+
+    <button
+      class="add-button"
+      (click)="add()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </form>
+
+  <div
+    class="search-result-list"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollUpDistance]="1"
+    [infiniteScrollThrottle]="300"
+    (scrolled)="loadMore()"
+  >
+    @if(isBusy) {
+    <mat-spinner checkPleaseSpinnerSize="medium"></mat-spinner>
+    } @else {
+    <check-please-car-card
+      *ngFor="let car of cars; trackBy: trackByCarId"
+      [car]="car"
+      (onCarDeleting)="deleteCar($event)"
+      (onCarEditing)="editCar($event)"
+    ></check-please-car-card>
+    }
+  </div>
+</div>

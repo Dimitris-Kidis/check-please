@@ -1,0 +1,40 @@
+<div class="user-card">
+  <div class="header">
+    <div class="user-info">
+      <span class="name"
+        ><strong>Номер машины:</strong> {{ car.carSign | defaultValue }} / <strong>Текущий пробег: </strong>
+        {{ car.mileage | defaultValue }} км / <strong>VIN-код: </strong> {{ car.vinCode | defaultValue }}</span
+      >
+      <span class="name"
+        ><strong>Марка:</strong> {{ car.brand | defaultValue }} / <strong>Модель: </strong>
+        {{ car.model | defaultValue }}</span
+      >
+      <span class="name"
+        ><strong>Год:</strong> {{ car.year | defaultValue }} / <strong>Объем двигателя: </strong>
+        {{ car.volume | defaultValue }}</span
+      >
+    </div>
+    <div class="icons">
+      <button
+        class="icon-button edit"
+        (click)="editCar(car.id!)"
+      >
+        <mat-icon class="icon">edit</mat-icon>
+      </button>
+      <button
+        class="icon-button delete"
+        (click)="deleteCar(car.id!)"
+      >
+        <mat-icon class="icon">delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="notes">
+    <label for="notes">Дополнительные заметки</label>
+    <div class="notes-box">
+      {{ car.additionalNotes | defaultValue }}
+    </div>
+    <small style="text-align: right">Создан: {{ car.createdAt | date : datetimeDefaultFormat }}</small>
+  </div>
+</div>

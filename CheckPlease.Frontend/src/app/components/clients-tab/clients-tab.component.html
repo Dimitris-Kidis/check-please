@@ -53,6 +53,7 @@
       *ngFor="let client of clients; trackBy: trackByClientId"
       [client]="client"
       (onClientDeleting)="deleteClient($event)"
+      (onClientEditing)="editClient($event)"
     ></check-please-client-card>
     }
   </div>

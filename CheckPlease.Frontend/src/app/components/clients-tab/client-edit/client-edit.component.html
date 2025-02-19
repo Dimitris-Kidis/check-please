@@ -1,1 +1,49 @@
-<p>client-edit works!</p>
+<div class="container">
+  <form
+    #form="ngForm"
+    class="form"
+    name="form"
+    autocomplete="off"
+    (ngSubmit)="save()"
+  >
+    <div class="row">
+      <check-please-text-edit-control
+        [(value)]="client.fullName"
+        [config]="config.fullName"
+        [schema]="schema.fullName"
+        class="text-edit-control"
+      ></check-please-text-edit-control>
+
+      <check-please-text-edit-control
+        [(value)]="client.phoneNumber"
+        [config]="config.phoneNumber"
+        [schema]="schema.phoneNumber"
+        class="text-edit-control"
+      ></check-please-text-edit-control>
+    </div>
+
+    <check-please-text-area-edit-control
+      [(value)]="client.additionalNotes"
+      [config]="config.additionalNotes"
+      [schema]="schema.additionalNotes"
+      class="text-area-control"
+    ></check-please-text-area-edit-control>
+
+    <div class="actions">
+      <button
+        class="cancel-btn"
+        type="button"
+        (click)="cancel()"
+      >
+        {{ 'Cancel' | translate }}
+      </button>
+      <button
+        type="submit"
+        class="save-btn"
+        [disabled]="isBusy || form.invalid"
+      >
+        {{ (isCreateMode ? 'Create' : 'Save') | translate }}
+      </button>
+    </div>
+  </form>
+</div>

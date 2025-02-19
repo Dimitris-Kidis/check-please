@@ -24,26 +24,21 @@ export const routes: Routes = [
   {
     path: 'cars',
     loadComponent: () => import('./components/cars-tab/cars-tab.component').then((c) => c.CarsTabComponent),
-    children: [
-      {
-        path: ':id',
-        loadComponent: () =>
-          import('./components/cars-tab/car-edit/car-edit.component').then((c) => c.CarEditComponent),
-        resolve: { car: carResolver },
-      },
-    ],
+  },
+  {
+    path: 'cars/:id',
+    loadComponent: () => import('./components/cars-tab/car-edit/car-edit.component').then((c) => c.CarEditComponent),
+    resolve: { car: carResolver },
   },
   {
     path: 'clients',
     loadComponent: () => import('./components/clients-tab/clients-tab.component').then((c) => c.ClientsTabComponent),
-    children: [
-      {
-        path: ':id',
-        loadComponent: () =>
-          import('./components/clients-tab/client-edit/client-edit.component').then((c) => c.ClientEditComponent),
-        resolve: { client: clientResolver },
-      },
-    ],
+  },
+  {
+    path: 'clients/:id',
+    loadComponent: () =>
+      import('./components/clients-tab/client-edit/client-edit.component').then((c) => c.ClientEditComponent),
+    resolve: { client: clientResolver },
   },
   {
     path: 'repair/:id',

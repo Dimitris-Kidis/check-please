@@ -9,21 +9,27 @@ export const carResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);
   const carsService = inject(CarsService);
 
+  console.log(route);
+
   if (!carId) {
     router.navigate([environment.redirectToMain]);
     return of(null);
   }
 
+  if (carId == 'new') {
+    return of(null);
+  }
+
   return carsService.getCar(carId).pipe(
-    map((client) => {
-      if (!client) {
+    map((car) => {
+      if (!car) {
         router.navigate([environment.redirectToMain]);
         return null;
       }
-      return client;
+      return car;
     }),
     catchError(() => {
-      router.navigate([environment.redirectToMain]);
+      router.navigate(['cars', 'new']);
       return of(null);
     }),
   );

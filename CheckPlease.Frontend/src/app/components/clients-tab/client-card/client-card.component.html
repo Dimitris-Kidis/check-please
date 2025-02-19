@@ -2,19 +2,22 @@
   <div class="header">
     <div class="user-info">
       <span class="name"
-        ><strong>Полное имя:</strong> {{ client.fullName }} / <strong>Номер телефона:</strong>
-        {{ client.phoneNumber }}</span
+        ><strong>Полное имя:</strong> {{ client.fullName | defaultValue }} / <strong>Номер телефона:</strong>
+        {{ client.phoneNumber | defaultValue }}</span
       >
     </div>
     <div class="icons">
-      <button class="icon edit">
-        <mat-icon>edit</mat-icon>
+      <button
+        class="icon-button edit"
+        (click)="editClient(client.id!)"
+      >
+        <mat-icon class="icon">edit</mat-icon>
       </button>
       <button
-        class="icon delete"
+        class="icon-button delete"
         (click)="deleteClient(client.id!)"
       >
-        <mat-icon>delete</mat-icon>
+        <mat-icon class="icon">delete</mat-icon>
       </button>
     </div>
   </div>
@@ -24,6 +27,6 @@
     <div class="notes-box">
       {{ client.additionalNotes | defaultValue }}
     </div>
-    <small style="text-align: right">Создан: {{ client.createdAt | date : 'dd-MM-yyyy' }}</small>
+    <small style="text-align: right">Создан: {{ client.createdAt | date : datetimeDefaultFormat }}</small>
   </div>
 </div>

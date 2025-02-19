@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+  margin: 0 auto;
+  gap: 20px;
+
+  check-please-car-card {
+    width: 100%;
+  }
+
+  .search-result-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
+    gap: 10px;
+
+    .search-input {
+      flex: 32;
+
+      .search-hint {
+        display: flex;
+        flex-direction: row;
+        gap: 3px;
+      }
+    }
+
+    .search-button {
+      flex: 3;
+      height: 34px;
+      transition: 0.2s all ease;
+      border: 1px solid #1e222b;
+      border-radius: 2px;
+
+      &:hover {
+        filter: brightness(85%);
+      }
+    }
+
+    .add-button {
+      flex: 1;
+      height: 34px;
+      transition: 0.2s all ease;
+      border: 1px solid #1e2b25;
+      border-radius: 2px;
+      background-color: #3ed390;
+
+      &:hover {
+        filter: brightness(85%);
+      }
+    }
+  }
+}

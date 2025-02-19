@@ -10,6 +10,7 @@ export const environment = {
   defaultLanguage: 'en',
   currentLanguageLabel: 'English',
   secretKeyHiddenFormat: '***-***-***',
+  datetimeDefaultFormat: 'dd-MM-yyyy HH:mm',
   languages: [
     { code: 'en', label: 'English' },
     { code: 'ru', label: 'Русский' },
