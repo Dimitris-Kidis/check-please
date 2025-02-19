@@ -3,6 +3,7 @@
     *ngFor="let tab of tabs"
     [routerLink]="tab.route"
     routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: false }"
     class="tab"
   >
     <mat-icon class="icon">{{ tab.icon }}</mat-icon>

@@ -1,1 +1,15 @@
-<p>main-tab works!</p>
+<div class="dashboard">
+  <div
+    class="stat-card"
+    *ngFor="let stat of stats"
+  >
+    <div
+      class="icon"
+      [innerHTML]="stat.icon"
+    ></div>
+    <div class="info">
+      <div class="count">{{ stat.count }}</div>
+      <div class="label">{{ stat.label }}</div>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClientDto } from '../models/client';
+import { PaginatorResult } from '../models/pagination';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class ClientsService {
     return this._httpService.delete<any>(`api/clients/${id}`);
   }
 
-  public getClientsPaginated(query: any): Observable<ClientDto[]> {
-    return this._httpService.post<ClientDto[]>(`api/clients/paginated`, query);
+  public getClientsPaginated(query: any): Observable<PaginatorResult<ClientDto>> {
+    return this._httpService.post<PaginatorResult<ClientDto>>(`api/clients/paginated`, query);
   }
 }

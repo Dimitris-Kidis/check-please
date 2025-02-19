@@ -7,6 +7,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class SpinnerSizeDirective implements OnChanges {
   private static sizes: Record<SpinnerSize, { diameter: number; strokeWidth: number }> = {
+    extrasmall: { diameter: 12, strokeWidth: 1 },
     small: { diameter: 22, strokeWidth: 2 },
     medium: { diameter: 48, strokeWidth: 3 },
     large: { diameter: 72, strokeWidth: 5 },
@@ -24,4 +25,4 @@ export class SpinnerSizeDirective implements OnChanges {
   }
 }
 
-type SpinnerSize = 'small' | 'medium' | 'large';
+type SpinnerSize = 'extrasmall' | 'small' | 'medium' | 'large';

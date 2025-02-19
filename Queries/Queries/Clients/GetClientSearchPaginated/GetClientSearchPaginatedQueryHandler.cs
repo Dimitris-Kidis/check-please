@@ -31,7 +31,7 @@ namespace Queries.Queries.Clients.GetClientSearchPaginated
 
             int total = await query.CountAsync(cancellationToken);
 
-            bool hasMore = (request.PaginatedRequest.PageIndex + 1) * request.PaginatedRequest.PageSize < total;
+            bool hasMore = (request.PaginatedRequest.PageIndex) * request.PaginatedRequest.PageSize < total;
 
             var clients = await query
                 .OrderBy(u => u.Id)
