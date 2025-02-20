@@ -60,7 +60,7 @@ namespace CheckPlease.Controllers.Repairs
         /// <summary>
         /// Get history search paginated
         /// </summary>
-        [HttpPost("history")]
+        [HttpPost("paginated")]
         public async Task<IActionResult> GetHistorySearchPaginated([FromBody] GetHistorySearchPaginatedQuery query)
         {
             var result = await _mediator.Send(query);

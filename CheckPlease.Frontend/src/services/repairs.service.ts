@@ -1,6 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PaginatorResult, SearchPaginatedRequest } from '../models/pagination';
 import { RepairDto } from '../models/repair';
 
 @Injectable({
@@ -25,8 +26,8 @@ export class RepairsService {
     return this._httpService.delete<any>(`api/repairs/${id}`);
   }
 
-  public getRepairsPaginated(query: any): Observable<RepairDto[]> {
-    return this._httpService.post<RepairDto[]>(`api/repairs/history`, query);
+  public getRepairsPaginated(query: SearchPaginatedRequest): Observable<PaginatorResult<RepairDto>> {
+    return this._httpService.post<PaginatorResult<RepairDto>>(`api/repairs/paginated`, query);
   }
 
   // public getCheckPrint(id: string): Observable<Blob> {

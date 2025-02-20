@@ -12,6 +12,7 @@
         public string? AdditionalNotes { get; set; }
         public int TotalRepairPrice { get; set; }
         public DateTimeOffset? RepairDate { get; set; }
+        public bool IsSentToBot { get; set; }
         public string CreatedBy { get; set; }
         public string? LastModifiedBy { get; set; }
         public DateTimeOffset CreatedAt { get; set; }

@@ -108,6 +108,11 @@ export class ClientsTabComponent implements OnInit {
     this.router.navigate(['clients', 'new']);
   }
 
+  public reset(): void {
+    this.paginationQuery.searchInput = '';
+    this.search();
+  }
+
   public editClient(id: string): void {
     this.router.navigate(['clients', id]);
   }

@@ -1,8 +1,13 @@
+import { CarDto } from './car';
+import { ClientDto } from './client';
+
 export interface RepairDto {
   id?: string;
   problems?: string;
   mileage?: number;
   clientId?: string;
+  client?: ClientDto;
+  car?: CarDto;
   carId?: string;
   additionalNotes?: string;
   totalRepairPrice?: number;

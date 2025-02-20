@@ -1,0 +1,46 @@
+<div class="user-card">
+  <div class="header">
+    <div class="user-info">
+      <span class="name"
+        ><strong>Владелец машины:</strong> {{ repair.client?.fullName | defaultValue }} /
+        <strong>Номер телефона: </strong> {{ repair.client?.phoneNumber | defaultValue }}
+      </span>
+      <span class="name"
+        ><strong>Номер машины:</strong> {{ repair.car?.carSign | defaultValue }} /
+        <strong>Пробег при ремонте: </strong> {{ repair.mileage | defaultValue }} км /
+        <strong>Актуальный пробег ({{ repair.repairDate | date : dateDefaultFormat }}): </strong>
+        {{ repair.car?.mileage | defaultValue }} км</span
+      >
+    </div>
+    <div class="icons">
+      <button
+        class="icon-button edit"
+        (click)="editRepair(repair.id!)"
+      >
+        <mat-icon class="icon">edit</mat-icon>
+      </button>
+      <button
+        class="icon-button delete"
+        (click)="deleteRepair(repair.id!)"
+      >
+        <mat-icon class="icon">delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="notes">
+    <label for="notes">Дополнительные заметки</label>
+    <div class="notes-box">
+      {{ repair.additionalNotes | defaultValue }}
+    </div>
+  </div>
+
+  <check-please-collapsable-section
+    [expanded]="false"
+    title="{{ 'Подробности ремонта - ' + repair.totalRepairPrice }}"
+  >
+  </check-please-collapsable-section>
+  <small style="text-align: right"
+    >Создан: {{ repair.createdAt | date : datetimeDefaultFormat + ' (EEEE)' | dayOfWeek }}</small
+  >
+</div>

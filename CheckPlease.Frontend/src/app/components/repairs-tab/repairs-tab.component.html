@@ -14,7 +14,7 @@
         class="control"
       ></check-please-text-edit-control>
       <small class="search-hint"
-        >Клиентов найдено: @if(isBusy) {
+        >Ремонтов найдено: @if(isBusy) {
         <mat-spinner checkPleaseSpinnerSize="extrasmall"></mat-spinner>
         } @else {
         <span> {{ total }}</span>
@@ -56,12 +56,12 @@
     @if(isBusy) {
     <mat-spinner checkPleaseSpinnerSize="medium"></mat-spinner>
     } @else {
-    <check-please-client-card
-      *ngFor="let client of clients; trackBy: trackByClientId"
-      [client]="client"
-      (onClientDeleting)="deleteClient($event)"
-      (onClientEditing)="editClient($event)"
-    ></check-please-client-card>
+    <check-please-repair-card
+      *ngFor="let repair of repairs; trackBy: trackByRepairId"
+      [repair]="repair"
+      (onRepairDeleting)="deleteRepair($event)"
+      (onRepairEditing)="editRepair($event)"
+    ></check-please-repair-card>
     }
   </div>
 </div>

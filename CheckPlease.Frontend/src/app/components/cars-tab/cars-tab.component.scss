@@ -34,6 +34,19 @@
       }
     }
 
+    .reset-button {
+      flex: 1;
+      height: 34px;
+      transition: 0.2s all ease;
+      border: 1px solid #2b1e20;
+      background-color: #d33e3e;
+      border-radius: 2px;
+
+      &:hover {
+        filter: brightness(85%);
+      }
+    }
+
     .search-button {
       flex: 3;
       height: 34px;

@@ -18,8 +18,14 @@ export const routes: Routes = [
     loadComponent: () => import('./components/repair-tab/repair-tab.component').then((c) => c.RepairTabComponent),
   },
   {
-    path: 'history',
-    loadComponent: () => import('./components/history-tab/history-tab.component').then((c) => c.HistoryTabComponent),
+    path: 'repairs',
+    loadComponent: () => import('./components/repairs-tab/repairs-tab.component').then((c) => c.RepairsTabComponent),
+  },
+  {
+    path: 'repair/:id',
+    loadComponent: () =>
+      import('./components/repairs-tab/repair-edit/repair-edit.component').then((c) => c.RepairEditComponent),
+    resolve: { repair: repairResolver },
   },
   {
     path: 'cars',
@@ -39,12 +45,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/clients-tab/client-edit/client-edit.component').then((c) => c.ClientEditComponent),
     resolve: { client: clientResolver },
-  },
-  {
-    path: 'repair/:id',
-    loadComponent: () =>
-      import('./components/history-tab/repair-edit/repair-edit.component').then((c) => c.RepairEditComponent),
-    resolve: { repair: repairResolver },
   },
   {
     path: '**',

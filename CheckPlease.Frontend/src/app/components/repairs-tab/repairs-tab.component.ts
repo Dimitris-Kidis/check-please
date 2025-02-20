@@ -6,49 +6,46 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
-import { CarDto } from '../../../models/car';
 import { PaginatorResult, SearchPaginatedRequest } from '../../../models/pagination';
-import { CarsService } from '../../../services/cars.service';
+import { RepairDto } from '../../../models/repair';
+import { RepairsService } from '../../../services/repairs.service';
 import { TextEditControlComponent } from '../../common/controls/text-edit-control/text-edit-control.component';
 import { DisplayErrorHelper } from '../../common/helpers/display-error.helper';
 import { SpinnerSizeDirective } from '../../directives/spinner/spinner-size.directive';
 import { SpinnerModule } from '../../directives/spinner/spinner.module';
 import { ISearchInputConfig, getSearchInputConfig } from '../clients-tab/clients-tab.config';
 import { ISearchInputSchema, getSearchInputSchema } from '../clients-tab/clients-tab.schema';
-import { CarCardComponent } from './car-card/car-card.component';
+import { RepairCardComponent } from './repair-card/repair-card.component';
 
 @Component({
-  selector: 'check-please-cars-tab',
   imports: [
     FormsModule,
     TranslateModule,
     TextEditControlComponent,
     CommonModule,
-    CarCardComponent,
+    RepairCardComponent,
     SpinnerSizeDirective,
     SpinnerModule,
     MatIconModule,
     InfiniteScrollDirective,
   ],
-  templateUrl: './cars-tab.component.html',
-  styleUrl: './cars-tab.component.scss',
+  templateUrl: './repairs-tab.component.html',
+  styleUrl: './repairs-tab.component.scss',
 })
-export class CarsTabComponent implements OnInit {
+export class RepairsTabComponent implements OnInit {
   public isBusy: boolean = false;
-  public cars: CarDto[] = [];
+  public repairs: RepairDto[] = [];
   public hasMore: boolean = false;
   public total: number = 0;
   public isLoadMore: boolean = false;
 
   public config: ISearchInputConfig = getSearchInputConfig();
-  public schema: ISearchInputSchema = getSearchInputSchema(
-    'Введите номер машины, модель, марку или текст из заметок для поиска...',
-  );
+  public schema: ISearchInputSchema = getSearchInputSchema('Введите данные о клиенте или машины для поиска...');
 
   public paginationQuery: SearchPaginatedRequest = { paginatedRequest: { pageIndex: 1, pageSize: 10 } };
 
   public constructor(
-    private readonly carsService: CarsService,
+    private readonly repairsService: RepairsService,
     private readonly displayErrorHelper: DisplayErrorHelper,
     private readonly cdr: ChangeDetectorRef,
     private readonly router: Router,
@@ -66,14 +63,14 @@ export class CarsTabComponent implements OnInit {
       this.isBusy = true;
     }
 
-    this.carsService
-      .getCarsPaginated(this.paginationQuery)
+    this.repairsService
+      .getRepairsPaginated(this.paginationQuery)
       .subscribe({
-        next: (data: PaginatorResult<CarDto>) => {
+        next: (data: PaginatorResult<RepairDto>) => {
           if (isLoadMore) {
-            this.cars.push(...data.items);
+            this.repairs.push(...data.items);
           } else {
-            this.cars = data.items;
+            this.repairs = data.items;
           }
 
           this.cdr.detectChanges();
@@ -88,14 +85,14 @@ export class CarsTabComponent implements OnInit {
       .add(() => (this.isBusy = false));
   }
 
-  public trackByCarId(index: number, car: CarDto): string {
-    return car.id!;
+  public trackByRepairId(index: number, repair: RepairDto): string {
+    return repair.id!;
   }
 
-  public deleteCar(carId: string): void {
-    this.carsService.deleteCar(carId).subscribe({
+  public deleteRepair(repairId: string): void {
+    this.repairsService.deleteRepair(repairId).subscribe({
       next: () => {
-        this.cars = this.cars.filter((car) => car.id !== carId);
+        this.repairs = this.repairs.filter((repair) => repair.id !== repairId);
         this.total--;
         this.cdr.detectChanges();
       },
@@ -105,17 +102,17 @@ export class CarsTabComponent implements OnInit {
     });
   }
 
+  public add(): void {
+    this.router.navigate(['repair', 'new']);
+  }
+
   public reset(): void {
     this.paginationQuery.searchInput = '';
     this.search();
   }
 
-  public add(): void {
-    this.router.navigate(['cars', 'new']);
-  }
-
-  public editCar(id: string): void {
-    this.router.navigate(['cars', id]);
+  public editRepair(id: string): void {
+    this.router.navigate(['repair', id]);
   }
 
   public loadMore(): void {

@@ -9,21 +9,27 @@ export const repairResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) =>
   const router = inject(Router);
   const repairsService = inject(RepairsService);
 
+  console.log(route);
+
   if (!repairId) {
     router.navigate([environment.redirectToMain]);
     return of(null);
   }
 
+  if (repairId == 'new') {
+    return of(null);
+  }
+
   return repairsService.getRepair(repairId).pipe(
-    map((client) => {
-      if (!client) {
+    map((repair) => {
+      if (!repair) {
         router.navigate([environment.redirectToMain]);
         return null;
       }
-      return client;
+      return repair;
     }),
     catchError(() => {
-      router.navigate([environment.redirectToMain]);
+      router.navigate(['repairs', 'new']);
       return of(null);
     }),
   );
