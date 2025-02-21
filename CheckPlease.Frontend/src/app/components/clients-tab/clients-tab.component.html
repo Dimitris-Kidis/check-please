@@ -37,12 +37,15 @@
       Поиск
     </button>
 
+    @if (!isDialog) {
+
     <button
       class="add-button"
       (click)="add()"
     >
       <mat-icon>add</mat-icon>
     </button>
+    }
   </form>
 
   <div
@@ -59,6 +62,8 @@
     <check-please-client-card
       *ngFor="let client of clients; trackBy: trackByClientId"
       [client]="client"
+      [isDialog]="isDialog"
+      (onClientSelection)="selectClient($event)"
       (onClientDeleting)="deleteClient($event)"
       (onClientEditing)="editClient($event)"
     ></check-please-client-card>

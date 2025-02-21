@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CarDto } from '../models/car';
 import { PaginatorResult, SearchPaginatedRequest } from '../models/pagination';
+import { RepairDto } from '../models/repair';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +29,13 @@ export class CarsService {
 
   public getCarsPaginated(query: SearchPaginatedRequest): Observable<PaginatorResult<CarDto>> {
     return this._httpService.post<PaginatorResult<CarDto>>(`api/cars/paginated`, query);
+  }
+
+  public getCarHistory(id: string): Observable<RepairDto[]> {
+    return this._httpService.get<RepairDto[]>(`api/cars/history/${id}`);
+  }
+
+  public getSuggestionsForClient(phoneNumber: string): Observable<CarDto[]> {
+    return this._httpService.get<CarDto[]>(`api/cars/suggestions/${phoneNumber}`);
   }
 }

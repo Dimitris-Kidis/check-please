@@ -1,0 +1,86 @@
+<div class="container">
+  <form
+    #form="ngForm"
+    class="form"
+    name="form"
+    autocomplete="off"
+    (ngSubmit)="save()"
+  >
+    <check-please-text-edit-control
+      [(value)]="car.carSign"
+      [config]="config.carSign"
+      [schema]="schema.carSign"
+      class="control"
+    ></check-please-text-edit-control>
+
+    <check-please-number-edit-control
+      [(value)]="car.mileage"
+      [config]="config.mileage"
+      [schema]="schema.mileage"
+      class="control"
+    ></check-please-number-edit-control>
+
+    <check-please-text-edit-control
+      [(value)]="car.vinCode"
+      [config]="config.vinCode"
+      [schema]="schema.vinCode"
+      class="control"
+    ></check-please-text-edit-control>
+
+    <div class="row">
+      <check-please-text-edit-control
+        [(value)]="car.brand"
+        [config]="config.brand"
+        [schema]="schema.brand"
+        class="text-edit-control"
+      ></check-please-text-edit-control>
+
+      <check-please-text-edit-control
+        [(value)]="car.model"
+        [config]="config.model"
+        [schema]="schema.model"
+        class="text-edit-control"
+      ></check-please-text-edit-control>
+    </div>
+
+    <div class="row">
+      <check-please-number-edit-control
+        [(value)]="car.year"
+        [config]="config.year"
+        [schema]="schema.year"
+        class="text-edit-control"
+      ></check-please-number-edit-control>
+
+      <check-please-text-edit-control
+        [(value)]="car.volume"
+        [config]="config.volume"
+        [schema]="schema.volume"
+        class="text-edit-control"
+      ></check-please-text-edit-control>
+    </div>
+
+    <check-please-text-area-edit-control
+      [(value)]="car.additionalNotes"
+      [config]="config.additionalNotes"
+      [schema]="schema.additionalNotes"
+      class="control"
+    ></check-please-text-area-edit-control>
+
+    <div class="actions">
+      <button
+        class="cancel-btn"
+        type="button"
+        (click)="cancel()"
+      >
+        {{ 'Cancel' | translate }}
+      </button>
+      <button
+        type="submit"
+        class="save-btn"
+        [disabled]="isBusy || form.invalid"
+      >
+        {{ 'Сохранить' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

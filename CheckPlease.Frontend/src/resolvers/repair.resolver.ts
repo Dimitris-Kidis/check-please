@@ -15,6 +15,7 @@ export const repairResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) =>
   }
 
   if (repairId == 'new') {
+    router.navigate(['new']);
     return of(null);
   }
 
@@ -27,7 +28,7 @@ export const repairResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) =>
       return repair;
     }),
     catchError(() => {
-      router.navigate(['repairs', 'new']);
+      router.navigate(['new']);
       return of(null);
     }),
   );

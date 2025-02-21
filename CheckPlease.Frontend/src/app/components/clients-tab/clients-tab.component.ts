@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, Optional } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,6 +19,7 @@ import { getSearchInputConfig, ISearchInputConfig } from './clients-tab.config';
 import { getSearchInputSchema, ISearchInputSchema } from './clients-tab.schema';
 
 @Component({
+  selector: 'check-please-clients-tab',
   imports: [
     FormsModule,
     TranslateModule,
@@ -33,6 +35,8 @@ import { getSearchInputSchema, ISearchInputSchema } from './clients-tab.schema';
   styleUrl: './clients-tab.component.scss',
 })
 export class ClientsTabComponent implements OnInit {
+  @Input() public isDialog: boolean = false;
+
   public isBusy: boolean = false;
   public clients: ClientDto[] = [];
   public hasMore: boolean = false;
@@ -51,6 +55,7 @@ export class ClientsTabComponent implements OnInit {
     private readonly displayErrorHelper: DisplayErrorHelper,
     private readonly cdr: ChangeDetectorRef,
     private readonly router: Router,
+    @Optional() public dialogRef: MatDialogRef<ClientsTabComponent>,
   ) {}
 
   public ngOnInit(): void {
@@ -89,6 +94,13 @@ export class ClientsTabComponent implements OnInit {
 
   public trackByClientId(index: number, client: ClientDto): string {
     return client.id!;
+  }
+
+  public selectClient(client: ClientDto): void {
+    this.dialogRef.close({
+      clientId: client.id,
+      clientView: client,
+    });
   }
 
   public deleteClient(clientId: string): void {

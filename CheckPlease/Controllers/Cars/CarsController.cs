@@ -72,10 +72,10 @@ namespace CheckPlease.Controllers.Cars
         /// <summary>
         /// Get car suggestions by phone number
         /// </summary>
-        [HttpPost("suggestions")]
-        public async Task<IActionResult> GetCarSuggestionsByPhoneNumber([FromBody] GetCarSuggestionsByPhoneNumberQuery query)
+        [HttpGet("suggestions/{phoneNumber}")]
+        public async Task<IActionResult> GetSuggestionsForCarByPhoneNumber(string phoneNumber)
         {
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(new GetCarSuggestionsByPhoneNumberQuery { PhoneNumber = phoneNumber });
 
             return Ok(result);
         }

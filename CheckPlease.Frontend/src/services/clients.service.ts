@@ -29,4 +29,8 @@ export class ClientsService {
   public getClientsPaginated(query: SearchPaginatedRequest): Observable<PaginatorResult<ClientDto>> {
     return this._httpService.post<PaginatorResult<ClientDto>>(`api/clients/paginated`, query);
   }
+
+  public getSuggestionsForCar(carSign: string): Observable<ClientDto[]> {
+    return this._httpService.get<ClientDto[]>(`api/clients/suggestions/${carSign}`);
+  }
 }

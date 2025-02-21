@@ -71,10 +71,10 @@ namespace CheckPlease.Controllers.Clients
         /// <summary>
         /// Get clients suggestions by car sign
         /// </summary>
-        [HttpPost("suggestions")]
-        public async Task<IActionResult> GetClientsSuggestionsByCarSign([FromBody] GetClientsSuggestionsByCarSignQuery query)
+        [HttpGet("suggestions/{carSign}")]
+        public async Task<IActionResult> GetSuggestionsForClientByCarSign(string carSign)
         {
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(new GetClientsSuggestionsByCarSignQuery { CarSign = carSign });
 
             return Ok(result);
         }

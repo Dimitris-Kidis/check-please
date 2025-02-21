@@ -37,12 +37,14 @@
       Поиск
     </button>
 
+    @if (!isDialog) {
     <button
       class="add-button"
       (click)="add()"
     >
       <mat-icon>add</mat-icon>
     </button>
+    }
   </form>
 
   <div
@@ -59,6 +61,8 @@
     <check-please-car-card
       *ngFor="let car of cars; trackBy: trackByCarId"
       [car]="car"
+      [isDialog]="isDialog"
+      (onCarSelection)="selectCar($event)"
       (onCarDeleting)="deleteCar($event)"
       (onCarEditing)="editCar($event)"
     ></check-please-car-card>

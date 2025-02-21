@@ -37,6 +37,9 @@
     .reset-button {
       flex: 1;
       height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: 0.2s all ease;
       border: 1px solid #2b1e20;
       background-color: #d33e3e;

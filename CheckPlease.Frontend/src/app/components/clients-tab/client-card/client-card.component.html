@@ -7,6 +7,14 @@
       >
     </div>
     <div class="icons">
+      @if (isDialog) {
+      <button
+        class="select-button"
+        (click)="selectClient()"
+      >
+        Выбрать
+      </button>
+      } @else {
       <button
         class="icon-button edit"
         (click)="editClient(client.id!)"
@@ -19,6 +27,7 @@
       >
         <mat-icon class="icon">delete</mat-icon>
       </button>
+      }
     </div>
   </div>
 

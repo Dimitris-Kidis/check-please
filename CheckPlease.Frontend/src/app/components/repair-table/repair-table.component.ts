@@ -1,6 +1,5 @@
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -54,8 +53,8 @@ export class RepairTableComponent implements OnInit {
 
   @Input() public isEditMode: boolean = true;
   @Input() public hasToDisplayTotalRow: boolean = true;
+  @Input() public details: DetailDto[] = [];
   @Input() public options: IDetailOption[] = [];
-  @Input() public details: DetailDto[];
 
   @Output() public detailsChange = new EventEmitter<DetailDto[]>();
 
@@ -77,10 +76,10 @@ export class RepairTableComponent implements OnInit {
   public constructor(
     private readonly displayErrorHelper: DisplayErrorHelper,
     private readonly repairsService: RepairsService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   public ngOnInit(): void {
-    this.getDetailsNamesOptions();
     this.dynamicRepairDetails = this.details.map((detail) => ({
       data: detail,
       schema: getRepairTableEditSchema(),
@@ -139,23 +138,12 @@ export class RepairTableComponent implements OnInit {
   // public onDrop(event: CdkDragDrop<DataWithSchema[]>): void {
   //   moveItemInArray(this.dynamicRepairDetails, event.previousIndex, event.currentIndex);
   //   this.table?.renderRows();
-  // }
+  // } REFACTOR
 
   public onDrop(event: any): void {
     const dropEvent = event as CdkDragDrop<DataWithSchema[]>;
 
     moveItemInArray(this.dynamicRepairDetails, dropEvent.previousIndex, dropEvent.currentIndex);
     this.table?.renderRows();
-  }
-
-  private getDetailsNamesOptions(): void {
-    this.repairsService.getDetailsNamesOptions().subscribe({
-      next: (data: IDetailOption[]) => {
-        this.options = data;
-      },
-      error: (err: HttpErrorResponse) => {
-        this.displayErrorHelper.displayErrorFunc(err);
-      },
-    });
   }
 }

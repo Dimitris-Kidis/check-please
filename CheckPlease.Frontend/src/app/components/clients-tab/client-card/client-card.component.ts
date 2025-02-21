@@ -13,8 +13,10 @@ import { DefaultValuePipe } from '../../../pipes/default-value.pipe';
 })
 export class ClientCardComponent {
   @Input({ required: true }) public client: ClientDto;
+  @Input() public isDialog: boolean = false;
   @Output() public onClientDeleting = new EventEmitter<string>();
   @Output() public onClientEditing = new EventEmitter<string>();
+  @Output() public onClientSelection = new EventEmitter<ClientDto>();
 
   public datetimeDefaultFormat: string = environment.datetimeDefaultFormat;
 
@@ -24,5 +26,9 @@ export class ClientCardComponent {
 
   public editClient(id: string): void {
     this.onClientEditing.emit(id);
+  }
+
+  public selectClient(): void {
+    this.onClientSelection.emit(this.client);
   }
 }

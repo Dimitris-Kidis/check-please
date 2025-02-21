@@ -5,7 +5,6 @@
     name="form"
     autocomplete="off"
     (ngSubmit)="save()"
-    (click)="test()"
   >
     <div class="first-row">
       <check-please-number-edit-control
@@ -41,7 +40,10 @@
       class="control"
     ></check-please-text-area-edit-control>
 
-    <check-please-repair-table [(details)]="repair.details!"></check-please-repair-table>
+    <check-please-repair-table
+      [(details)]="repair.details!"
+      [options]="options"
+    ></check-please-repair-table>
 
     <div class="actions">
       <button

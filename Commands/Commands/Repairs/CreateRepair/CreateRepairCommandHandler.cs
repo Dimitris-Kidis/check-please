@@ -7,10 +7,12 @@ namespace Commands.Commands.Repairs.CreateRepair
 {
     public class CreateRepairCommandHandler(
             ICheckPleaseRepository<Repair> repairRepository,
+            ICheckPleaseRepository<Car> carRepository,
             IMapper mapper
         ) : IRequestHandler<CreateRepairCommand, Guid>
     {
         private readonly ICheckPleaseRepository<Repair> repairRepository = repairRepository;
+        private readonly ICheckPleaseRepository<Car> carRepository = carRepository;
         private readonly IMapper _mapper = mapper;
 
         public async Task<Guid> Handle(CreateRepairCommand request, CancellationToken cancellationToken)
@@ -18,6 +20,8 @@ namespace Commands.Commands.Repairs.CreateRepair
             var repair = _mapper.Map<Repair>(request);
 
             await repairRepository.AddAsync(repair, cancellationToken);
+
+            await carRepository.UpdateAsync(x => x.Id == request.CarId, x => new Car { Mileage = request.Mileage }, cancellationToken);
 
             return repair.Id;
         }

@@ -22,6 +22,7 @@ namespace Queries.Queries.Cars.GetCarHistory
             return await repairRepository
                 .GetAll()
                 .Where(x => x.CarId == request.Id)
+                .OrderByDescending(x => x.RepairDate)
                 .ProjectTo<RepairDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
         }

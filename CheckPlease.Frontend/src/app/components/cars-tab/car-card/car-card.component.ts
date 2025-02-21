@@ -13,8 +13,10 @@ import { DefaultValuePipe } from '../../../pipes/default-value.pipe';
 })
 export class CarCardComponent {
   @Input({ required: true }) public car: CarDto;
+  @Input() public isDialog: boolean = false;
   @Output() public onCarDeleting = new EventEmitter<string>();
   @Output() public onCarEditing = new EventEmitter<string>();
+  @Output() public onCarSelection = new EventEmitter<CarDto>();
 
   public datetimeDefaultFormat: string = environment.datetimeDefaultFormat;
 
@@ -24,5 +26,9 @@ export class CarCardComponent {
 
   public editCar(id: string): void {
     this.onCarEditing.emit(id);
+  }
+
+  public selectCar(): void {
+    this.onCarSelection.emit(this.car);
   }
 }

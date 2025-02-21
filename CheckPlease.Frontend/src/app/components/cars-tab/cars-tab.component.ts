@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, Optional } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -34,6 +35,8 @@ import { CarCardComponent } from './car-card/car-card.component';
   styleUrl: './cars-tab.component.scss',
 })
 export class CarsTabComponent implements OnInit {
+  @Input() public isDialog: boolean = false;
+
   public isBusy: boolean = false;
   public cars: CarDto[] = [];
   public hasMore: boolean = false;
@@ -52,6 +55,7 @@ export class CarsTabComponent implements OnInit {
     private readonly displayErrorHelper: DisplayErrorHelper,
     private readonly cdr: ChangeDetectorRef,
     private readonly router: Router,
+    @Optional() public dialogRef: MatDialogRef<CarsTabComponent>,
   ) {}
 
   public ngOnInit(): void {
@@ -90,6 +94,13 @@ export class CarsTabComponent implements OnInit {
 
   public trackByCarId(index: number, car: CarDto): string {
     return car.id!;
+  }
+
+  public selectCar(car: CarDto): void {
+    this.dialogRef.close({
+      carId: car.id,
+      carView: car,
+    });
   }
 
   public deleteCar(carId: string): void {

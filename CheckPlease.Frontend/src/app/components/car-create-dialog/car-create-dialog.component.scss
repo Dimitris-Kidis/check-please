@@ -1,0 +1,106 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: 80vh;
+  padding: 40px;
+  overflow: auto;
+  box-sizing: border-box;
+
+  .form {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 15px;
+
+    .row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 15px;
+
+      .text-edit-control {
+        flex: 2;
+      }
+    }
+
+    .control {
+      width: 100%;
+    }
+  }
+}
+
+.add-button {
+  flex: 1;
+  height: 34px;
+  transition: 0.2s all ease;
+  border: 1px solid #1e2b25;
+  border-radius: 2px;
+  background-color: #3ed390;
+
+  &:hover {
+    filter: brightness(85%);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+
+  .cancel-btn {
+    color: white;
+    padding: 7px 10px;
+    min-width: 100px;
+    font-weight: 700;
+    height: 34px;
+    transition: all 0.2s ease;
+    border: 1px solid #2b1e20;
+    background-color: #d33e3e;
+    border-radius: 2px;
+    cursor: pointer;
+    width: 47%;
+
+    &:hover {
+      filter: brightness(85%);
+    }
+
+    &:disabled {
+      background-color: rgba(0, 0, 0, 0.12);
+      color: rgba(0, 0, 0, 0.38);
+      cursor: unset;
+      border: none;
+    }
+  }
+
+  .save-btn {
+    color: white;
+    padding: 7px 10px;
+    min-width: 100px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 47%;
+    height: 34px;
+    transition: 0.2s all ease;
+    border: 1px solid #1e2b25;
+    border-radius: 2px;
+    background-color: #3ed390;
+
+    &:hover {
+      filter: brightness(85%);
+    }
+
+    &:disabled {
+      background-color: rgba(0, 0, 0, 0.12);
+      color: rgba(0, 0, 0, 0.38);
+      cursor: unset;
+      border: none;
+    }
+  }
+}

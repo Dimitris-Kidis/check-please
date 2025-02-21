@@ -8,9 +8,8 @@ describe('RepairTabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RepairTabComponent]
-    })
-    .compileComponents();
+      imports: [RepairTabComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RepairTabComponent);
     component = fixture.componentInstance;

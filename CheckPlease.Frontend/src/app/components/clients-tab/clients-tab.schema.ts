@@ -16,6 +16,7 @@ export function getSearchInputSchema(placeholder: string = 'Введите, чт
       formName: 'searchInputForm',
       fieldName: 'searchInput',
       placeholder: placeholder,
+      autofocus: true,
     },
   };
 }

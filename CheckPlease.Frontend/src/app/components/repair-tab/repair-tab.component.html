@@ -1,1 +1,190 @@
-<p>repair-tab works!</p>
+<div class="container">
+  <div class="first-column">
+    <h1>Клиент</h1>
+    <div class="row">
+      @if (repair.clientId) {
+      <check-please-text-edit-control
+        [(value)]="client.fullName"
+        [config]="clientConfig.fullName"
+        [schema]="clientSchema.fullName"
+        class="text-edit-control"
+      ></check-please-text-edit-control>
+
+      <check-please-text-edit-control
+        [(value)]="client.phoneNumber"
+        [config]="clientConfig.phoneNumber"
+        [schema]="clientSchema.phoneNumber"
+        class="text-edit-control"
+      ></check-please-text-edit-control>
+
+      <button
+        class="reset-button"
+        (click)="resetClient()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      } @else {
+      <button
+        class="add-client-button"
+        (click)="createClient()"
+      >
+        <mat-icon>add</mat-icon>
+        Добавить клиента
+      </button>
+
+      <button
+        class="search-client-button"
+        (click)="searchClient()"
+      >
+        <mat-icon>search</mat-icon>
+        Поиск клиента
+      </button>
+      }
+    </div>
+
+    @if (repair.clientId && !repair.carId && carSuggestions.length ) {
+    <div class="car-suggestions">
+      <h2>Предложения по автомобилям</h2>
+      <div class="car-list">
+        <div
+          *ngFor="let car of carSuggestions"
+          class="car-item"
+          (click)="selectCar(car)"
+        >
+          <div class="car-info">
+            <p><strong>Машина:</strong> {{ car.carSign }}</p>
+            <p><strong>Пробег:</strong> {{ car.mileage }} км</p>
+            @if(car.brand) {
+
+            <p><strong>Марка:</strong> {{ car.brand | defaultValue }}</p>
+            } @if(car.model) {
+            <p><strong>Модель:</strong> {{ car.model | defaultValue }}</p>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+
+    <h1>Машина</h1>
+    <div class="row">
+      @if (repair.carId) {
+      <check-please-text-edit-control
+        [(value)]="car.carSign"
+        [config]="carConfig.carSign"
+        [schema]="carSchema.carSign"
+        class="text-edit-control"
+      ></check-please-text-edit-control>
+
+      <check-please-number-edit-control
+        [(value)]="car.mileage"
+        [config]="carConfig.oldMileage"
+        [schema]="carSchema.oldMileage"
+        class="text-edit-control"
+      ></check-please-number-edit-control>
+
+      <check-please-number-edit-control
+        [(value)]="repair.mileage"
+        [config]="config.mileage"
+        [schema]="schema.mileage"
+        class="text-edit-control"
+      ></check-please-number-edit-control>
+
+      <button
+        class="reset-button"
+        (click)="resetCar()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      } @else {
+      <button
+        class="add-client-button"
+        (click)="createCar()"
+      >
+        <mat-icon>add</mat-icon>
+        Добавить машину
+      </button>
+
+      <button
+        class="search-client-button"
+        (click)="searchCar()"
+      >
+        <mat-icon>search</mat-icon>
+        Поиск машины
+      </button>
+      }
+    </div>
+    @if (repair.carId && !repair.clientId && clientSuggestions.length ) {
+    <div class="car-suggestions">
+      <h2>Предложения по клиентам</h2>
+      <div class="car-list">
+        <div
+          *ngFor="let client of clientSuggestions"
+          class="car-item"
+          (click)="selectClient(client)"
+        >
+          <div class="car-info">
+            <p><strong>Имя:</strong> {{ client.fullName }}</p>
+            <p><strong>Номер телефона:</strong> {{ client.phoneNumber }} км</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+
+    <h1>Ремонт</h1>
+    <check-please-repair-table
+      [(details)]="repair.details!"
+      [options]="options"
+    ></check-please-repair-table>
+  </div>
+
+  <div class="second-column">
+    <check-please-date-edit-control
+      [(value)]="repair.repairDate"
+      [config]="config.repairDate"
+      [schema]="schema.repairDate"
+      class="text-edit-control"
+    ></check-please-date-edit-control>
+
+    <label for="car-history-wrapper">
+      История ремонтов
+      <div
+        class="car-history-wrapper"
+        aria-labelledby="car-history-label"
+      >
+        @for (item of repairsHistoryList; track $index) {
+        <span
+          class="item"
+          (click)="seeReport(item.id!)"
+        >
+          <span>
+            <strong>Дата:</strong> {{ item.repairDate | date : dateDefaultFormat }}<br />
+            <strong>Пробег:</strong> {{ item.mileage }} км<br />
+            <strong>Сумма:</strong> {{ item.totalRepairPrice }}
+          </span>
+          <mat-icon class="eye-icon">visibility</mat-icon>
+        </span>
+        } @empty {
+        <span class="history-list-empty-placeholder">История ремонтов пока что пуста..</span>
+        }
+      </div>
+    </label>
+
+    <check-please-text-area-edit-control
+      [(value)]="repair.additionalNotes"
+      [config]="config.additionalNotes"
+      [schema]="schema.additionalNotes"
+      class="control"
+    ></check-please-text-area-edit-control>
+
+    <check-please-bot-sender class="text-edit-control"></check-please-bot-sender>
+
+    <button
+      class="create-button"
+      (click)="createRepair()"
+    >
+      Создать ремонт
+    </button>
+  </div>
+</div>

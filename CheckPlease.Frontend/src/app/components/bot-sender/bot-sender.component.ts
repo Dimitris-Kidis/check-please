@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,8 +25,8 @@ import { SpinnerModule } from '../../directives/spinner/spinner.module';
   styleUrl: './bot-sender.component.scss',
 })
 export class BotSenderComponent {
+  @Input() public botCommand: string;
   public isBusy: boolean = false;
-  public botCommand: string;
 
   public constructor(
     private readonly repairsService: RepairsService,
@@ -40,7 +40,7 @@ export class BotSenderComponent {
       .sendCommand(this.botCommand)
       .subscribe({
         next: () => {
-          this.messageService.showSuccess('Комманда отправлена боту..');
+          this.messageService.showSuccess('Команда отправлена боту..');
         },
         error: (err) => this.displayErrorHelper.displayErrorFunc(err),
       })

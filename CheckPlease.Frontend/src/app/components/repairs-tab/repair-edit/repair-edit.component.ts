@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DetailDto, RepairDto } from '../../../../models/repair';
-import { MessageService } from '../../../../services/message.service';
 import { RepairsService } from '../../../../services/repairs.service';
 import { PageSpinnerService } from '../../../common/components/page-spinner/page-spinner.service';
 import { CheckboxEditControlComponent } from '../../../common/controls/checkbox/checkbox-edit-control/checkbox-edit-control.component';
 import { DateEditControlComponent } from '../../../common/controls/date-edit-control/date-edit-control.component';
 import { NumberEditControlComponent } from '../../../common/controls/number-edit-control/number-edit-control.component';
+import { IDetailOption } from '../../../common/controls/predefined-text-edit-control/predefined-text-edit-control.component';
 import { TextAreaEditControlComponent } from '../../../common/controls/text-area-edit-control/text-area-edit-control.component';
 import { DisplayErrorHelper } from '../../../common/helpers/display-error.helper';
 import { SpinnerModule } from '../../../directives/spinner/spinner.module';
@@ -42,6 +43,7 @@ export class RepairEditComponent implements OnInit {
   public isBusy: boolean = false;
   public details: DetailDto[] = [];
   public repair: RepairDto = {};
+  public options: IDetailOption[] = [];
 
   public schema: IRepairEditSchema = getRepairEditSchema();
   public config: IRepairEditConfig = getRepairEditConfig();
@@ -52,7 +54,6 @@ export class RepairEditComponent implements OnInit {
     private readonly router: Router,
     private readonly displayErrorHelper: DisplayErrorHelper,
     private readonly pageSpinnerService: PageSpinnerService,
-    private readonly messageService: MessageService,
   ) {}
 
   public ngOnInit(): void {
@@ -75,10 +76,6 @@ export class RepairEditComponent implements OnInit {
       .add(() => this.setIsBusy(false));
   }
 
-  public test(): void {
-    console.log(this.details);
-  }
-
   public cancel(): void {
     this.router.navigate(['repairs']);
   }
@@ -86,5 +83,16 @@ export class RepairEditComponent implements OnInit {
   private setIsBusy(isBusy: boolean): void {
     this.isBusy = isBusy;
     this.pageSpinnerService.changeState(isBusy);
+  }
+
+  private getDetailsNamesOptions(): void {
+    this.repairsService.getDetailsNamesOptions().subscribe({
+      next: (data: IDetailOption[]) => {
+        this.options = data;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.displayErrorHelper.displayErrorFunc(err);
+      },
+    });
   }
 }

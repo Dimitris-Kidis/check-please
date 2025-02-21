@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,7 +29,7 @@ import { getClientEditSchema, IClientEditSchema } from './client-edit.schema';
   styleUrl: './client-edit.component.scss',
 })
 export class ClientEditComponent implements OnInit {
-  public isCreateMode: boolean = true;
+  @Input() public isCreateMode: boolean = true;
   public isBusy: boolean = false;
 
   public client: ClientDto = { fullName: '', phoneNumber: '' };
