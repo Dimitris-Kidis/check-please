@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'check-please-repair-tab',
   imports: [],
   templateUrl: './repair-tab.component.html',
-  styleUrl: './repair-tab.component.scss'
+  styleUrl: './repair-tab.component.scss',
 })
-export class RepairTabComponent {
-
-}
+export class RepairTabComponent {}

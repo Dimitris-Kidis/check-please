@@ -67,10 +67,6 @@ export class CheckPleaseDateProvider extends NativeDateAdapter {
     return dateMoment.format(displayFormat);
   }
 
-  public override getFirstDayOfWeek(): number {
-    return 1;
-  }
-
   public override parse(value: any, parseFormat?: any): Date | null {
     if (value && typeof value == 'string') {
       return this._createMoment(value, parseFormat, this.locale).toDate();

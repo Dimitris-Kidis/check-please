@@ -103,7 +103,7 @@ export class RepairsTabComponent implements OnInit {
   }
 
   public add(): void {
-    this.router.navigate(['repair', 'new']);
+    this.router.navigate(['new']);
   }
 
   public reset(): void {
@@ -112,7 +112,7 @@ export class RepairsTabComponent implements OnInit {
   }
 
   public editRepair(id: string): void {
-    this.router.navigate(['repair', id]);
+    this.router.navigate(['repairs', id]);
   }
 
   public loadMore(): void {

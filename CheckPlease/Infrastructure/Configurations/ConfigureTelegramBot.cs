@@ -7,14 +7,9 @@ namespace CheckPlease.Infrastructure.Configurations
     {
         public static IServiceCollection AddTelegramClient(this IServiceCollection services, WebApplicationBuilder builder)
         {
-            //services.AddScoped<ITelegramApiClient, TelegramApiClient>();
             var telegramBotToken = builder.Configuration.GetConnectionString("telegramBotToken");
 
-            //var bot = new TelegramBotService(telegramBotToken);
-            //services.AddSingleton(bot);
-            //bot.Start();
-
-            services.AddSingleton<TelegramBotService>(provider =>
+            services.AddScoped<TelegramBotService>(provider =>
             {
                 var mediator = provider.GetRequiredService<IMediator>();
                 return new TelegramBotService(telegramBotToken, mediator);
@@ -22,9 +17,6 @@ namespace CheckPlease.Infrastructure.Configurations
 
             var bot = services.BuildServiceProvider().GetRequiredService<TelegramBotService>();
             bot.Start();
-
-            //var bot = new TelegramBotClient(telegramBotToken);
-            //bot.StartReceiving();
 
             return services;
         }

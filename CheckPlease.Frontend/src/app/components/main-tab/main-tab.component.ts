@@ -5,10 +5,11 @@ import { MainPageDto } from '../../../models/main-page';
 import { CommonService } from '../../../services/common.service';
 import { PageSpinnerService } from '../../common/components/page-spinner/page-spinner.service';
 import { DisplayErrorHelper } from '../../common/helpers/display-error.helper';
+import { BotSenderComponent } from '../bot-sender/bot-sender.component';
 
 @Component({
   selector: 'check-please-main-tab',
-  imports: [CommonModule],
+  imports: [CommonModule, BotSenderComponent],
   templateUrl: './main-tab.component.html',
   styleUrl: './main-tab.component.scss',
 })

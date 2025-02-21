@@ -34,61 +34,11 @@ namespace CheckPlease.Bot
                 var chatId = update.Message.Chat.Id;
                 var messageText = update.Message.Text.Trim().ToLower();
 
-                if (!messageText.StartsWith("репорт"))
-                {
-                    return;
-                }
-
-                if (messageText.Equals("репорт"))
-                {
-                    await SendGeneralInformationAsync(chatId, cancellationToken);
-
-                    return;
-                }
-
-                var typePattern = @"(?<=:)([^(\r\n\(\[]+)(?=\s*\(|\s*\[|$)";
-                var langPattern = @"\(([^)]+)\)";
-                var carSignPattern = @"\[(.*?)\]";
-
-                var typeMatch = Regex.Match(messageText, typePattern);
-                var langMatch = Regex.Match(messageText, langPattern);
-                var carSignMatch = Regex.Match(messageText, carSignPattern);
-
-                ReportType type;
-                LanguageLocale lang;
-                string carSign = null;
-
-                type = typeMatch.Groups[1].Value.Trim() switch
-                {
-                    "неотправленные" => ReportType.Unsent,
-                    "сегодня" => ReportType.Day,
-                    "неделя" => ReportType.Week,
-                    "месяц" => ReportType.Month,
-                    "машина" => ReportType.AllReportsForCar,
-                    _ => ReportType.Unsent
-                };
-
-                lang = langMatch.Groups[1].Value.Trim().ToLower() switch
-                {
-                    "ru" => LanguageLocale.Ru,
-                    "ro" => LanguageLocale.Ro,
-                    _ => LanguageLocale.Ru
-                };
-
-                if (carSignMatch.Success)
-                {
-                    carSign = carSignMatch.Groups[1].Value.Trim().ToUpper();
-                }
-
-                var query = new GetReportQuery { Type = type, Locale = lang, CarSign = carSign };
-
-                var result = await _mediator.Send(query, cancellationToken);
-
-                await SendReportAsync(chatId, result, cancellationToken);
+                await SendCommand(chatId, messageText, cancellationToken);
             }
 
         }
-        private async Task SendReportAsync(long chatId, ReportDto report, CancellationToken cancellationToken)
+        public async Task SendReportAsync(long chatId, ReportDto report, CancellationToken cancellationToken)
         {
             foreach (var file in report.Files)
             {
@@ -103,6 +53,61 @@ namespace CheckPlease.Bot
             }
 
             await _botClient.SendMessage(chatId, report.Message, parseMode: ParseMode.Html, cancellationToken: cancellationToken);
+        }
+
+        public async Task SendCommand(long chatId, string messageText, CancellationToken cancellationToken)
+        {
+            if (!messageText.StartsWith("репорт"))
+            {
+                return;
+            }
+
+            if (messageText.Equals("репорт"))
+            {
+                await SendGeneralInformationAsync(chatId, cancellationToken);
+
+                return;
+            }
+
+            var typePattern = @"(?<=:)([^(\r\n\(\[]+)(?=\s*\(|\s*\[|$)";
+            var langPattern = @"\(([^)]+)\)";
+            var carSignPattern = @"\[(.*?)\]";
+
+            var typeMatch = Regex.Match(messageText, typePattern);
+            var langMatch = Regex.Match(messageText, langPattern);
+            var carSignMatch = Regex.Match(messageText, carSignPattern);
+
+            ReportType type;
+            LanguageLocale lang;
+            string carSign = null;
+
+            type = typeMatch.Groups[1].Value.Trim() switch
+            {
+                "неотправленные" => ReportType.Unsent,
+                "сегодня" => ReportType.Day,
+                "неделя" => ReportType.Week,
+                "месяц" => ReportType.Month,
+                "машина" => ReportType.AllReportsForCar,
+                _ => ReportType.Unsent
+            };
+
+            lang = langMatch.Groups[1].Value.Trim().ToLower() switch
+            {
+                "ru" => LanguageLocale.Ru,
+                "ro" => LanguageLocale.Ro,
+                _ => LanguageLocale.Ru
+            };
+
+            if (carSignMatch.Success)
+            {
+                carSign = carSignMatch.Groups[1].Value.Trim().ToUpper();
+            }
+
+            var query = new GetReportQuery { Type = type, Locale = lang, CarSign = carSign };
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            await SendReportAsync(chatId, result, cancellationToken);
         }
 
         private async Task SendGeneralInformationAsync(long chatId, CancellationToken cancellationToken)

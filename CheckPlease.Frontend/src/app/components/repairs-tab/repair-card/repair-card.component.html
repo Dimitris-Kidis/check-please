@@ -11,6 +11,7 @@
         <strong>Актуальный пробег ({{ repair.repairDate | date : dateDefaultFormat }}): </strong>
         {{ repair.car?.mileage | defaultValue }} км</span
       >
+      <span class="name"><strong>Отправлен боту:</strong> {{ repair.isSentToBot ? 'Да' : 'Нет' }} </span>
     </div>
     <div class="icons">
       <button
@@ -39,6 +40,10 @@
     [expanded]="false"
     title="{{ 'Подробности ремонта - ' + repair.totalRepairPrice }}"
   >
+    <check-please-repair-table
+      [(details)]="repair.details!"
+      [isEditMode]="false"
+    ></check-please-repair-table>
   </check-please-collapsable-section>
   <small style="text-align: right"
     >Создан: {{ repair.createdAt | date : datetimeDefaultFormat + ' (EEEE)' | dayOfWeek }}</small

@@ -6,10 +6,18 @@ import { RepairDto } from '../../../../models/repair';
 import { CollapsableSectionComponent } from '../../../common/components/collapsable-section/collapsable-section.component';
 import { DayOfWeekPipe } from '../../../pipes/day-of-week.pipe';
 import { DefaultValuePipe } from '../../../pipes/default-value.pipe';
+import { RepairTableComponent } from '../../repair-table/repair-table.component';
 
 @Component({
   selector: 'check-please-repair-card',
-  imports: [MatIconModule, DefaultValuePipe, CommonModule, CollapsableSectionComponent, DayOfWeekPipe],
+  imports: [
+    MatIconModule,
+    DefaultValuePipe,
+    CommonModule,
+    CollapsableSectionComponent,
+    DayOfWeekPipe,
+    RepairTableComponent,
+  ],
   templateUrl: './repair-card.component.html',
   styleUrl: './repair-card.component.scss',
 })

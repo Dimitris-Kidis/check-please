@@ -22,7 +22,7 @@ export const routes: Routes = [
     loadComponent: () => import('./components/repairs-tab/repairs-tab.component').then((c) => c.RepairsTabComponent),
   },
   {
-    path: 'repair/:id',
+    path: 'repairs/:id',
     loadComponent: () =>
       import('./components/repairs-tab/repair-edit/repair-edit.component').then((c) => c.RepairEditComponent),
     resolve: { repair: repairResolver },

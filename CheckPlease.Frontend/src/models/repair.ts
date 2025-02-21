@@ -11,7 +11,7 @@ export interface RepairDto {
   carId?: string;
   additionalNotes?: string;
   totalRepairPrice?: number;
-  repairDate?: string;
+  repairDate?: Date;
   isSentToBot?: boolean;
   createdBy?: string;
   lastModifiedBy?: string;

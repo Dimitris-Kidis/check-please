@@ -1,1 +1,63 @@
-<p>repair-edit works!</p>
+<div class="container">
+  <form
+    #form="ngForm"
+    class="form"
+    name="form"
+    autocomplete="off"
+    (ngSubmit)="save()"
+    (click)="test()"
+  >
+    <div class="first-row">
+      <check-please-number-edit-control
+        [(value)]="repair.mileage"
+        [config]="config.mileage"
+        [schema]="schema.mileage"
+        class="text-edit-control"
+      ></check-please-number-edit-control>
+
+      <check-please-date-edit-control
+        [(value)]="repair.repairDate"
+        [config]="config.repairDate"
+        [schema]="schema.repairDate"
+        class="text-edit-control"
+      ></check-please-date-edit-control>
+    </div>
+
+    <div class="second-row">
+      <check-please-bot-sender class="text-edit-control"></check-please-bot-sender>
+
+      <check-please-checkbox-edit-control
+        [(value)]="repair.isSentToBot"
+        [config]="config.isSentToBot"
+        [schema]="schema.isSentToBot"
+        class="text-edit-control"
+      ></check-please-checkbox-edit-control>
+    </div>
+
+    <check-please-text-area-edit-control
+      [(value)]="repair.additionalNotes"
+      [config]="config.additionalNotes"
+      [schema]="schema.additionalNotes"
+      class="control"
+    ></check-please-text-area-edit-control>
+
+    <check-please-repair-table [(details)]="repair.details!"></check-please-repair-table>
+
+    <div class="actions">
+      <button
+        class="cancel-btn"
+        type="button"
+        (click)="cancel()"
+      >
+        {{ 'Cancel' | translate }}
+      </button>
+      <button
+        type="submit"
+        class="save-btn"
+        [disabled]="isBusy || form.invalid"
+      >
+        {{ 'Save' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

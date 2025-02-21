@@ -9,8 +9,6 @@ export const repairResolver: ResolveFn<any> = (route: ActivatedRouteSnapshot) =>
   const router = inject(Router);
   const repairsService = inject(RepairsService);
 
-  console.log(route);
-
   if (!repairId) {
     router.navigate([environment.redirectToMain]);
     return of(null);

@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RepairEditComponent } from './repair-edit.component';
+import { BotSenderComponent } from './bot-sender.component';
 
-describe('RepairEditComponent', () => {
-  let component: RepairEditComponent;
-  let fixture: ComponentFixture<RepairEditComponent>;
+describe('BotSenderComponent', () => {
+  let component: BotSenderComponent;
+  let fixture: ComponentFixture<BotSenderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RepairEditComponent],
+      imports: [BotSenderComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RepairEditComponent);
+    fixture = TestBed.createComponent(BotSenderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

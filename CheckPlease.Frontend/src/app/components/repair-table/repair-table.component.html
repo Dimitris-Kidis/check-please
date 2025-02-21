@@ -1,0 +1,278 @@
+<form
+  class=""
+  name="form"
+  #form="ngForm"
+  id="taskFormId"
+  autocomplete="off"
+>
+  <table
+    mat-table
+    [dataSource]="dynamicRepairDetails"
+    class="control-slim"
+  >
+    <ng-container matColumnDef="detail-name">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      >
+        <strong>{{ 'Название запчасти / услуги' | translate }}</strong>
+      </th>
+
+      <td
+        mat-cell
+        *matCellDef="let detail; dataSource: dynamicRepairDetails; let i = index"
+        [ngModelGroup]="detail.schema.formGroupName"
+        #formGroup="ngModelGroup"
+      >
+        @if (isEditMode) {
+        <check-please-predefined-text-edit-control
+          [(value)]="detail.data.detailName"
+          [config]="config.detailName"
+          [schema]="schema.detailName"
+          [options]="options"
+          (valueChange)="emit()"
+        ></check-please-predefined-text-edit-control>
+        } @else {
+        <span>{{ detail.data.detailName | defaultValue }}</span>
+        }
+      </td>
+
+      <ng-container *ngIf="hasToDisplayTotalRow"
+        ><td
+          mat-footer-cell
+          *matFooterCellDef
+        ></td
+      ></ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="price-per-one">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      >
+        <strong>{{ 'Цена за шт.' | translate }}</strong>
+      </th>
+
+      <td
+        mat-cell
+        *matCellDef="let detail; dataSource: dynamicRepairDetails"
+        [ngModelGroup]="detail.schema.formGroupName"
+      >
+        @if (isEditMode) {
+        <check-please-number-edit-control
+          *ngIf="isEditMode"
+          [(value)]="detail.data.pricePerOne!"
+          [config]="config.pricePerOne"
+          [schema]="detail.schema.pricePerOne"
+          (valueChange)="calculatePrices(detail)"
+        ></check-please-number-edit-control>
+        } @else {
+        <span>{{ detail.data.pricePerOne | defaultValue }}</span>
+        }
+      </td>
+
+      <ng-container *ngIf="hasToDisplayTotalRow"
+        ><td
+          mat-footer-cell
+          *matFooterCellDef
+        ></td
+      ></ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      >
+        <strong>{{ 'Количество' | translate }}</strong>
+      </th>
+
+      <td
+        mat-cell
+        *matCellDef="let detail; dataSource: dynamicRepairDetails"
+        [ngModelGroup]="detail.schema.formGroupName"
+      >
+        @if (isEditMode) {
+        <check-please-number-edit-control
+          *ngIf="isEditMode"
+          [(value)]="detail.data.quantity!"
+          [config]="config.quantity"
+          [schema]="detail.schema.quantity"
+          (valueChange)="calculatePrices(detail)"
+          [allowZero]="false"
+        ></check-please-number-edit-control>
+        } @else {
+        <span>{{ detail.data.quantity | defaultValue }}</span>
+        }
+      </td>
+
+      <ng-container *ngIf="hasToDisplayTotalRow"
+        ><td
+          mat-footer-cell
+          *matFooterCellDef
+        ></td
+      ></ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="details-price">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      >
+        <strong>{{ 'Цена деталей' | translate }}</strong>
+      </th>
+
+      <td
+        mat-cell
+        *matCellDef="let detail; dataSource: dynamicRepairDetails"
+        [ngModelGroup]="detail.schema.formGroupName"
+      >
+        <span>{{ detail.data.detailsPrice | defaultValue }}</span>
+      </td>
+
+      <ng-container *ngIf="hasToDisplayTotalRow"
+        ><td
+          mat-footer-cell
+          *matFooterCellDef
+        ></td
+      ></ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="repair-price">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      >
+        <strong>{{ 'Замена / Работа' | translate }}</strong>
+      </th>
+
+      <td
+        mat-cell
+        *matCellDef="let detail; dataSource: dynamicRepairDetails"
+        [ngModelGroup]="detail.schema.formGroupName"
+      >
+        @if (isEditMode) {
+        <check-please-number-edit-control
+          *ngIf="isEditMode"
+          [(value)]="detail.data.repairPrice!"
+          [config]="config.repairPrice"
+          [schema]="detail.schema.repairPrice"
+          (valueChange)="calculatePrices(detail)"
+          class="w-20 mr-1"
+          (keydown.enter)="add()"
+        ></check-please-number-edit-control>
+        } @else {
+        <span>{{ detail.data.repairPrice | defaultValue }}</span>
+        }
+      </td>
+
+      <ng-container *ngIf="hasToDisplayTotalRow"
+        ><td
+          mat-footer-cell
+          *matFooterCellDef
+        >
+          <strong>{{ 'Итого' | translate }}:</strong>
+        </td></ng-container
+      >
+    </ng-container>
+
+    <ng-container matColumnDef="total-price">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      >
+        <strong>{{ 'Общая цена' | translate }}</strong>
+      </th>
+
+      <td
+        mat-cell
+        *matCellDef="let detail; dataSource: dynamicRepairDetails"
+        [ngModelGroup]="detail.schema.formGroupName"
+      >
+        <span>{{ detail.data.totalPrice | defaultValue }}</span>
+      </td>
+
+      <ng-container *ngIf="hasToDisplayTotalRow"
+        ><td
+          mat-footer-cell
+          *matFooterCellDef
+        >
+          <strong>{{ calculateTotalSum() }}</strong>
+        </td></ng-container
+      >
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+      >
+        @if(isEditMode) {
+        <button
+          mat-icon-button
+          color="primary"
+          class="icon-button-size-4"
+          type="button"
+          (click)="add()"
+        >
+          <mat-icon
+            fontSet="fa"
+            fontIcon="fa-plus"
+            aria-hidden="true"
+          ></mat-icon>
+        </button>
+        }
+      </th>
+
+      <td
+        mat-cell
+        *matCellDef="let detail; dataSource: dynamicRepairDetails; let i = index"
+        [ngModelGroup]="detail.schema.formGroupName"
+      >
+        @if(isEditMode) {
+        <button
+          *ngIf="isEditMode"
+          mat-icon-button
+          type="button"
+          class="icon-button-size-4"
+          (click)="remove(i)"
+        >
+          <mat-icon class="icon">delete</mat-icon>
+        </button>
+        }
+      </td>
+
+      <td
+        mat-footer-cell
+        *matFooterCellDef
+      ></td>
+    </ng-container>
+
+    <tr
+      mat-header-row
+      *matHeaderRowDef="displayedColumns"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+    ></tr>
+    <ng-container *ngIf="hasToDisplayTotalRow">
+      <tr
+        mat-footer-row
+        *matFooterRowDef="displayedColumns"
+      ></tr>
+    </ng-container>
+
+    <tr
+      class="mat-row"
+      *matNoDataRow
+    >
+      <td
+        class="mat-cell"
+        colspan="6"
+      >
+        {{ 'Таблица пока что пуста' | translate }}
+      </td>
+    </tr>
+  </table>
+</form>

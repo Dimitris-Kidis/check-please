@@ -9,6 +9,7 @@ namespace Commands.Commands.Repairs.UpdateRepair
         public int? Mileage { get; set; }
         public string? AdditionalNotes { get; set; }
         public int TotalRepairPrice { get; set; }
+        public bool IsSentToBot { get; set; }
         public DateTimeOffset? RepairDate { get; set; }
         public ICollection<UpdateDetailCommand> Details { get; set; }
     }

@@ -57,14 +57,25 @@ namespace Commands.Commands.Repairs.UpdateRepair
             foreach (var updateDetail in request.Details)
             {
                 var existingDetail = repair.Details.FirstOrDefault(d => d.Id == updateDetail.Id);
+
                 if (existingDetail != null)
                 {
                     _mapper.Map(updateDetail, existingDetail);
                 }
                 else
                 {
-                    throw new Exception($"Detail with ID {updateDetail.Id} not found in Repair {repair.Id}");
+                    var newDetail = _mapper.Map<Detail>(updateDetail);
+                    repair.Details.Add(newDetail);
                 }
+            }
+
+            var detailsToRemove = repair.Details
+                .Where(d => !request.Details.Any(rd => rd.Id == d.Id))
+                .ToList();
+
+            foreach (var detailToRemove in detailsToRemove)
+            {
+                repair.Details.Remove(detailToRemove);
             }
 
             await repairRepository.UpdateAsync(repair, cancellationToken);

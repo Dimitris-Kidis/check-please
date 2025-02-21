@@ -1,0 +1,33 @@
+.command-input-wrapper {
+  position: relative;
+  display: inline-block;
+  transition: all 0.3s ease;
+
+  .command-input {
+    width: 250px;
+    padding: 10px 120px 10px 10px;
+    font-size: 16px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  .command-button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #007bff;
+    border: none;
+    color: white;
+    padding: 5px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      background: #0056b3;
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { QuillModule } from 'ngx-quill';
-import { ToastrModule, provideToastr } from 'ngx-toastr';
+import { provideToastr, ToastrModule } from 'ngx-toastr';
 import { routes } from './app.routes';
 import { PageSpinnerModule } from './common/components/page-spinner/page-spinner.module';
 import { NgOnDestroy } from './common/services/ng-on-destroy.service';
@@ -25,7 +25,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(PageSpinnerModule),
     importProvidersFrom(TranslateModule.forRoot(TRANSLATE_CONFIG)),
     importProvidersFrom(QuillModule.forRoot()),
-    // importProvidersFrom(NgxMaterialTimepickerModule.setLocale('en')),
     NgOnDestroy,
     {
       provide: HTTP_INTERCEPTORS,
