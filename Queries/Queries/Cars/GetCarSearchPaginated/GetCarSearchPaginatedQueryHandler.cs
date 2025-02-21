@@ -34,7 +34,7 @@ namespace Queries.Queries.Cars.GetCarSearchPaginated
 
             int total = await query.CountAsync(cancellationToken);
 
-            bool hasMore = (request.PaginatedRequest.PageIndex + 1) * request.PaginatedRequest.PageSize < total;
+            bool hasMore = (request.PaginatedRequest.PageIndex) * request.PaginatedRequest.PageSize < total;
 
             var car = await query
                 .OrderBy(u => u.Id)

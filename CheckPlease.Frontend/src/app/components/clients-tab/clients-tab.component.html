@@ -54,6 +54,8 @@
     [infiniteScrollDistance]="2"
     [infiniteScrollUpDistance]="1"
     [infiniteScrollThrottle]="300"
+    [infiniteScrollContainer]="isDialog ? '.client-scroll-container' : null"
+    [fromRoot]="isDialog ? true : false"
     (scrolled)="loadMore()"
   >
     @if(isBusy) {
