@@ -62,6 +62,9 @@
     .add-button {
       flex: 1;
       height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: 0.2s all ease;
       border: 1px solid #1e2b25;
       border-radius: 2px;

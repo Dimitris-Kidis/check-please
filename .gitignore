@@ -55,6 +55,9 @@ Commands/obj/
 Queries/bin/
 Queries/obj/
 
+Parser/bin/
+Parser/obj/
+
 Common/bin/
 Common/obj/
 

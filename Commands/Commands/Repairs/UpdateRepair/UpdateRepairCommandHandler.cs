@@ -78,6 +78,11 @@ namespace Commands.Commands.Repairs.UpdateRepair
                 repair.Details.Remove(detailToRemove);
             }
 
+            var totalRepairPrice = request.Details
+                .Sum(detail => (detail.PricePerOne.GetValueOrDefault(0) * detail.Quantity.GetValueOrDefault(0)) + detail.RepairPrice);
+
+            repair.TotalRepairPrice = totalRepairPrice;
+
             await repairRepository.UpdateAsync(repair, cancellationToken);
         }
     }

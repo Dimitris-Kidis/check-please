@@ -65,6 +65,7 @@
           [config]="config.pricePerOne"
           [schema]="detail.schema.pricePerOne"
           (valueChange)="calculatePrices(detail)"
+          [allowZero]="true"
         ></check-please-number-edit-control>
         } @else {
         <span>{{ detail.data.pricePerOne | defaultValue }}</span>
@@ -154,11 +155,12 @@
         @if (isEditMode) {
         <check-please-number-edit-control
           *ngIf="isEditMode"
-          [(value)]="detail.data.repairPrice!"
+          [(value)]="detail.data.repairPrice"
           [config]="config.repairPrice"
           [schema]="detail.schema.repairPrice"
           (valueChange)="calculatePrices(detail)"
           class="w-20 mr-1"
+          [allowZero]="true"
           (keydown.enter)="add()"
         ></check-please-number-edit-control>
         } @else {

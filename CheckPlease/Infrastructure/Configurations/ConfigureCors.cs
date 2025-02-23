@@ -8,10 +8,14 @@
             {
                 options.AddPolicy("AllowAllOrigins", builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200")
-                           .AllowCredentials()
-                           .AllowAnyHeader()
-                           .AllowAnyMethod();
+                    //builder
+                    //.WithOrigins("http://localhost:4200")
+                    //       .AllowCredentials()
+                    //       .AllowAnyHeader()
+                    //       .AllowAnyMethod();
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
                 });
             });
 

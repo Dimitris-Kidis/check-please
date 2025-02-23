@@ -45,6 +45,7 @@ export function getCarEditSchema(): ICarEditSchema {
       translationKey: 'Vin-код',
       minLength: 17,
       maxLength: 17,
+      isUppercase: true,
     },
     brand: {
       controlId: 'brandId' + id,

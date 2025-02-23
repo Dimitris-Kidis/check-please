@@ -19,6 +19,11 @@ namespace Commands.Commands.Repairs.CreateRepair
         {
             var repair = _mapper.Map<Repair>(request);
 
+            var totalRepairPrice = request.Details
+                .Sum(detail => (detail.PricePerOne.GetValueOrDefault(0) * detail.Quantity.GetValueOrDefault(0)) + detail.RepairPrice);
+
+            repair.TotalRepairPrice = totalRepairPrice;
+
             await repairRepository.AddAsync(repair, cancellationToken);
 
             await carRepository.UpdateAsync(x => x.Id == request.CarId, x => new Car { Mileage = request.Mileage }, cancellationToken);

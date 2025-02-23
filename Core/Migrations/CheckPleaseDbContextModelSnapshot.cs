@@ -51,7 +51,7 @@ namespace Core.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Mileage")
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
 
                     b.Property<string>("Model")
@@ -202,11 +202,8 @@ namespace Core.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Mileage")
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
-
-                    b.Property<string>("Problems")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("RepairDate")
                         .HasColumnType("datetimeoffset");

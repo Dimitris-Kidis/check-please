@@ -108,6 +108,7 @@ export class CarsTabComponent implements OnInit {
       next: () => {
         this.cars = this.cars.filter((car) => car.id !== carId);
         this.total--;
+        this.search();
         this.cdr.detectChanges();
       },
       error: (err: HttpErrorResponse) => {

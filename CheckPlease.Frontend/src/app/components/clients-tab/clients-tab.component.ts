@@ -108,6 +108,7 @@ export class ClientsTabComponent implements OnInit {
       next: () => {
         this.clients = this.clients.filter((client) => client.id !== clientId);
         this.total--;
+        this.search();
         this.cdr.detectChanges();
       },
       error: (err: HttpErrorResponse) => {

@@ -103,7 +103,7 @@ export class RepairTableComponent implements OnInit {
   }
 
   public add(): void {
-    this.dynamicRepairDetails.push({ data: {}, schema: getRepairTableEditSchema() });
+    this.dynamicRepairDetails.push({ data: { quantity: 1 }, schema: getRepairTableEditSchema() });
     this.table?.renderRows();
     this.emit();
   }

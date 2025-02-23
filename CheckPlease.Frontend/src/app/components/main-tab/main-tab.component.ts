@@ -18,10 +18,10 @@ export class MainTabComponent {
   public mainPageInfo: MainPageDto;
 
   public stats = [
-    { icon: '🛠️', count: 2, label: 'Ремонты' },
-    { icon: '🚘', count: 1, label: 'Машины' },
-    { icon: '👥', count: 1, label: 'Клиенты' },
-    { icon: '📅', count: 0, label: 'Ремонты в этом году' },
+    { icon: '🛠️', count: 2, label: 'Ремонты', name: 'repairsNumber' },
+    { icon: '🚘', count: 1, label: 'Машины', name: 'carsNumber' },
+    { icon: '👥', count: 1, label: 'Клиенты', name: 'clientsNumber' },
+    { icon: '📅', count: 0, label: 'Ремонты в этом году', name: 'thisYearRepairsNumber' },
   ];
 
   public constructor(
@@ -42,6 +42,8 @@ export class MainTabComponent {
       .subscribe({
         next: (data: MainPageDto) => {
           this.mainPageInfo = data;
+
+          this.setStats(data);
         },
         error: (err: HttpErrorResponse) => {
           this.displayErrorHelper.displayErrorFunc(err);
@@ -53,5 +55,12 @@ export class MainTabComponent {
   private setIsBusy(isBusy: boolean): void {
     this.isBusy = isBusy;
     this.pageSpinnerService.changeState(isBusy);
+  }
+
+  private setStats(data: MainPageDto): void {
+    this.stats = this.stats.map((stat) => ({
+      ...stat,
+      count: data[stat.name as keyof MainPageDto] ?? 0,
+    }));
   }
 }

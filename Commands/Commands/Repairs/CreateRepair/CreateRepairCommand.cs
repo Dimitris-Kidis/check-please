@@ -4,11 +4,10 @@ namespace Commands.Commands.Repairs.CreateRepair
 {
     public class CreateRepairCommand : IRequest<Guid>
     {
-        public string? Problems { get; set; }
-        public int? Mileage { get; set; }
         public Guid ClientId { get; set; }
         public Guid CarId { get; set; }
         public string? AdditionalNotes { get; set; }
+        public int Mileage { get; set; }
         public int TotalRepairPrice { get; set; }
         public DateTimeOffset? RepairDate { get; set; }
         public ICollection<CreateDetailCommand> Details { get; set; }

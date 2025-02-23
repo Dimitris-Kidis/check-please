@@ -62,6 +62,7 @@ export class CarEditComponent implements OnInit {
     this.setIsBusy(true);
 
     this.car.carSign = this.car.carSign?.toUpperCase();
+    this.car.vinCode = this.car.vinCode?.toUpperCase();
 
     const action$ = this.isCreateMode ? this.carsService.createCar(this.car) : this.carsService.updateCar(this.car);
 

@@ -49,6 +49,9 @@
 
 .add-button {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 34px;
   transition: 0.2s all ease;
   border: 1px solid #1e2b25;

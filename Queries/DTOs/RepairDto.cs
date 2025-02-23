@@ -3,8 +3,7 @@
     public class RepairDto
     {
         public Guid Id { get; set; }
-        public string? Problems { get; set; }
-        public int? Mileage { get; set; }
+        public int Mileage { get; set; }
         public Guid ClientId { get; set; }
         public ClientDto Client { get; set; }
         public Guid CarId { get; set; }

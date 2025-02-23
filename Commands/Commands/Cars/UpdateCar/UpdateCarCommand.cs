@@ -7,7 +7,7 @@ namespace Commands.Commands.Cars.UpdateCar
         public Guid Id { get; set; }
         public string CarSign { get; set; }
         public string? VinCode { get; set; }
-        public int? Mileage { get; set; }
+        public int Mileage { get; set; }
         public int? Year { get; set; }
         public string? Volume { get; set; }
         public string? Brand { get; set; }

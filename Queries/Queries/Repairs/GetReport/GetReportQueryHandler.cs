@@ -32,6 +32,8 @@ namespace Queries.Queries.Repairs.GetReport
                 .Select(r => r.Id)
                 .ToListAsync(cancellationToken);
 
+            await repairRepository.UpdateAsync(x => repairIds.Contains(x.Id), x => new Repair { IsSentToBot = true }, cancellationToken);
+
             var mechanicIncome = 0;
             var assistantIncome = 0;
             var repairsTextInfo = new StringBuilder();

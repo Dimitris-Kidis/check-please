@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckPlease", "CheckPlease\CheckPlease.csproj", "{6BE7F49E-71C8-4989-8511-ABA39F35A493}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{EBDED80B-CA91-4E7A-8F92-096C49B90D2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{8E35DE00-4D13-4147-811B-FBA1CCBE499A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser", "Parser\Parser.csproj", "{AD250A1F-09B7-4385-83D6-0733D49A92D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8E35DE00-4D13-4147-811B-FBA1CCBE499A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E35DE00-4D13-4147-811B-FBA1CCBE499A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E35DE00-4D13-4147-811B-FBA1CCBE499A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD250A1F-09B7-4385-83D6-0733D49A92D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD250A1F-09B7-4385-83D6-0733D49A92D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD250A1F-09B7-4385-83D6-0733D49A92D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD250A1F-09B7-4385-83D6-0733D49A92D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

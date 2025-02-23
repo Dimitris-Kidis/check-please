@@ -16,7 +16,7 @@ namespace Core.Domain
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //builder.ApplyConfiguration(new RequestsConfiguration());
+
         }
     }
 }

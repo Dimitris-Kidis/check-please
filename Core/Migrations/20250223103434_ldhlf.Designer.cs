@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(CheckPleaseDbContext))]
-    [Migration("20250217144429_NewBotFlag")]
-    partial class NewBotFlag
+    [Migration("20250223103434_ldhlf")]
+    partial class ldhlf
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,7 @@ namespace Core.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Mileage")
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
 
                     b.Property<string>("Model")
@@ -205,11 +205,8 @@ namespace Core.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Mileage")
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
-
-                    b.Property<string>("Problems")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("RepairDate")
                         .HasColumnType("datetimeoffset");

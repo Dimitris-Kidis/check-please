@@ -40,6 +40,11 @@ namespace CheckPlease.Bot
         }
         public async Task SendReportAsync(long chatId, ReportDto report, CancellationToken cancellationToken)
         {
+            if (report.Files.Count == 0)
+            {
+                return;
+            }
+
             foreach (var file in report.Files)
             {
                 var inputFile = new InputFileStream(file.FileStream, file.FileName);

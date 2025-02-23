@@ -3,10 +3,10 @@
     <div class="user-info">
       <span class="name"
         ><strong>Владелец машины:</strong> {{ repair.client?.fullName | defaultValue }} /
-        <strong>Номер телефона: </strong> {{ repair.client?.phoneNumber | defaultValue }}
+        <strong>Номер телефона: </strong> {{ repair.client?.phoneNumber | defaultValue }} /
+        <strong>Номер машины:</strong> {{ repair.car?.carSign | defaultValue }}
       </span>
-      <span class="name"
-        ><strong>Номер машины:</strong> {{ repair.car?.carSign | defaultValue }} /
+      <span class="name">
         <strong>Пробег при ремонте: </strong> {{ repair.mileage | defaultValue }} км /
         <strong>Актуальный пробег ({{ repair.repairDate | date : dateDefaultFormat }}): </strong>
         {{ repair.car?.mileage | defaultValue }} км</span
@@ -46,6 +46,6 @@
     ></check-please-repair-table>
   </check-please-collapsable-section>
   <small style="text-align: right"
-    >Создан: {{ repair.createdAt | date : datetimeDefaultFormat + ' (EEEE)' | dayOfWeek }}</small
+    >Создан: {{ repair.repairDate | date : datetimeDefaultFormat + ' (EEEE)' | dayOfWeek }}</small
   >
 </div>

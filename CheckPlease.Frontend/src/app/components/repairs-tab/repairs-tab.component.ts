@@ -94,6 +94,7 @@ export class RepairsTabComponent implements OnInit {
       next: () => {
         this.repairs = this.repairs.filter((repair) => repair.id !== repairId);
         this.total--;
+        this.search();
         this.cdr.detectChanges();
       },
       error: (err: HttpErrorResponse) => {

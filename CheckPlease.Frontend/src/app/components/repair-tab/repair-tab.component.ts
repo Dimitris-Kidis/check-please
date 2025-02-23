@@ -155,6 +155,7 @@ export class RepairTabComponent implements OnInit {
       if (clientId) {
         this.repair.clientId = clientId;
         this.client = clientView;
+        this.getSuggestionsForClient(clientView.phoneNumber);
       }
     });
   }
@@ -174,6 +175,7 @@ export class RepairTabComponent implements OnInit {
         this.getCarHistory(carId);
         this.repair.carId = carId;
         this.car = carView;
+        this.getSuggestionsForCar(carView.carSign);
       }
     });
   }
@@ -205,6 +207,7 @@ export class RepairTabComponent implements OnInit {
       if (clientId) {
         this.repair.clientId = clientId;
         this.client = clientView;
+        this.getSuggestionsForClient(clientView.phoneNumber);
       }
     });
   }
@@ -225,6 +228,7 @@ export class RepairTabComponent implements OnInit {
         this.car = carView;
         this.repair.mileage = carView.mileage;
         this.getCarHistory(carId);
+        this.getSuggestionsForCar(carView.carSign);
       }
     });
   }

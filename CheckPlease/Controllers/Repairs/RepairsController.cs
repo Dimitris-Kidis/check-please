@@ -1,4 +1,5 @@
-﻿using CheckPlease.Bot;
+﻿using AutoMapper;
+using CheckPlease.Bot;
 using Commands.Commands.Bot;
 using Commands.Commands.Repairs.CreateRepair;
 using Commands.Commands.Repairs.DeleteRepair;
@@ -14,9 +15,10 @@ namespace CheckPlease.Controllers.Repairs
 {
     [Route("api/repairs")]
     [ApiController]
-    public class RepairsController(IMediator mediator, TelegramBotService telegramBotService, IConfiguration configuration) : ControllerBase
+    public class RepairsController(IMediator mediator, TelegramBotService telegramBotService, IConfiguration configuration, IMapper mapper) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
+        private readonly IMapper mapper = mapper;
         private readonly IConfiguration configuration = configuration;
         private readonly TelegramBotService telegramBotService = telegramBotService;
 

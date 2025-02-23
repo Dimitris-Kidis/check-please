@@ -48,9 +48,12 @@ namespace Queries.Queries.Repairs.GetHistorySearchPaginated
 
             int total = await query.CountAsync(cancellationToken);
 
-            bool hasMore = (request.PaginatedRequest.PageIndex + 1) * request.PaginatedRequest.PageSize < total;
+            bool hasMore = (request.PaginatedRequest.PageIndex) * request.PaginatedRequest.PageSize < total;
 
             var repairs = await query
+                .OrderByDescending(r => r.RepairDate)
+                .Skip((request.PaginatedRequest.PageIndex - 1) * request.PaginatedRequest.PageSize)
+                .Take(request.PaginatedRequest.PageSize)
                 .ProjectTo<RepairDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

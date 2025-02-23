@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(CheckPleaseDbContext))]
-    [Migration("20250216091744_df")]
-    partial class df
+    [Migration("20250221222951_fefhdке")]
+    partial class fefhdке
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,11 +25,14 @@ namespace Core.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.Car", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Car", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AdditionalNotes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Brand")
                         .HasColumnType("nvarchar(max)");
@@ -51,7 +54,7 @@ namespace Core.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Mileage")
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
 
                     b.Property<string>("Model")
@@ -77,11 +80,14 @@ namespace Core.Migrations
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.Client", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Client", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AdditionalNotes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -114,7 +120,7 @@ namespace Core.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.Detail", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Detail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -168,11 +174,14 @@ namespace Core.Migrations
                     b.ToTable("Details");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.Repair", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Repair", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AdditionalNotes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CarId")
                         .HasColumnType("uniqueidentifier");
@@ -187,17 +196,17 @@ namespace Core.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsSentToBot")
+                        .HasColumnType("bit");
+
                     b.Property<DateTimeOffset?>("LastModifiedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Mileage")
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
-
-                    b.Property<string>("Problems")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("RepairDate")
                         .HasColumnType("datetimeoffset");
@@ -207,6 +216,9 @@ namespace Core.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
+
+                    b.Property<int>("ShortId")
+                        .HasColumnType("int");
 
                     b.Property<int>("TotalRepairPrice")
                         .HasColumnType("int");
@@ -220,9 +232,9 @@ namespace Core.Migrations
                     b.ToTable("Repairs");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.Detail", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Detail", b =>
                 {
-                    b.HasOne("ApplicationCore.Domain.Entities.Repair", "Repair")
+                    b.HasOne("Core.Domain.Entities.Repair", "Repair")
                         .WithMany("Details")
                         .HasForeignKey("RepairId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -231,15 +243,15 @@ namespace Core.Migrations
                     b.Navigation("Repair");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.Repair", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Repair", b =>
                 {
-                    b.HasOne("ApplicationCore.Domain.Entities.Car", "Car")
+                    b.HasOne("Core.Domain.Entities.Car", "Car")
                         .WithMany("Repairs")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ApplicationCore.Domain.Entities.Client", "Client")
+                    b.HasOne("Core.Domain.Entities.Client", "Client")
                         .WithMany("Repairs")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -250,17 +262,17 @@ namespace Core.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.Car", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Car", b =>
                 {
                     b.Navigation("Repairs");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.Client", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Client", b =>
                 {
                     b.Navigation("Repairs");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.Repair", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Repair", b =>
                 {
                     b.Navigation("Details");
                 });

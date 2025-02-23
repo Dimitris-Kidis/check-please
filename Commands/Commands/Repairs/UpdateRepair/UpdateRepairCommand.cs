@@ -6,7 +6,7 @@ namespace Commands.Commands.Repairs.UpdateRepair
     {
         public Guid Id { get; set; }
         public string? Problems { get; set; }
-        public int? Mileage { get; set; }
+        public int Mileage { get; set; }
         public string? AdditionalNotes { get; set; }
         public int TotalRepairPrice { get; set; }
         public bool IsSentToBot { get; set; }
