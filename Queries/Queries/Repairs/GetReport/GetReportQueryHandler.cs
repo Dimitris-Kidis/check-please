@@ -34,11 +34,9 @@ namespace Queries.Queries.Repairs.GetReport
 
             await repairRepository.UpdateAsync(x => repairIds.Contains(x.Id), x => new Repair { IsSentToBot = true }, cancellationToken);
 
-            var mechanicIncome = 0;
-            var assistantIncome = 0;
             var repairsTextInfo = new StringBuilder();
 
-            await ProcessRepairs(repairIds, report, request.Locale, mechanicIncome, assistantIncome, repairsTextInfo, cancellationToken);
+            (var mechanicIncome, var assistantIncome) = await ProcessRepairs(repairIds, report, request.Locale, repairsTextInfo, cancellationToken);
 
             messageText.AppendLine($"<code>Общее количество ремонтов: <b>{repairIds.Count}</b>");
             messageText.AppendLine($"Заработок механика: <b>{mechanicIncome}</b>");
@@ -92,8 +90,10 @@ namespace Queries.Queries.Repairs.GetReport
             return (query, startDate, endDate, messageText);
         }
 
-        private async Task ProcessRepairs(List<Guid> repairIds, ReportDto report, LanguageLocale locale, int mechanicIncome, int assistantIncome, StringBuilder repairsTextInfo, CancellationToken cancellationToken)
+        private async Task<(int mechanicIncome, int assistantIncome)> ProcessRepairs(List<Guid> repairIds, ReportDto report, LanguageLocale locale, StringBuilder repairsTextInfo, CancellationToken cancellationToken)
         {
+            int mechanicIncome = 0;
+            int assistantIncome = 0;
             int index = 1;
             foreach (var repairId in repairIds)
             {
@@ -122,6 +122,8 @@ namespace Queries.Queries.Repairs.GetReport
                 repairsTextInfo.AppendLine($"{index}. {repair.CarSign} ({repair.ClientName}, {repair.ClientPhoneNumber}) [{repair.AssistantIncome}] [{repair.RepairDate:dd.MM.yyyy}]");
                 index++;
             }
+
+            return (mechanicIncome, assistantIncome);
         }
     }
 }
