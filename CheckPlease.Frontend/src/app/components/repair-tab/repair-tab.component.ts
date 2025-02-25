@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { environment } from '../../../environment/environment';
 import { CarDto } from '../../../models/car';
 import { ClientDto } from '../../../models/client';
@@ -56,6 +57,7 @@ import {
     MatDialogModule,
     NumberEditControlComponent,
     DefaultValuePipe,
+    TranslateModule,
   ],
   templateUrl: './repair-tab.component.html',
   styleUrl: './repair-tab.component.scss',
@@ -250,7 +252,7 @@ export class RepairTabComponent implements OnInit {
       .createRepair(this.repair)
       .subscribe({
         next: () => {
-          this.messageService.showSuccess('Ремонт успешно создан..');
+          this.messageService.showSuccess('COMMON.NOTIFICATION.REPAIR.SUCCESS');
         },
         error: (err) => this.displayErrorHelper.displayErrorFunc(err),
       })

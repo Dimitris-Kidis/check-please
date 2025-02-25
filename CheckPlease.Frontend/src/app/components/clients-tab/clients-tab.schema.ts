@@ -6,7 +6,7 @@ export interface ISearchInputSchema {
   searchInput: ITextEditControlSchema;
 }
 
-export function getSearchInputSchema(placeholder: string = 'Введите, чтобы искать...'): ISearchInputSchema {
+export function getSearchInputSchema(placeholder: string = 'COMMON.SEARCH.PLACEHOLDER'): ISearchInputSchema {
   const id = _.uniqueId('searchInputGroup');
 
   return {

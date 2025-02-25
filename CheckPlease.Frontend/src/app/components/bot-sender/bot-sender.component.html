@@ -2,7 +2,7 @@
   <input
     type="text"
     class="command-input"
-    placeholder="Введите команду..."
+    [placeholder]="'BOT.COMMAND.PLACEHOLDER' | translate"
     [(ngModel)]="botCommand"
     [ngModelOptions]="{ standalone: true }"
   />
@@ -12,6 +12,6 @@
   >
     @if(isBusy) {
     <mat-spinner checkPleaseSpinnerSize="extrasmall"></mat-spinner>
-    } @else { Отправить боту 🤖 }
+    } @else { {{ 'BOT.SEND' | translate }} 🤖 }
   </button>
 </div>

@@ -1,10 +1,10 @@
 export class MenuSchema {
   public static menuTabs: IMenuTab[] = [
-    { label: 'Главная', icon: 'home', route: '/main' },
-    { label: 'Новый ремонт', icon: 'add_circle', route: '/new' },
-    { label: 'Ремонты', icon: 'history', route: '/repairs' },
-    { label: 'Клиенты', icon: 'people', route: '/clients' },
-    { label: 'Машины', icon: 'directions_car', route: '/cars' },
+    { label: 'MAIN.LABEL.MAIN', icon: 'home', route: '/main' },
+    { label: 'MAIN.LABEL.NEW_REPAIR', icon: 'add_circle', route: '/new' },
+    { label: 'MAIN.LABEL.REPAIRS', icon: 'history', route: '/repairs' },
+    { label: 'MAIN.LABEL.CLIENTS', icon: 'people', route: '/clients' },
+    { label: 'MAIN.LABEL.CARS', icon: 'directions_car', route: '/cars' },
   ];
 }
 

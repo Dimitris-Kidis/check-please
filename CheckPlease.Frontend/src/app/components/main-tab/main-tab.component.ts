@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { MainPageDto } from '../../../models/main-page';
 import { CommonService } from '../../../services/common.service';
 import { PageSpinnerService } from '../../common/components/page-spinner/page-spinner.service';
@@ -9,7 +10,7 @@ import { BotSenderComponent } from '../bot-sender/bot-sender.component';
 
 @Component({
   selector: 'check-please-main-tab',
-  imports: [CommonModule, BotSenderComponent],
+  imports: [CommonModule, BotSenderComponent, TranslateModule],
   templateUrl: './main-tab.component.html',
   styleUrl: './main-tab.component.scss',
 })
@@ -18,10 +19,10 @@ export class MainTabComponent {
   public mainPageInfo: MainPageDto;
 
   public stats = [
-    { icon: '🛠️', count: 2, label: 'Ремонты', name: 'repairsNumber' },
-    { icon: '🚘', count: 1, label: 'Машины', name: 'carsNumber' },
-    { icon: '👥', count: 1, label: 'Клиенты', name: 'clientsNumber' },
-    { icon: '📅', count: 0, label: 'Ремонты в этом году', name: 'thisYearRepairsNumber' },
+    { icon: '🛠️', count: 2, label: 'MAIN.LABEL.REPAIRS', name: 'repairsNumber' },
+    { icon: '🚘', count: 1, label: 'MAIN.LABEL.CARS', name: 'carsNumber' },
+    { icon: '👥', count: 1, label: 'MAIN.LABEL.CLIENTS', name: 'clientsNumber' },
+    { icon: '📅', count: 0, label: 'MAIN.LABEL.THIS_YEAR_REPAIRS', name: 'thisYearRepairsNumber' },
   ];
 
   public constructor(

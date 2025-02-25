@@ -20,6 +20,7 @@ import { SpinnerModule } from '../../directives/spinner/spinner.module';
     MatIconModule,
     SpinnerSizeDirective,
     SpinnerModule,
+    TranslateModule,
   ],
   templateUrl: './bot-sender.component.html',
   styleUrl: './bot-sender.component.scss',
@@ -40,7 +41,7 @@ export class BotSenderComponent {
       .sendCommand(this.botCommand)
       .subscribe({
         next: () => {
-          this.messageService.showSuccess('Команда отправлена боту..');
+          this.messageService.showSuccess('BOT.COMMAND.SENT.SUCCESS');
         },
         error: (err) => this.displayErrorHelper.displayErrorFunc(err),
       })

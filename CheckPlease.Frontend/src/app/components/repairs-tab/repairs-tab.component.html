@@ -14,7 +14,7 @@
         class="control"
       ></check-please-text-edit-control>
       <small class="search-hint"
-        >Ремонтов найдено: @if(isBusy) {
+        >{{ 'REPAIRS.TAB.SEARCH.REPAIRS_FOUND' | translate }}: @if(isBusy) {
         <mat-spinner checkPleaseSpinnerSize="extrasmall"></mat-spinner>
         } @else {
         <span> {{ total }}</span>
@@ -23,6 +23,7 @@
     </div>
 
     <button
+      type="button"
       class="reset-button"
       (click)="reset()"
     >
@@ -34,7 +35,7 @@
       class="search-button"
       (click)="search()"
     >
-      Поиск
+      {{ 'COMMON.SEARCH' | translate }}
     </button>
 
     <button

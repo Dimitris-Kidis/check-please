@@ -2,16 +2,18 @@
   <div class="header">
     <div class="user-info">
       <span class="name"
-        ><strong>Номер машины:</strong> {{ car.carSign | defaultValue }} / <strong>Текущий пробег: </strong>
-        {{ car.mileage | defaultValue }} км / <strong>VIN-код: </strong> {{ car.vinCode | defaultValue }}</span
+        ><strong>{{ 'CARS.CAR.FIELD.CAR_SIGN' | translate }}:</strong> {{ car.carSign | defaultValue }} /
+        <strong>{{ 'CARS.CAR.FIELD.CURRENT_MILEAGE' | translate }}: </strong> {{ car.mileage | defaultValue }}
+        {{ 'CARS.CAR.KM' | translate }} / <strong>{{ 'CARS.CAR.FIELD.VIN_CODE' | translate }}: </strong>
+        {{ car.vinCode | defaultValue }}</span
       >
       <span class="name"
-        ><strong>Марка:</strong> {{ car.brand | defaultValue }} / <strong>Модель: </strong>
-        {{ car.model | defaultValue }}</span
+        ><strong>{{ 'CARS.CAR.FIELD.BRAND' | translate }}:</strong> {{ car.brand | defaultValue }} /
+        <strong>{{ 'CARS.CAR.FIELD.MODEL' | translate }}: </strong> {{ car.model | defaultValue }}</span
       >
       <span class="name"
-        ><strong>Год:</strong> {{ car.year | defaultValue }} / <strong>Объем двигателя: </strong>
-        {{ car.volume | defaultValue }}</span
+        ><strong>{{ 'CARS.CAR.FIELD.YEAR' | translate }}:</strong> {{ car.year | defaultValue }} /
+        <strong>{{ 'CARS.CAR.FIELD.VOLUME' | translate }}: </strong> {{ car.volume | defaultValue }}</span
       >
     </div>
     <div class="icons">
@@ -20,7 +22,7 @@
         class="select-button"
         (click)="selectCar()"
       >
-        Выбрать
+        {{ 'COMMON.SELECT' | translate }}
       </button>
       } @else {
       <button
@@ -40,10 +42,12 @@
   </div>
 
   <div class="notes">
-    <label for="notes">Дополнительные заметки</label>
+    <label for="notes">{{ 'COMMON.FIELD.ADDITIONAL_NOTES' | translate }}</label>
     <div class="notes-box">
       {{ car.additionalNotes | defaultValue }}
     </div>
-    <small style="text-align: right">Создан: {{ car.createdAt | date : datetimeDefaultFormat }}</small>
+    <small style="text-align: right"
+      >{{ 'CARS.CAR.AUDIT.CREATED' | translate }}: {{ car.createdAt | date : datetimeDefaultFormat }}</small
+    >
   </div>
 </div>

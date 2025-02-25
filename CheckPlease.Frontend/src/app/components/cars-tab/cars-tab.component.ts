@@ -44,9 +44,7 @@ export class CarsTabComponent implements OnInit {
   public isLoadMore: boolean = false;
 
   public config: ISearchInputConfig = getSearchInputConfig();
-  public schema: ISearchInputSchema = getSearchInputSchema(
-    'Введите номер машины, модель, марку или текст из заметок для поиска...',
-  );
+  public schema: ISearchInputSchema = getSearchInputSchema('CARS.SEARCH.PLACEHOLDER');
 
   public paginationQuery: SearchPaginatedRequest = { paginatedRequest: { pageIndex: 1, pageSize: 10 } };
 

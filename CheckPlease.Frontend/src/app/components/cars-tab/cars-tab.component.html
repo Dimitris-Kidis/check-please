@@ -14,7 +14,7 @@
         class="control"
       ></check-please-text-edit-control>
       <small class="search-hint"
-        >Машин найдено: @if(isBusy) {
+        >{{ 'CARS.TAB.SEARCH.CARS_FOUND' | translate }}: @if(isBusy) {
         <mat-spinner checkPleaseSpinnerSize="extrasmall"></mat-spinner>
         } @else {
         <span> {{ total }}</span>
@@ -35,7 +35,7 @@
       class="search-button"
       (click)="search()"
     >
-      Поиск
+      {{ 'COMMON.SEARCH' | translate }}
     </button>
 
     @if (!isDialog) {

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 import { environment } from '../../../../environment/environment';
 import { RepairDto } from '../../../../models/repair';
 import { CollapsableSectionComponent } from '../../../common/components/collapsable-section/collapsable-section.component';
@@ -17,6 +18,7 @@ import { RepairTableComponent } from '../../repair-table/repair-table.component'
     CollapsableSectionComponent,
     DayOfWeekPipe,
     RepairTableComponent,
+    TranslateModule,
   ],
   templateUrl: './repair-card.component.html',
   styleUrl: './repair-card.component.scss',

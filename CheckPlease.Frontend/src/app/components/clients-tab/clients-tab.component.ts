@@ -44,9 +44,7 @@ export class ClientsTabComponent implements OnInit {
   public isLoadMore: boolean = false;
 
   public config: ISearchInputConfig = getSearchInputConfig();
-  public schema: ISearchInputSchema = getSearchInputSchema(
-    'Введите номер телефона, имя или текст из заметок для поиска...',
-  );
+  public schema: ISearchInputSchema = getSearchInputSchema('CLIENTS.SEARCH.PLACEHOLDER');
 
   public paginationQuery: SearchPaginatedRequest = { paginatedRequest: { pageIndex: 1, pageSize: 10 } };
 

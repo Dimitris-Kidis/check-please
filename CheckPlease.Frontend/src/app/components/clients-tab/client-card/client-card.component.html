@@ -2,7 +2,8 @@
   <div class="header">
     <div class="user-info">
       <span class="name"
-        ><strong>Полное имя:</strong> {{ client.fullName | defaultValue }} / <strong>Номер телефона:</strong>
+        ><strong>{{ 'CLIENTS.CLIENT.FIELD.NAME' | translate }}:</strong> {{ client.fullName | defaultValue }} /
+        <strong>{{ 'CLIENTS.CLIENT.FIELD.PHONE_NUMBER' | translate }}:</strong>
         {{ client.phoneNumber | defaultValue }}</span
       >
     </div>
@@ -12,7 +13,7 @@
         class="select-button"
         (click)="selectClient()"
       >
-        Выбрать
+        {{ 'COMMON.SELECT' | translate }}
       </button>
       } @else {
       <button
@@ -32,10 +33,12 @@
   </div>
 
   <div class="notes">
-    <label for="notes">Дополнительные заметки</label>
+    <label for="notes">{{ 'COMMON.FIELD.ADDITIONAL_NOTES' | translate }}</label>
     <div class="notes-box">
       {{ client.additionalNotes | defaultValue }}
     </div>
-    <small style="text-align: right">Создан: {{ client.createdAt | date : datetimeDefaultFormat }}</small>
+    <small style="text-align: right"
+      >{{ 'CLIENTS.CLIENT.AUDIT.CREATED' | translate }}: {{ client.createdAt | date : datetimeDefaultFormat }}</small
+    >
   </div>
 </div>

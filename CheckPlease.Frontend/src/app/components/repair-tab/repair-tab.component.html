@@ -1,6 +1,6 @@
 <div class="container">
   <div class="first-column">
-    <h1>Клиент</h1>
+    <h1>{{ 'CLIENTS.CLIENT' | translate }}</h1>
     <div class="row">
       @if (repair.clientId) {
       <check-please-text-edit-control
@@ -29,7 +29,7 @@
         (click)="createClient()"
       >
         <mat-icon>add</mat-icon>
-        Добавить клиента
+        {{ 'REPAIR.ADD_CLIENT' | translate }}
       </button>
 
       <button
@@ -37,14 +37,14 @@
         (click)="searchClient()"
       >
         <mat-icon>search</mat-icon>
-        Поиск клиента
+        {{ 'REPAIR.SEARCH_CLIENT' | translate }}
       </button>
       }
     </div>
 
     @if (repair.clientId && !repair.carId && carSuggestions.length ) {
     <div class="car-suggestions">
-      <h2>Предложения по автомобилям</h2>
+      <h2>{{ 'REPAIR.SUGGESTIONS.CARS' | translate }}</h2>
       <div class="car-list">
         <div
           *ngFor="let car of carSuggestions"
@@ -52,13 +52,22 @@
           (click)="selectCar(car)"
         >
           <div class="car-info">
-            <p><strong>Машина:</strong> {{ car.carSign }}</p>
-            <p><strong>Пробег:</strong> {{ car.mileage }} км</p>
+            <p>
+              <strong>{{ 'CARS.CAR' | translate }}:</strong> {{ car.carSign }}
+            </p>
+            <p>
+              <strong>{{ 'CARS.CAR.FIELD.MILEAGE' | translate }}:</strong> {{ car.mileage }}
+              {{ 'CARS.CAR.KM' | translate }}
+            </p>
             @if(car.brand) {
 
-            <p><strong>Марка:</strong> {{ car.brand | defaultValue }}</p>
+            <p>
+              <strong>{{ 'CARS.CAR.FIELD.BRAND' | translate }}:</strong> {{ car.brand | defaultValue }}
+            </p>
             } @if(car.model) {
-            <p><strong>Модель:</strong> {{ car.model | defaultValue }}</p>
+            <p>
+              <strong>{{ 'CARS.CAR.FIELD.MODEL' | translate }}:</strong> {{ car.model | defaultValue }}
+            </p>
             }
           </div>
         </div>
@@ -66,7 +75,7 @@
     </div>
     }
 
-    <h1>Машина</h1>
+    <h1>{{ 'CARS.CAR' | translate }}</h1>
     <div class="row">
       @if (repair.carId) {
       <check-please-text-edit-control
@@ -102,7 +111,7 @@
         (click)="createCar()"
       >
         <mat-icon>add</mat-icon>
-        Добавить машину
+        {{ 'REPAIR.ADD_CAR' | translate }}
       </button>
 
       <button
@@ -110,13 +119,13 @@
         (click)="searchCar()"
       >
         <mat-icon>search</mat-icon>
-        Поиск машины
+        {{ 'REPAIR.SEARCH_CAR' | translate }}
       </button>
       }
     </div>
     @if (repair.carId && !repair.clientId && clientSuggestions.length ) {
     <div class="car-suggestions">
-      <h2>Предложения по клиентам</h2>
+      <h2>{{ 'REPAIR.SUGGESTIONS.CLIENTS' | translate }}</h2>
       <div class="car-list">
         <div
           *ngFor="let client of clientSuggestions"
@@ -124,15 +133,20 @@
           (click)="selectClient(client)"
         >
           <div class="car-info">
-            <p><strong>Имя:</strong> {{ client.fullName }}</p>
-            <p><strong>Номер телефона:</strong> {{ client.phoneNumber }} км</p>
+            <p>
+              <strong>{{ 'CLIENTS.CLIENT.FIELD.NAME' | translate }}:</strong> {{ client.fullName }}
+            </p>
+            <p>
+              <strong>{{ 'CLIENTS.CLIENT.FIELD.PHONE_NUMBER' | translate }}:</strong> {{ client.phoneNumber }}
+              {{ 'CARS.CAR.KM' | translate }}
+            </p>
           </div>
         </div>
       </div>
     </div>
     }
 
-    <h1>Ремонт</h1>
+    <h1>{{ 'REPAIRS.REPAIR' | translate }}</h1>
     <check-please-repair-table
       [(details)]="repair.details!"
       [options]="options"
@@ -148,7 +162,7 @@
     ></check-please-date-edit-control>
 
     <label for="car-history-wrapper">
-      История ремонтов
+      {{ 'REPAIRS.REPAIR.HISTORY' | translate }}
       <div
         class="car-history-wrapper"
         aria-labelledby="car-history-label"
@@ -159,14 +173,15 @@
           (click)="seeReport(item.id!)"
         >
           <span>
-            <strong>Дата:</strong> {{ item.repairDate | date : dateDefaultFormat }}<br />
-            <strong>Пробег:</strong> {{ item.mileage }} км<br />
-            <strong>Сумма:</strong> {{ item.totalRepairPrice }}
+            <strong>{{ 'COMMON.DATE' | translate }}:</strong> {{ item.repairDate | date : dateDefaultFormat }}<br />
+            <strong>{{ 'CARS.CAR.FIELD.MILEAGE' | translate }}:</strong> {{ item.mileage }}
+            {{ 'CARS.CAR.KM' | translate }}<br />
+            <strong>{{ 'CARS.CAR.SUM' | translate }}:</strong> {{ item.totalRepairPrice }}
           </span>
           <mat-icon class="eye-icon">visibility</mat-icon>
         </span>
         } @empty {
-        <span class="history-list-empty-placeholder">История ремонтов пока что пуста..</span>
+        <span class="history-list-empty-placeholder">{{ 'REPAIRS.REPAIR.HISTORY.PLACEHOLDER' | translate }}</span>
         }
       </div>
     </label>
@@ -184,7 +199,7 @@
       class="create-button"
       (click)="createRepair()"
     >
-      Создать ремонт
+      {{ 'REPAIRS.REPAIR.CREATE' | translate }}
     </button>
   </div>
 </div>

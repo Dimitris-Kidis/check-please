@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 import { environment } from '../../../../environment/environment';
 import { CarDto } from '../../../../models/car';
 import { DefaultValuePipe } from '../../../pipes/default-value.pipe';
 
 @Component({
   selector: 'check-please-car-card',
-  imports: [MatIconModule, DefaultValuePipe, CommonModule],
+  imports: [MatIconModule, DefaultValuePipe, CommonModule, TranslateModule],
   templateUrl: './car-card.component.html',
   styleUrl: './car-card.component.scss',
 })

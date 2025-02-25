@@ -21,37 +21,37 @@ export function getRepairTableEditSchema(): IRepairTableEditSchema {
       controlId: 'detailNameId' + id,
       formName: 'detailNameForm',
       fieldName: 'detailName',
-      placeholder: 'Название',
+      placeholder: 'REPAIRS.REPAIR.TABLE.DETAIL_NAME',
     },
     pricePerOne: {
       controlId: 'pricePerOneId' + id,
       formName: 'pricePerOneForm',
       fieldName: 'pricePerOne',
-      placeholder: 'Цена за шт.',
+      placeholder: 'REPAIRS.REPAIR.TABLE.PRICE_PER_ONE',
     },
     quantity: {
       controlId: 'quantityId' + id,
       formName: 'quantityForm',
       fieldName: 'quantity',
-      placeholder: 'Кол-во',
+      placeholder: 'REPAIRS.REPAIR.TABLE.QUANTITY',
     },
     detailsPrice: {
       controlId: 'detailsPriceId' + id,
       formName: 'detailsPriceForm',
       fieldName: 'detailsPrice',
-      placeholder: 'Цена за запчасть/услугу',
+      placeholder: 'REPAIRS.REPAIR.TABLE.DETAIL_NAME',
     },
     repairPrice: {
       controlId: 'repairPriceId' + id,
       formName: 'repairPriceForm',
       fieldName: 'repairPrice',
-      placeholder: 'Цена за работу',
+      placeholder: 'REPAIRS.REPAIR.TABLE.REPAIR_PRICE',
     },
     totalPrice: {
       controlId: 'totalPriceId' + id,
       formName: 'totalPriceForm',
       fieldName: 'totalPrice',
-      placeholder: 'Общая цена',
+      placeholder: 'REPAIRS.REPAIR.TABLE.TOTAL_PRICE',
     },
   };
 }

@@ -14,7 +14,7 @@
         class="control"
       ></check-please-text-edit-control>
       <small class="search-hint"
-        >Клиентов найдено: @if(isBusy) {
+        >{{ 'CLIENTS.TAB.SEARCH.CLIENTS_FOUND' | translate }}: @if(isBusy) {
         <mat-spinner checkPleaseSpinnerSize="extrasmall"></mat-spinner>
         } @else {
         <span> {{ total }}</span>

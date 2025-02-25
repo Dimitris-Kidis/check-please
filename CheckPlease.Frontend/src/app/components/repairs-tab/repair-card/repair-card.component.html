@@ -2,16 +2,23 @@
   <div class="header">
     <div class="user-info">
       <span class="name"
-        ><strong>Владелец машины:</strong> {{ repair.client?.fullName | defaultValue }} /
-        <strong>Номер телефона: </strong> {{ repair.client?.phoneNumber | defaultValue }} /
-        <strong>Номер машины:</strong> {{ repair.car?.carSign | defaultValue }}
+        ><strong>{{ 'CLIENTS.CLIENT' | translate }}:</strong> {{ repair.client?.fullName | defaultValue }} /
+        <strong>{{ 'CLIENTS.CLIENT.FIELD.PHONE_NUMBER' | translate }}: </strong>
+        {{ repair.client?.phoneNumber | defaultValue }} / <strong>{{ 'CARS.CAR.FIELD.CAR_SIGN' | translate }}:</strong>
+        {{ repair.car?.carSign | defaultValue }}
       </span>
       <span class="name">
-        <strong>Пробег при ремонте: </strong> {{ repair.mileage | defaultValue }} км /
-        <strong>Актуальный пробег ({{ repair.repairDate | date : dateDefaultFormat }}): </strong>
-        {{ repair.car?.mileage | defaultValue }} км</span
+        <strong>{{ 'REPAIRS.REPAIR.REPAIR_MILEAGE' | translate }}: </strong> {{ repair.mileage | defaultValue }}
+        {{ 'CARS.CAR.KM' | translate }} /
+        <strong
+          >{{ 'CARS.CAR.FIELD.CURRENT_MILEAGE' | translate }} ({{ repair.repairDate | date : dateDefaultFormat }}):
+        </strong>
+        {{ repair.car?.mileage | defaultValue }} {{ 'CARS.CAR.KM' | translate }}</span
       >
-      <span class="name"><strong>Отправлен боту:</strong> {{ repair.isSentToBot ? 'Да' : 'Нет' }} </span>
+      <span class="name"
+        ><strong>{{ 'REPAIRS.REPAIR.IS_SENT_TO_BOT' | translate }}:</strong>
+        {{ (repair.isSentToBot ? 'COMMON.YES' : 'COMMON.NO') | translate }}
+      </span>
     </div>
     <div class="icons">
       <button
@@ -30,7 +37,7 @@
   </div>
 
   <div class="notes">
-    <label for="notes">Дополнительные заметки</label>
+    <label for="notes">{{ 'COMMON.FIELD.ADDITIONAL_NOTES' | translate }}</label>
     <div class="notes-box">
       {{ repair.additionalNotes | defaultValue }}
     </div>
@@ -38,7 +45,7 @@
 
   <check-please-collapsable-section
     [expanded]="false"
-    title="{{ 'Подробности ремонта - ' + repair.totalRepairPrice }}"
+    title="{{ repair.totalRepairPrice }}"
   >
     <check-please-repair-table
       [(details)]="repair.details!"
@@ -46,6 +53,7 @@
     ></check-please-repair-table>
   </check-please-collapsable-section>
   <small style="text-align: right"
-    >Создан: {{ repair.repairDate | date : datetimeDefaultFormat + ' (EEEE)' | dayOfWeek }}</small
+    >{{ 'CLIENTS.CLIENT.AUDIT.CREATED' | translate }}:
+    {{ repair.repairDate | date : dateDefaultFormat + ' (EEEE)' | dayOfWeek }}</small
   >
 </div>

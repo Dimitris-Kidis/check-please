@@ -40,7 +40,7 @@ export class RepairsTabComponent implements OnInit {
   public isLoadMore: boolean = false;
 
   public config: ISearchInputConfig = getSearchInputConfig();
-  public schema: ISearchInputSchema = getSearchInputSchema('Введите данные о клиенте или машины для поиска...');
+  public schema: ISearchInputSchema = getSearchInputSchema('COMMON.SEARCH.PLACEHOLDER');
 
   public paginationQuery: SearchPaginatedRequest = { paginatedRequest: { pageIndex: 1, pageSize: 10 } };
 

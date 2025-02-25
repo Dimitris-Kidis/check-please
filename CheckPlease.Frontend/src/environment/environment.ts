@@ -7,7 +7,7 @@ export const environment = {
   redirectToRegisterAuthUrl: '/register',
   redirectToLoginAuthUrl: '/login',
   localStorageLocaleVariableName: 'check-please-locale',
-  defaultLanguage: 'en',
+  defaultLanguage: 'ru',
   currentLanguageLabel: 'English',
   secretKeyHiddenFormat: '***-***-***',
   datetimeDefaultFormat: 'dd-MM-yyyy HH:mm',

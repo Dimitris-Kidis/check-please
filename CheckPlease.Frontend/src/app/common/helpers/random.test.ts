@@ -4,7 +4,7 @@ import * as moment from 'moment';
 export function randomString(prefix: string = ''): string {
   const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const randomCharsLength = randomChars.length;
-  const result = new Array(10) // Длина строки
+  const result = new Array(10)
     .fill(null)
     .map(() => randomChars.charAt(Math.floor(Math.random() * randomCharsLength)))
     .join('');
