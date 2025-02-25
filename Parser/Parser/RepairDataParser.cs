@@ -13,9 +13,8 @@
 
     public class RepairDataParser
     {
-        public static List<ParsedRepairData> ParseFromFile(/*string filePath*/)
+        public static List<ParsedRepairData> ParseFromFile(string filePath)
         {
-            string filePath = @"C:\Users\dmitrii.romanenco\Downloads\CheckPleaseProject\CheckPlease\Parser\UnparsedRepairs.txt";
             string fileContent = File.ReadAllText(filePath, Encoding.UTF8);
 
 

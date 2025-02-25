@@ -9,10 +9,10 @@ namespace CheckPlease.Infrastructure.Configurations
         {
             var telegramBotToken = builder.Configuration.GetConnectionString("telegramBotToken");
 
-            services.AddScoped<TelegramBotService>(provider =>
+            services.AddScoped(provider =>
             {
                 var mediator = provider.GetRequiredService<IMediator>();
-                return new TelegramBotService(telegramBotToken, mediator);
+                return new TelegramBotService(telegramBotToken, mediator, builder.Configuration);
             });
 
             var bot = services.BuildServiceProvider().GetRequiredService<TelegramBotService>();

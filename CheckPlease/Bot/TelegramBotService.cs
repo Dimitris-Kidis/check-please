@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Queries.DTOs;
 using Queries.Queries.General.GetGeneralInformation;
+using Queries.Queries.Parser.GetRepairsBackup;
 using Queries.Queries.Repairs.GetReport;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,10 +13,11 @@ using static Common.Enums.ReportTypeEnum;
 
 namespace CheckPlease.Bot
 {
-    public class TelegramBotService(string token, IMediator mediator)
+    public class TelegramBotService(string token, IMediator mediator, IConfiguration configuration)
     {
         private TelegramBotClient _botClient = new TelegramBotClient(token);
         private readonly IMediator _mediator = mediator;
+        private readonly IConfiguration configuration = configuration;
 
         public void Start()
         {
@@ -32,6 +34,15 @@ namespace CheckPlease.Bot
             if (update.Type == UpdateType.Message && update.Message?.Text != null)
             {
                 var chatId = update.Message.Chat.Id;
+
+                var chatIdstring = configuration.GetConnectionString("telegramChatId");
+                var chatIdLong = long.Parse(chatIdstring);
+
+                if (chatId != chatIdLong)
+                {
+                    throw new Exception("You don't have permisson to perform that action.");
+                }
+
                 var messageText = update.Message.Text.Trim().ToLower();
 
                 await SendCommand(chatId, messageText, cancellationToken);
@@ -62,6 +73,35 @@ namespace CheckPlease.Bot
 
         public async Task SendCommand(long chatId, string messageText, CancellationToken cancellationToken)
         {
+            var chatIdstring = configuration.GetConnectionString("telegramChatId");
+            var chatIdLong = long.Parse(chatIdstring);
+
+            if (chatId != chatIdLong)
+            {
+                throw new Exception("You don't have permisson to perform that action.");
+            }
+
+            if (messageText.Equals("бекап"))
+            {
+                await _mediator.Send(new GetRepairsBackupQuery());
+
+                string filePath = configuration.GetConnectionString("filePathForBachup");
+
+                await using Stream stream = File.OpenRead(filePath);
+                var caption = $"Бекап данных за {DateTimeOffset.Now:dd-MM-yyyy HH:mm}";
+
+                await _botClient.SendDocument(
+                    chatId: chatId,
+                    document: stream,
+                    caption: caption,
+                    cancellationToken: cancellationToken
+                );
+
+                await _botClient.SendMessage(chatId, caption, parseMode: ParseMode.Html, cancellationToken: cancellationToken);
+
+                return;
+            }
+
             if (!messageText.StartsWith("репорт"))
             {
                 return;
