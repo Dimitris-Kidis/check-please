@@ -36,9 +36,21 @@ export class DateAttributesInterceptor implements HttpInterceptor {
   }
 
   private addTimezoneOffsetFn = (obj: any, key: string, value: any): void => {
+    // if (value != null && _.isString(value)) {
+    //   if (this.isIso8601(value)) {
+    //     obj[key] = new Date(value);
+    //   }
+    // } else if (_.isObjectLike(value)) {
+    //   this.traverseObjectGraph(value, this.addTimezoneOffsetFn);
+    // }
     if (value != null && _.isString(value)) {
       if (this.isIso8601(value)) {
-        obj[key] = new Date(value);
+        // Проверяем, содержит ли строка временную зону 'Z' (UTC)
+        if (value.endsWith('Z')) {
+          obj[key] = new Date(value); // Если дата уже в UTC, просто создаем объект Date
+        } else {
+          obj[key] = new Date(value); // Иначе преобразуем с учетом временной зоны
+        }
       }
     } else if (_.isObjectLike(value)) {
       this.traverseObjectGraph(value, this.addTimezoneOffsetFn);

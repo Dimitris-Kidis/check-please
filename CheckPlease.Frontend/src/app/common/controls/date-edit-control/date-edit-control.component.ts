@@ -7,16 +7,27 @@ import { MatInputModule } from '@angular/material/input';
 
 import { CommonModule } from '@angular/common';
 
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { SharedModule } from '../../../shared/shared.module';
-import { CheckPleaseDateProvider } from '../../adapters/custom.date.adapter';
+import { CheckPleaseDateAdapter } from '../../adapters/custom.date.adapter';
 import { CONTROL_CONTAINER_PROVIDER } from '../control-container-provider';
 import { Translation } from '../translation';
+
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MAT_MOMENT_DATE_FORMATS,
+  MatMomentDateModule,
+} from '@angular/material-moment-adapter';
 import { IDateEditControlSchema } from './date-edit-control.schema';
+
+const MAT_DATE_LOCALE_PROVIDER = {
+  provide: MAT_DATE_LOCALE,
+  useFactory: () => 'ru',
+  deps: [],
+};
 
 const DATE_ADAPTER_PROVIDER = {
   provide: DateAdapter,
-  useClass: CheckPleaseDateProvider,
+  useClass: CheckPleaseDateAdapter,
   deps: [MAT_DATE_LOCALE],
 };
 
@@ -42,7 +53,7 @@ const MAT_DATE_FORMATS_PROVIDER = {
     CommonModule,
     FormsModule,
     SharedModule,
-
+    MatMomentDateModule,
     MatFormFieldModule,
     MatDatepickerModule,
     MatInputModule,
@@ -50,28 +61,19 @@ const MAT_DATE_FORMATS_PROVIDER = {
   ],
   templateUrl: './date-edit-control.component.html',
   viewProviders: [CONTROL_CONTAINER_PROVIDER],
-  // providers: [DATE_ADAPTER_PROVIDER, MAT_DATE_FORMATS_PROVIDER], // REFACTOR
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, // Установите нужную локаль
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter, // Используйте MomentDateAdapter для moment.js
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-    {
-      provide: MAT_DATE_FORMATS,
-      useValue: {
-        parse: {
-          dateInput: 'DD/MM/YYYY', // Формат для ввода даты
-        },
-        display: {
-          dateInput: 'DD/MM/YYYY', // Формат для отображения даты
-          monthYearLabel: 'MMM YYYY', // Формат для метки месяца и года
-          dateA11yLabel: 'LL', // Формат для доступности
-          monthYearA11yLabel: 'MMMM YYYY', // Формат для доступности месяца и года
-        },
-      },
-    },
+    // providers: [DATE_ADAPTER_PROVIDER, MAT_DATE_FORMATS_PROVIDER],
+    // {
+    //   provide: DateAdapter,
+    //   useClass: CheckPleaseDateAdapter,
+    //   deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    // },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    // DATE_ADAPTER_PROVIDER,
+    // { provide: DateAdapter, useClass: CheckPleaseDateAdapter, deps: [MAT_DATE_LOCALE] },
+    // MAT_DATE_FORMATS_PROVIDER,
+    // { provide: useValue: MAT_DATE_FORMATS_PROVIDER },
   ],
 })
 export class DateEditControlComponent<T extends Date | undefined | null> implements OnChanges {

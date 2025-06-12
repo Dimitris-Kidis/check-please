@@ -1,17 +1,35 @@
-<div class="command-input-wrapper">
+<div
+  class="command-input-wrapper"
+  [formGroup]="form"
+  (ngSubmit)="sendToBot()"
+>
   <input
     type="text"
+    #commandInput
     class="command-input"
-    [placeholder]="'BOT.COMMAND.PLACEHOLDER' | translate"
-    [(ngModel)]="botCommand"
-    [ngModelOptions]="{ standalone: true }"
+    placeholder="{{ 'BOT.COMMAND.PLACEHOLDER' | translate }}"
+    [matAutocomplete]="auto"
+    formControlName="command"
+    matAutocompleteTrigger
   />
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option
+      *ngFor="let option of filteredCommands"
+      [value]="option"
+      (onSelectionChange)="onOptionSelected(option)"
+    >
+      {{ option }}
+    </mat-option>
+  </mat-autocomplete>
+
   <button
     class="command-button"
     (click)="sendToBot()"
+    [disabled]="isBusy || !form.get('command')?.value"
   >
-    @if(isBusy) {
+    @if (isBusy) {
     <mat-spinner checkPleaseSpinnerSize="extrasmall"></mat-spinner>
-    } @else { {{ 'BOT.SEND' | translate }} 🤖 }
+    } @else {
+    {{ 'BOT.SEND' | translate }} 🤖 }
   </button>
 </div>

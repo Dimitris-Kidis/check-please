@@ -27,6 +27,7 @@ export class RepairCardComponent {
   @Input({ required: true }) public repair: RepairDto;
   @Output() public onRepairDeleting = new EventEmitter<string>();
   @Output() public onRepairEditing = new EventEmitter<string>();
+  @Output() public onRepairSending = new EventEmitter<string>();
 
   public dateDefaultFormat: string = environment.dateDefaultFormat;
   public datetimeDefaultFormat: string = environment.datetimeDefaultFormat;
@@ -37,5 +38,9 @@ export class RepairCardComponent {
 
   public editRepair(id: string): void {
     this.onRepairEditing.emit(id);
+  }
+
+  public sendToBot(id: string): void {
+    this.onRepairSending.emit(id);
   }
 }

@@ -63,8 +63,11 @@ namespace Queries.Queries.Repairs.GetReport
                 case ReportType.AllReportsForCar:
                     query = query.Include(x => x.Car).Where(x => x.Car.CarSign.ToUpper() == request.CarSign && request.CarSign != null);
                     break;
+                case ReportType.AllReportsForClient:
+                    query = query.Include(x => x.Car).Include(x => x.Client).Where(x => x.Client.PhoneNumber == request.PhoneNumber && request.PhoneNumber != null);
+                    break;
                 case ReportType.Day:
-                    startDate = DateTime.UtcNow.Date;
+                    startDate = DateTime.Now.Date;
                     endDate = startDate;
                     messageText.AppendLine($"<b>Дата</b>: <code>{startDate:dd.MM.yyyy}</code>\n");
                     break;
@@ -111,7 +114,7 @@ namespace Queries.Queries.Repairs.GetReport
                         ClientName = x.Client.FullName,
                         ClientPhoneNumber = x.Client.PhoneNumber,
                         x.TotalRepairPrice,
-                        AssistantIncome = x.TotalRepairPrice > 300 ? 50 : 20,
+                        AssistantIncome = x.TotalRepairPrice > 300 ? 70 : 20,
                         x.RepairDate
                     })
                     .SingleAsync(cancellationToken);

@@ -2,6 +2,7 @@
   "BOT.COMMAND.PLACEHOLDER": "Enter command...",
   "BOT.COMMAND.SENT.SUCCESS": "Command sent to the bot.",
   "BOT.SEND": "Send to bot",
+  "BOT.SEND.SUCCESS": "Ремонт успешно отправлен ботом.",
   "CARS.CAR.AUDIT.CREATED": "Created",
   "CARS.CAR.FIELD.BRAND": "Brand",
   "CARS.CAR.FIELD.CAR_SIGN": "Car number",

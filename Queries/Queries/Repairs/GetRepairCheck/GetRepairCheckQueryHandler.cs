@@ -37,7 +37,7 @@ namespace Queries.Queries.Repairs.GetRepairCheck
 
             Stream stream = GetFileStream(repair, locale);
 
-            string fileName = @$"{repair.RepairDate:dd-MM-yyyy HH:mm} {repair.Car.CarSign}.pdf";
+            string fileName = @$"{repair.RepairDate:dd-MM-yyyy} {repair.Car.CarSign}.pdf";
             new FileExtensionContentTypeProvider().TryGetContentType(fileName, out var type);
             return new FileDto
             {

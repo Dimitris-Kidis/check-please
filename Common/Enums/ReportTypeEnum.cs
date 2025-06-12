@@ -10,6 +10,7 @@
             Month,
             Year,
             AllReportsForCar,
+            AllReportsForClient,
         }
     }
 }

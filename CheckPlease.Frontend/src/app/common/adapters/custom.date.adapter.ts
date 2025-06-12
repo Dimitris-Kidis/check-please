@@ -3,7 +3,7 @@ import { MAT_DATE_LOCALE, NativeDateAdapter } from '@angular/material/core';
 import moment from 'moment';
 
 @Injectable()
-export class CheckPleaseDateProvider extends NativeDateAdapter {
+export class CheckPleaseDateAdapter extends NativeDateAdapter {
   private _localeData: {
     firstDayOfWeek: number;
     longMonths: string[];
@@ -27,7 +27,7 @@ export class CheckPleaseDateProvider extends NativeDateAdapter {
       firstDayOfWeek: momentLocaleData.firstDayOfWeek(),
       longMonths: momentLocaleData.months(),
       shortMonths: momentLocaleData.monthsShort(),
-      dates: Array.from({ length: 31 }).map((_, i) => moment(this.createDate(2017, 0, i + 1)).format('D')),
+      dates: Array.from({ length: 31 }).map((_, i) => moment.utc([2017, 0, i + 1]).format('D')),
       longDaysOfWeek: momentLocaleData.weekdays(),
       shortDaysOfWeek: momentLocaleData.weekdaysShort(),
       narrowDaysOfWeek: momentLocaleData.weekdaysMin(),
@@ -54,11 +54,11 @@ export class CheckPleaseDateProvider extends NativeDateAdapter {
   }
 
   public override getYearName(date: Date): string {
-    return moment(date).format('YYYY');
+    return moment.utc(date).format('YYYY');
   }
 
   public override format(date: Date, displayFormat: string): string {
-    const dateMoment = moment(date).locale(this.locale);
+    const dateMoment = moment.utc(date).locale(this.locale);
 
     if (!this.isValid(date)) {
       throw Error('KnightFrankDateAdapter: Cannot format invalid date.');
@@ -69,10 +69,12 @@ export class CheckPleaseDateProvider extends NativeDateAdapter {
 
   public override parse(value: any, parseFormat?: any): Date | null {
     if (value && typeof value == 'string') {
-      return this._createMoment(value, parseFormat, this.locale).toDate();
+      // return this._createMoment(value, parseFormat, this.locale).toDate();
+      return moment.utc(value, parseFormat, this.locale).toDate();
     }
 
-    return value ? this._createMoment(value).locale(this.locale).toDate() : null;
+    // return value ? this._createMoment(value).locale(this.locale).toDate() : null;
+    return value ? moment.utc(value).locale(this.locale).toDate() : null;
   }
 
   private _createMoment(

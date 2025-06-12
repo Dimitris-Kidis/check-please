@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { PaginatorResult, SearchPaginatedRequest } from '../../../models/pagination';
 import { RepairDto } from '../../../models/repair';
+import { MessageService } from '../../../services/message.service';
 import { RepairsService } from '../../../services/repairs.service';
 import { TextEditControlComponent } from '../../common/controls/text-edit-control/text-edit-control.component';
 import { DisplayErrorHelper } from '../../common/helpers/display-error.helper';
@@ -49,6 +50,7 @@ export class RepairsTabComponent implements OnInit {
     private readonly displayErrorHelper: DisplayErrorHelper,
     private readonly cdr: ChangeDetectorRef,
     private readonly router: Router,
+    private readonly messageService: MessageService,
   ) {}
 
   public ngOnInit(): void {
@@ -121,5 +123,18 @@ export class RepairsTabComponent implements OnInit {
       this.paginationQuery.paginatedRequest.pageIndex++;
       this.search(true);
     }
+  }
+
+  public sendToBot(repairId: string): void {
+    const sendToBotCommand: string = 'отправить:' + repairId;
+
+    this.repairsService.sendCommand(sendToBotCommand).subscribe({
+      next: () => {
+        this.messageService.showSuccess('BOT.SEND.SUCCESS');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.displayErrorHelper.displayErrorFunc(err);
+      },
+    });
   }
 }

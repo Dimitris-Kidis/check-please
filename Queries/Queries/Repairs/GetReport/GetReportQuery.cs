@@ -10,5 +10,6 @@ namespace Queries.Queries.Repairs.GetReport
         public ReportType Type { get; set; }
         public LanguageLocale Locale { get; set; }
         public string? CarSign { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }
